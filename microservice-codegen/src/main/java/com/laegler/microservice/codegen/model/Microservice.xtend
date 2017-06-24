@@ -1,4 +1,4 @@
-package com.laegler.microservice.modeler.mojo.util
+package com.laegler.microservice.codegen.model
 
 import org.apache.maven.model.Model
 import java.io.File
@@ -11,4 +11,5 @@ class Microservice {
 	val String name
 	val Model pom
 	val File directory
+	val File rootDirectory
 }

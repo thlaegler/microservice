@@ -1,4 +1,4 @@
-//package com.laegler.microservice.modeler.codegen
+package com.laegler.microservice.codegen
 //
 //import java.util.ArrayList
 //import com.laegler.microservice.modeler.architectureLang.GrpcConsume
@@ -8,8 +8,8 @@
 //import com.laegler.microservice.modeler.architectureLang.RestExpose
 //import com.laegler.microservice.modeler.architectureLang.Spring
 //
-//class Transformator {
-//
+class Transformator {
+}
 //	val String dotColorRest = 'firebrick'
 //	val String dotColorGrpc = 'dodgerblue'
 //	val String dotColorJar = 'grey'
