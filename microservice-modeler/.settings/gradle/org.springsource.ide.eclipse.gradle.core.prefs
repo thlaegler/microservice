@@ -1,0 +1,4 @@
+#org.springsource.ide.eclipse.gradle.core.preferences.GradleProjectPreferences
+#Sat Jun 24 04:35:18 NZST 2017
+build.family.org.gradle.tooling.model.eclipse.HierarchicalEclipseProject=;com.laegler.microservice.modeler;com.laegler.microservice.modeler.ide;com.laegler.microservice.modeler.idea;
+org.springsource.ide.eclipse.gradle.rootprojectloc=

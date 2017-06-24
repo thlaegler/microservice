@@ -1,0 +1,46 @@
+.class
+
+target/
+src-gen/
+xtend-gen/
+bin/
+build/
+.gradle/
+.settings/
+.metadata/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+.xtendbin
+.*.xtendbin
+._trace
+.*._trace
+
+.editorconfig
+
+### IntelliJ IDEA ###
+.idea
+.iws
+.iml
+.ipr
+
+.war
+.ear
+*.jar
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+!com.laegler.microservice.modeler.target/
+

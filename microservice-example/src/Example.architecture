@@ -1,0 +1,93 @@
+gateway kong
+
+jar commons
+jar alternating-datasource
+
+daemon config:
+	exposes
+		rest Config port 8888
+
+daemon messages:
+	exposes
+		rest Messages port 8082
+		rest Languages port 8082
+		grpc Messages port 7072
+		grpc Languages port 7072
+	consumes
+		rest config.Config
+	uses
+		dependency commons
+
+daemon stores:
+	exposes
+		rest Stores port 8081
+		grpc Stores port 7071
+	consumes
+		rest config.Config "Spring-managed"
+		grpc messages.Messages
+	uses
+		dependency commons
+
+daemon settings:
+	exposes
+		rest Settings port 8080
+		grpc Settings port 7070
+	consumes
+		rest config.Config "Spring-managed"
+		grpc messages.Messages
+		grpc users.UserGrpc
+		rest stores.Stores "via alternating datasource"
+	uses
+		dependency commons
+		dependency alternating-datasource
+
+service auth-service:
+	exposes
+		rest Authentication port 8084
+		grpc Authentication port 7074
+	consumes
+		rest config.Config "Spring-managed"
+		grpc settings.Settings
+		grpc users.UserGrpc
+	uses
+		dependency commons
+
+service users:
+	exposes
+		rest UserRest port 8083
+		rest PasswordPolicies port 8083
+		grpc UserGrpc port 7073
+	consumes
+		rest config.Config "Spring-managed"
+		rest stores.Stores "via alternating datasource"
+		grpc messages.Messages
+	uses
+		dependency commons
+		dependency alternating-datasource
+
+service product-info:
+	exposes
+		rest Customers port 8085
+		rest ItemFilterKeyTag port 8085
+		rest ProductDetails port 8085
+		rest Products port 8085
+		rest Warehouses port 8085
+	consumes
+		rest config.Config "Spring-managed"
+		rest stores.Stores "via alternating datasource"
+	uses
+		dependency commons
+		dependency alternating-datasource
+
+service product-search:
+	exposes
+		draft rest Reindexing port 8086
+		draft rest Aggregator port 8086
+		draft rest Autocomplete port 8086
+		draft rest Suggester port 8086
+	consumes
+		rest config.Config "Spring-managed"
+		rest stores.Stores "via alternating datasource"
+	uses
+		dependency commons
+		dependency alternating-datasource

@@ -1,0 +1,53 @@
+grammar com.laegler.microservice.modeler.ArchitectureLang with org.eclipse.xtext.common.Terminals
+
+generate architectureLang "http://www.laegler.com/microservice/modeler/ArchitectureLang"
+
+Architecture:
+	artifacts+=Artifact*;
+
+Artifact:
+	Spring | Jar | Gateway;
+
+Spring:
+	type=SpringType name=FQN (description=STRING)? (':'
+		('exposes' exposes+=Expose*)?
+		('consumes' consumes+=Consume*)?
+		('uses' uses+=Usage*)?
+	)?;
+
+Jar:
+	'jar' name=FQN (description=STRING)?
+;
+
+Gateway:
+	'gateway' name=FQN (description=STRING)? (':'
+		'routes' urlmatcher=STRING ('to' targetService=[Spring|FQN])?
+	)?
+;
+
+Expose:
+	RestExpose | GrpcExpose;
+
+RestExpose:
+	(draft?='draft')? 'rest' name=FQN (description=STRING)? ('port' port=INT)? ('endpoint' endpoint=STRING)?;
+
+GrpcExpose:
+	(draft?='draft')? 'grpc' name=FQN (description=STRING)? ('port' port=INT)?;
+
+Consume:
+	RestConsume | GrpcConsume;
+
+RestConsume:
+	'rest' target=[RestExpose|FQN] (description=STRING)?;
+GrpcConsume:
+	'grpc' target=[GrpcExpose|FQN] (description=STRING)?;
+	
+Usage:
+	('private' dependencyName=FQN | 'dependency' dependencyTarget=[Jar|FQN]);
+
+enum SpringType:
+	DAEMON='daemon' |
+	SERVICE='service';
+
+terminal FQN: ID ('.' ID)*;
+terminal ID: '^'?('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'-'|'0'..'9')*;
