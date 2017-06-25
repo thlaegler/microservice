@@ -1,6 +1,6 @@
 package com.laegler.microservice.modeler.mojo
 
-import com.laegler.microservice.codegen.MavenProjectToArchitecture
+import com.laegler.microservice.codegen.MavenProject2Architecture
 import java.io.File
 import org.apache.maven.plugin.AbstractMojo
 import org.apache.maven.plugin.MojoExecutionException
@@ -26,7 +26,7 @@ class CodegenMojo extends AbstractMojo {
 	@Parameter(property="targetDirectory", defaultValue="${project.build.outputDirectory}/generated", required=false, readonly=true)
 	val File targetDirectory
 
-	extension MavenProjectToArchitecture mavenProject2Architecture = new MavenProjectToArchitecture
+	extension MavenProject2Architecture mavenProject2Architecture = new MavenProject2Architecture
 
 	override void execute() throws MojoExecutionException, MojoFailureException {
 		if (activateCodeGen) {

@@ -1,6 +1,6 @@
 package com.laegler.microservice.modeler.mojo;
 
-import com.laegler.microservice.codegen.MavenProjectToArchitecture;
+import com.laegler.microservice.codegen.MavenProject2Architecture;
 import java.io.File;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -29,7 +29,7 @@ public class CodegenMojo extends AbstractMojo {
   private final File targetDirectory;
   
   @Extension
-  private final MavenProjectToArchitecture mavenProject2Architecture = new MavenProjectToArchitecture();
+  private final MavenProject2Architecture mavenProject2Architecture = new MavenProject2Architecture();
   
   public void execute() throws MojoExecutionException, MojoFailureException {
     if (this.activateCodeGen) {
@@ -112,7 +112,7 @@ public class CodegenMojo extends AbstractMojo {
   }
   
   @Pure
-  public MavenProjectToArchitecture getMavenProject2Architecture() {
+  public MavenProject2Architecture getMavenProject2Architecture() {
     return this.mavenProject2Architecture;
   }
 }

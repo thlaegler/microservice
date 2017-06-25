@@ -6,7 +6,6 @@ import org.eclipse.xtext.xtext.generator.model.project.*
 var rootPath = ".."
 
 Workflow {
-	
 	component = XtextGenerator {
 		configuration = {
 			project = StandardProjectConfig {
@@ -36,8 +35,17 @@ Workflow {
 			}
 		}
 		language = StandardLanguage {
+//			registerGeneratedEPackage = "org.eclipse.xtext.xbase.XbasePackage"
+//            registerGenModelFile = "platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel"
+//	   registerGeneratedEPackage = "simulator.ICD.ICDPackage"
+//	   registerGenModelFile = "platform:/resource/org.sengs.simulator/model/simulator.genmodel"
 			name = "com.laegler.microservice.modeler.ArchitectureLang"
 			fileExtensions = "architecture"
+			
+			
+			referencedResource = "platform:/resource/microservice/microservice-model/model/MicroserviceModel.ecore"
+//			referencedResource = "http://www.laegler.com/microservice/model/MicroserviceModel"
+//			referencedResource = "platform:/resource/com.laegler.microservice.model/model/MicroserviceModel.genmodel"
 
 			serializer = {
 				generateStub = false

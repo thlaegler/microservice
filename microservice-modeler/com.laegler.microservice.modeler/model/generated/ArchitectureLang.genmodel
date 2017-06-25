@@ -10,34 +10,60 @@
       <genEnumLiterals ecoreEnumLiteral="ArchitectureLang.ecore#//SpringType/DAEMON"/>
       <genEnumLiterals ecoreEnumLiteral="ArchitectureLang.ecore#//SpringType/SERVICE"/>
     </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="ArchitectureLang.ecore#//BaseTypeEnum">
+      <genEnumLiterals ecoreEnumLiteral="ArchitectureLang.ecore#//BaseTypeEnum/STRING"/>
+      <genEnumLiterals ecoreEnumLiteral="ArchitectureLang.ecore#//BaseTypeEnum/BOOLEAN"/>
+      <genEnumLiterals ecoreEnumLiteral="ArchitectureLang.ecore#//BaseTypeEnum/LIST"/>
+    </genEnums>
     <genClasses ecoreClass="ArchitectureLang.ecore#//Architecture">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ArchitectureLang.ecore#//Architecture/artifacts"/>
     </genClasses>
     <genClasses ecoreClass="ArchitectureLang.ecore#//Artifact">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Artifact/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Artifact/description"/>
     </genClasses>
     <genClasses ecoreClass="ArchitectureLang.ecore#//Spring">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Spring/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Spring/description"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ArchitectureLang.ecore#//Spring/exposes"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ArchitectureLang.ecore#//Spring/consumes"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ArchitectureLang.ecore#//Spring/uses"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ArchitectureLang.ecore#//Spring/dependencies"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ArchitectureLang.ecore#//Spring/model"/>
     </genClasses>
-    <genClasses ecoreClass="ArchitectureLang.ecore#//Jar"/>
     <genClasses ecoreClass="ArchitectureLang.ecore#//Gateway">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Gateway/urlmatcher"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ArchitectureLang.ecore#//Gateway/targetService"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Gateway/description"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ArchitectureLang.ecore#//Gateway/routes"/>
+    </genClasses>
+    <genClasses ecoreClass="ArchitectureLang.ecore#//Route">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Route/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Route/urlmatcher"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ArchitectureLang.ecore#//Route/targetService"/>
+    </genClasses>
+    <genClasses ecoreClass="ArchitectureLang.ecore#//GrpcJar">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//GrpcJar/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//GrpcJar/protoInline"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//GrpcJar/protoFile"/>
+    </genClasses>
+    <genClasses ecoreClass="ArchitectureLang.ecore#//Jar">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Jar/description"/>
+    </genClasses>
+    <genClasses ecoreClass="ArchitectureLang.ecore#//Option">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Option/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Option/flag"/>
     </genClasses>
     <genClasses ecoreClass="ArchitectureLang.ecore#//Expose">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Expose/draft"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Expose/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Expose/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Expose/draft"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Expose/port"/>
     </genClasses>
     <genClasses ecoreClass="ArchitectureLang.ecore#//RestExpose">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//RestExpose/endpoint"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//RestExpose/swaggerFile"/>
     </genClasses>
-    <genClasses ecoreClass="ArchitectureLang.ecore#//GrpcExpose"/>
+    <genClasses ecoreClass="ArchitectureLang.ecore#//GrpcExpose">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//GrpcExpose/protoInline"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//GrpcExpose/protoFile"/>
+    </genClasses>
     <genClasses ecoreClass="ArchitectureLang.ecore#//Consume">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Consume/description"/>
     </genClasses>
@@ -47,9 +73,40 @@
     <genClasses ecoreClass="ArchitectureLang.ecore#//GrpcConsume">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ArchitectureLang.ecore#//GrpcConsume/target"/>
     </genClasses>
-    <genClasses ecoreClass="ArchitectureLang.ecore#//Usage">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Usage/dependencyName"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ArchitectureLang.ecore#//Usage/dependencyTarget"/>
+    <genClasses ecoreClass="ArchitectureLang.ecore#//Dependency">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Dependency/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ArchitectureLang.ecore#//Dependency/target"/>
+    </genClasses>
+    <genClasses ecoreClass="ArchitectureLang.ecore#//EntityModel">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ArchitectureLang.ecore#//EntityModel/entities"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ArchitectureLang.ecore#//EntityModel/enumerations"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ArchitectureLang.ecore#//EntityModel/relationships"/>
+    </genClasses>
+    <genClasses ecoreClass="ArchitectureLang.ecore#//Entity">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Entity/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Entity/label"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Entity/documentation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ArchitectureLang.ecore#//Entity/attributes"/>
+    </genClasses>
+    <genClasses ecoreClass="ArchitectureLang.ecore#//Enumeration">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Enumeration/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Enumeration/label"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Enumeration/documentation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Enumeration/enumValues"/>
+    </genClasses>
+    <genClasses ecoreClass="ArchitectureLang.ecore#//Attribute">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Attribute/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Attribute/label"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Attribute/documentation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Attribute/primaryKey"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ArchitectureLang.ecore#//Attribute/type"/>
+    </genClasses>
+    <genClasses ecoreClass="ArchitectureLang.ecore#//Relationship">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Relationship/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Relationship/label"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureLang.ecore#//Relationship/documentation"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ArchitectureLang.ecore#//Relationship/from"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ArchitectureLang.ecore#//Relationship/to"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

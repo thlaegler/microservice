@@ -1,0 +1,93 @@
+<idea-plugin version="2">
+	<extensions defaultExtensionNs="org.eclipse.xtext.idea">
+		<package
+			uri="http://www.laegler.com/microservice/modeler/ArchitectureYaml"
+			class="com.laegler.microservice.modeler.yaml.architectureYaml.ArchitectureYamlPackage"
+		/>
+		<resourceFactory 
+			type="yaml"
+			class="org.eclipse.xtext.resource.IResourceFactory"
+			factoryClass="com.laegler.microservice.modeler.yaml.idea.ArchitectureYamlExtensionFactory"
+		/>
+		<resourceServiceProvider
+			uriExtension="yaml"
+			class="org.eclipse.xtext.idea.resource.IResourceIdeaServiceProvider"
+			factoryClass="com.laegler.microservice.modeler.yaml.idea.ArchitectureYamlExtensionFactory"
+		/>
+
+		<lang.setup
+			language="com.laegler.microservice.modeler.yaml.ArchitectureYaml"
+			implementationClass="com.laegler.microservice.modeler.yaml.idea.ArchitectureYamlIdeaSetup"
+		/>
+	</extensions>
+
+	<extensions defaultExtensionNs="com.intellij">
+		<psi.treeChangePreprocessor implementation="com.laegler.microservice.modeler.yaml.idea.lang.psi.ArchitectureYamlCodeBlockModificationListener"/>
+
+		<fileTypeFactory implementation="com.laegler.microservice.modeler.yaml.idea.lang.ArchitectureYamlFileTypeFactory"/>
+		<stubElementTypeHolder class="com.laegler.microservice.modeler.yaml.idea.lang.ArchitectureYamlElementTypeProvider"/>
+		<lang.ast.factory 
+			language="com.laegler.microservice.modeler.yaml.ArchitectureYaml"
+			factoryClass="com.laegler.microservice.modeler.yaml.idea.ArchitectureYamlExtensionFactory"
+			implementationClass="org.eclipse.xtext.idea.lang.BaseXtextASTFactory"
+		/>
+		<lang.parserDefinition 
+			language="com.laegler.microservice.modeler.yaml.ArchitectureYaml"
+			factoryClass="com.laegler.microservice.modeler.yaml.idea.ArchitectureYamlExtensionFactory"
+			implementationClass="com.laegler.microservice.modeler.yaml.idea.lang.parser.ArchitectureYamlParserDefinition"
+		/>
+		<lang.findUsagesProvider 
+			language="com.laegler.microservice.modeler.yaml.ArchitectureYaml"
+			factoryClass="com.laegler.microservice.modeler.yaml.idea.ArchitectureYamlExtensionFactory"
+			implementationClass="org.eclipse.xtext.idea.findusages.BaseXtextFindUsageProvider"
+		/>
+		<lang.refactoringSupport 
+			language="com.laegler.microservice.modeler.yaml.ArchitectureYaml"
+			factoryClass="com.laegler.microservice.modeler.yaml.idea.ArchitectureYamlExtensionFactory"
+			implementationClass="org.eclipse.xtext.idea.refactoring.BaseXtextRefactoringSupportProvider"
+		/>
+		<lang.namesValidator 
+			language="com.laegler.microservice.modeler.yaml.ArchitectureYaml"
+			factoryClass="com.laegler.microservice.modeler.yaml.idea.ArchitectureYamlExtensionFactory"
+			implementationClass="com.intellij.lang.refactoring.NamesValidator"
+		/>
+		<lang.syntaxHighlighterFactory key="com.laegler.microservice.modeler.yaml.ArchitectureYaml" implementationClass="com.laegler.microservice.modeler.yaml.idea.highlighting.ArchitectureYamlSyntaxHighlighterFactory" />
+		<lang.braceMatcher 
+			language="com.laegler.microservice.modeler.yaml.ArchitectureYaml"
+			factoryClass="com.laegler.microservice.modeler.yaml.idea.ArchitectureYamlExtensionFactory"
+			implementationClass="com.intellij.lang.PairedBraceMatcher"
+		/>
+		<annotator 
+			language="com.laegler.microservice.modeler.yaml.ArchitectureYaml"
+			factoryClass="com.laegler.microservice.modeler.yaml.idea.ArchitectureYamlExtensionFactory"
+			implementationClass="org.eclipse.xtext.idea.annotation.IssueAnnotator"
+		/>
+		<completion.contributor language="com.laegler.microservice.modeler.yaml.ArchitectureYaml" implementationClass="com.laegler.microservice.modeler.yaml.idea.completion.ArchitectureYamlCompletionContributor"/>
+		<pom.declarationSearcher implementation="com.laegler.microservice.modeler.yaml.idea.lang.pom.ArchitectureYamlPomDeclarationSearcher"/>
+
+		<lang.psiStructureViewFactory 
+			language="com.laegler.microservice.modeler.yaml.ArchitectureYaml"
+			factoryClass="com.laegler.microservice.modeler.yaml.idea.ArchitectureYamlExtensionFactory"
+			implementationClass="com.intellij.lang.PsiStructureViewFactory"
+		/>
+		<facetType implementation="com.laegler.microservice.modeler.yaml.idea.facet.ArchitectureYamlFacetType"/>
+		<lang.documentationProvider 
+			language="com.laegler.microservice.modeler.yaml.ArchitectureYaml"
+			factoryClass="com.laegler.microservice.modeler.yaml.idea.ArchitectureYamlExtensionFactory"
+			implementationClass="org.eclipse.xtext.idea.documentation.IdeaDocumentationProvider"
+		/>
+		<colorSettingsPage implementation="com.laegler.microservice.modeler.yaml.idea.highlighting.ArchitectureYamlColorSettingsPage"/>
+		<highlightVisitor implementation="com.laegler.microservice.modeler.yaml.idea.highlighting.ArchitectureYamlSemanticHighlightVisitor"/>
+
+		<lang.formatter 
+			language="com.laegler.microservice.modeler.yaml.ArchitectureYaml"
+			factoryClass="com.laegler.microservice.modeler.yaml.idea.ArchitectureYamlExtensionFactory"
+			implementationClass="com.intellij.formatting.FormattingModelBuilder"
+		/>
+		<lang.commenter 
+			language="com.laegler.microservice.modeler.yaml.ArchitectureYaml"
+			factoryClass="com.laegler.microservice.modeler.yaml.idea.ArchitectureYamlExtensionFactory"
+			implementationClass="com.intellij.lang.CodeDocumentationAwareCommenter"
+		/>
+	</extensions>
+</idea-plugin>

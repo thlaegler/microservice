@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.laegler.microservice</groupId>
+	<artifactId>microservice-model</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>Microservice Model</name>
+
+	<!-- <modules>
+		<module>model</module>
+		<module>model-edit</module>
+		<module>model-editor</module>
+		<module>model-test</module>
+	</modules> -->
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>mapasuta.repo</id>
+			<name>Mapasuta Project Download Repository</name>
+			<url>http://mapasuta.sf.net/maven/repo</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>net.sf.mapasuta.build.maven.plugins</groupId>
+				<artifactId>maven-emfgen-plugin</artifactId>
+				<version>1.2</version>
+				<configuration>
+					<genModel>model/MicroserviceModel.genmodel</genModel>
+					<metaModels>
+						<metaModel>model/MicroserviceModel.ecore</metaModel>
+					</metaModels>
+					<outputDirectory>src</outputDirectory>
+					<genSrc>microserviceModel</genSrc>
+					<workspace>${project.build.directory}/emf</workspace>
+					<packageUris>
+						<packageUri>http://www.laegler.com/microservice/model</packageUri>
+					</packageUris>
+					<modelProject>${project.artifactId}</modelProject>
+					<eclipseDir>${basedir}/resource/fake-emf-eclipse</eclipseDir>
+					<eclipseVersion>3.3.0</eclipseVersion>
+				</configuration>
+				<executions>
+					<!-- <execution> <id>genmodel</id> <phase>verify</phase> <goals> <goal>genmodel</goal> 
+						</goals> </execution> -->
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

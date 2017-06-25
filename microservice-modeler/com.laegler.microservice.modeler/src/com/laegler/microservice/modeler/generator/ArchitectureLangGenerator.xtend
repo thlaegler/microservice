@@ -3,15 +3,12 @@
  */
 package com.laegler.microservice.modeler.generator
 
+import com.laegler.microservice.codegen.Architecture2MavenProject
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
-import javax.inject.Inject
-import com.laegler.microservice.modeler.architectureLang.Architecture
-import com.laegler.microservice.modeler.architectureLang.Spring
-import java.io.FileReader
-//import org.apache.maven.model.io.xpp3.MavenXpp3Reader
+import microserviceModel.Architecture
 
 /**
  * Generates code from your model files on save.
@@ -20,25 +17,9 @@ import java.io.FileReader
  */
 class ArchitectureLangGenerator extends AbstractGenerator {
 
-	@Inject
-	extension Transformator transformator
+	extension Architecture2MavenProject architecture2MavenProject = new Architecture2MavenProject
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		val model = resource?.contents.head as Architecture
-
-		model?.artifacts?.filter(Spring).forEach [
-			fsa.generateFile(it?.name + '-structure.txt', it?.deploymentList)
-		]
-
-		fsa?.generateFile('component-diagram.plantuml', model?.plantumlComponentDiagram)
-
-		fsa?.generateFile('component-diagram.dot', model?.dotComponentDiagram)
+		transform(resource?.contents?.head as Architecture)
 	}
-	
-//	def Model scanMavenProjects(Resource resource) {
-//		resource.URI
-//		
-//		val MavenXpp3Reader mavenreader = new MavenXpp3Reader();
-//		val Model model = mavenreader.read(new FileReader(pomXml));
-//	}
 }

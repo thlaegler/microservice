@@ -10,11 +10,18 @@
 	<packaging>eclipse-plugin</packaging>
 
 	<dependencies>
-		<!-- <dependency>
-			<groupId>net.sourceforge.plantuml</groupId>
-			<artifactId>plantuml</artifactId>
-			<version>8059</version>
-		</dependency> -->
+		<dependency>
+			<groupId>com.laegler.microservice</groupId>
+			<artifactId>microservice-model</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.laegler.microservice</groupId>
+			<artifactId>microservice-codegen</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<!-- <dependency> <groupId>net.sourceforge.plantuml</groupId> <artifactId>plantuml</artifactId> 
+			<version>8059</version> </dependency> -->
 	</dependencies>
 
 	<build>

@@ -1,53 +1,143 @@
 grammar com.laegler.microservice.modeler.ArchitectureLang with org.eclipse.xtext.common.Terminals
+//grammar com.laegler.microservice.modeler.ArchitectureLang with org.eclipse.xtext.xbase.Xbase
 
-generate architectureLang "http://www.laegler.com/microservice/modeler/ArchitectureLang"
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+import "http://www.eclipse.org/xtext/common/JavaVMTypes" as javaType
+//import "http://www.laegler.com/microservice/model/MicroserviceModel" as m
 
-Architecture:
-	artifacts+=Artifact*;
+generate architectureLang "http://www.laegler.com/microservice/model/ArchitectureLang"
 
+Architecture returns Architecture:
+	{Architecture}
+//	'architecture' name=FQN (
+		artifacts+=Artifact*
+//	)?
+	;
 Artifact:
-	Spring | Jar | Gateway;
+	Spring | Jar | GrpcJar | Gateway | Option;
 
 Spring:
-	type=SpringType name=FQN (description=STRING)? (':'
-		('exposes' exposes+=Expose*)?
-		('consumes' consumes+=Consume*)?
-		('uses' uses+=Usage*)?
-	)?;
-
-Jar:
-	'jar' name=FQN (description=STRING)?
-;
+	type=SpringType name=FQN ('{'
+		(description=STRING)?
+		(exposes+=Expose)*
+		(consumes+=Consume)*
+		(dependencies+=Dependency)*
+		(model=EntityModel)?
+	'}')?;
 
 Gateway:
-	'gateway' name=FQN (description=STRING)? (':'
-		'routes' urlmatcher=STRING ('to' targetService=[Spring|FQN])?
-	)?
-;
+	'gateway' name=FQN ('{'
+		(description=STRING)? 
+		( routes+=Route)*
+	'}')?;
 
+Route:
+	'route' name=FQN ('{'
+		urlmatcher=STRING
+		('to' targetService=[Spring|FQN])?
+	'}')?;
+GrpcJar:
+	'grpcJar' name=FQN ('{'
+		(description=STRING)?
+		('protoInline' protoInline=ProtoModel)?
+		('protoFile' protoFile=STRING)
+	'}')?;
+Jar:
+	'jar' name=FQN ('{'
+		(description=STRING)?
+	'}')?;
+Option:
+	'option' name=FQN (
+		('=' value=(FQN|STRING))
+		| (flag=BOOLEAN)
+	);
 Expose:
 	RestExpose | GrpcExpose;
-
 RestExpose:
-	(draft?='draft')? 'rest' name=FQN (description=STRING)? ('port' port=INT)? ('endpoint' endpoint=STRING)?;
-
+	'rest' name=FQN ('{'
+		(description=STRING)?
+		(draft?='draft')?
+		('port' port=INT)?
+		('endpoint' endpoint=STRING)?
+		('swaggerFile' swaggerFile=STRING)?
+	'}')?;
 GrpcExpose:
-	(draft?='draft')? 'grpc' name=FQN (description=STRING)? ('port' port=INT)?;
-
+	'grpc' name=FQN ('{'
+		(draft?='draft')?
+		(description=STRING)?
+		('port' port=INT)?
+		('jar' port=INT)?
+		('protoInline' protoInline=ProtoModel)?
+		('protoFile' protoFile=STRING)?
+	'}')?;
+ProtoModel:
+	'TODO';
 Consume:
 	RestConsume | GrpcConsume;
-
 RestConsume:
-	'rest' target=[RestExpose|FQN] (description=STRING)?;
+	'consumeRest' target=[RestExpose|FQN] (description=STRING)?;
 GrpcConsume:
-	'grpc' target=[GrpcExpose|FQN] (description=STRING)?;
-	
-Usage:
-	('private' dependencyName=FQN | 'dependency' dependencyTarget=[Jar|FQN]);
-
+	'consumeGrpc' target=[GrpcExpose|FQN] (description=STRING)?;
+Dependency:
+	{Dependency}
+	'dependency' ('name' name=FQN)? ('jar' target=[Jar|FQN])?;
 enum SpringType:
-	DAEMON='daemon' |
-	SERVICE='service';
+	DAEMON='daemon {' |
+	SERVICE='service {';
+	
+EntityModel returns EntityModel:
+	{EntityModel}
+	'model'
+	entities+=Entity*
+	enumerations+=Enumeration*
+	relationships+=Relationship*;
 
+Entity:
+	'entity' name=FQN
+//	('extends' superType=JvmTypeReference)?
+	'{'
+		('label' label=STRING)?
+		('documentation' documentation=STRING)?
+		attributes+=Attribute*
+	'}';
+
+Enumeration:
+	'enumeration' name=FQN '{'
+		('label' label=STRING)?
+		('documentation' documentation=STRING)?
+		(enumValues+=ID (',' enumValues+=ID)*)?
+	'}';
+
+Attribute:
+	'attribute' name=FQN '{'
+		('label' label=STRING)?
+		('documentation' documentation=STRING)?
+		(primaryKey?='primaryKey')?
+		(
+			('type' type=[Entity|FQN])
+//			('javaType' javaType=JvmTypeReference)
+//			('javaType' javaType=[javaType::JvmType|FQN])
+		)?
+	'}';
+
+Relationship:
+	'relationship' name=FQN '{'
+		('label' label=STRING)?
+		('documentation' documentation=STRING)?
+		'from' from=[Entity|FQN]
+		'to' to=[Entity|FQN]
+//		('action' action=XBlockExpression)?
+//		('type' type=JvmTypeReference)?
+	'}';
+
+enum BaseTypeEnum:
+	STRING='String' |
+	BOOLEAN='boolean' |
+	LIST='List';
+
+//terminal WS: ('  ' | '\t')+;
+//terminal NEWLINE: ('\r'? '\n');
+terminal BOOLEAN:
+	'true'|'false';
 terminal FQN: ID ('.' ID)*;
 terminal ID: '^'?('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'-'|'0'..'9')*;

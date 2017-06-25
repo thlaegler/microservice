@@ -12,7 +12,7 @@ import com.laegler.microservice.modeler.architectureLang.RestConsume
 import com.laegler.microservice.modeler.architectureLang.RestExpose
 import com.laegler.microservice.modeler.architectureLang.Spring
 import com.laegler.microservice.modeler.architectureLang.SpringType
-import com.laegler.microservice.modeler.architectureLang.Usage
+import com.laegler.microservice.modeler.architectureLang.Dependency
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.swt.graphics.Image
 import org.eclipse.xtext.ui.IImageHelper
@@ -44,7 +44,7 @@ class ArchitectureLangOutlineTreeProvider extends DefaultOutlineTreeProvider {
 			}
 		} else if (modelElement instanceof Jar) {
 			return 'Jar: ' + text
-		} else if (modelElement instanceof Usage) {
+		} else if (modelElement instanceof Dependency) {
 			return 'Dependency: ' + text
 		} else if (modelElement instanceof GrpcExpose) {
 			return 'gRPC expose: ' + text
@@ -61,7 +61,7 @@ class ArchitectureLangOutlineTreeProvider extends DefaultOutlineTreeProvider {
 	override Image _image(Object modelElement) {
 		if (modelElement instanceof Architecture || modelElement instanceof Jar || modelElement instanceof GrpcExpose ||
 			modelElement instanceof RestExpose || modelElement instanceof GrpcConsume ||
-			modelElement instanceof RestConsume || modelElement instanceof Usage) {
+			modelElement instanceof RestConsume || modelElement instanceof Dependency) {
 			return imageHelper.getImage((modelElement as EObject).eClass().getName() + '.gif')
 		} else if (modelElement instanceof Spring) {
 			if (modelElement.type.equals(SpringType.DAEMON)) {

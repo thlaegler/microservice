@@ -3,15 +3,21 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.laegler.microservice</groupId>
 	<artifactId>microservice</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>Microservice Toolbox</name>
+	
+	<properties>
+		<vendor>thlaegler</vendor>
+	</properties>
 
 	<modules>
+		<module>microservice-model</module>
 		<module>microservice-codegen</module>
 		<module>microservice-maven-plugin</module>
 		<module>microservice-modeler</module>
 		<module>microservice-example</module>
 	</modules>
+
 </project>

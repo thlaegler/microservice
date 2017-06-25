@@ -34,6 +34,8 @@
       <plugin id="com.google.guava"/>
       <plugin id="com.google.inject"/>
       <plugin id="com.ibm.icu"/>
+      <plugin id="com.laegler.microservice.codegen"/>
+      <plugin id="com.laegler.microservice.model"/>
       <plugin id="com.laegler.microservice.modeler"/>
       <plugin id="com.laegler.microservice.modeler.ide"/>
       <plugin id="com.laegler.microservice.modeler.ui"/>

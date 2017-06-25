@@ -3,7 +3,7 @@
       id="com.laegler.microservice.modeler.feature"
       label="ArchitectureLang Feature "
       version="1.0.0.qualifier"
-      provider-name="thlaegler">
+      provider-name="Laegler">
 
    <url>
       <update label="Microservice Modeler" url="http://thlaegler.github.io/microservice-modeler/eclipse/latest"/>
@@ -25,6 +25,20 @@
 
    <plugin
          id="com.laegler.microservice.modeler.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.laegler.microservice.codegen"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.laegler.microservice.model"
          download-size="0"
          install-size="0"
          version="0.0.0"

@@ -3,7 +3,7 @@
 <plugin>
 	<extension point="org.eclipse.emf.ecore.generated_package">
 		<package 
-			uri = "http://www.laegler.com/microservice/modeler/ArchitectureLang"
+			uri = "http://www.laegler.com/microservice/model/ArchitectureLang"
 			class = "com.laegler.microservice.modeler.architectureLang.ArchitectureLangPackage"
 			genModel = "model/generated/ArchitectureLang.genmodel" />
 	</extension>

@@ -5,29 +5,28 @@ import org.eclipse.jface.viewers.ISelection
 import org.eclipse.ui.IEditorPart
 import org.eclipse.xtext.ui.editor.XtextEditor
 import org.eclipse.xtext.ui.editor.model.XtextDocument
-import com.laegler.microservice.modeler.generator.Transformator
-import com.laegler.microservice.modeler.architectureLang.Architecture
 import com.google.inject.Inject
+import com.laegler.microservice.codegen.Architecture2MavenProject
+import microserviceModel.Architecture
 
 class PlantUmlDiagramTextProvider implements DiagramTextProvider {
-	
-	@Inject
-	extension Transformator transformator = new Transformator();
+
+	extension Architecture2MavenProject transformator = new Architecture2MavenProject
 
 	override getDiagramText(IEditorPart editorPart, ISelection selection) {
 		val document = (editorPart as XtextEditor).getDocumentProvider().getDocument(
 			editorPart.editorInput) as XtextDocument;
 		val Architecture model = document.readOnly [
-			if(contents.head instanceof Architecture) {
+			if (contents.head instanceof Architecture) {
 				return contents.head as Architecture
 			}
 		]
-		
-		model?.plantumlComponentDiagram
+
+		model?.plantumlGraphFileContent
 	}
 
 	override supportsEditor(IEditorPart editorPart) {
-		if(editorPart instanceof XtextEditor) {
+		if (editorPart instanceof XtextEditor) {
 			return true;
 		}
 		false

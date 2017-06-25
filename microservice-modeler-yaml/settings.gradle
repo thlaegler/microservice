@@ -1,0 +1,3 @@
+include 'com.laegler.microservice.modeler.yaml'
+include 'com.laegler.microservice.modeler.yaml.ide'
+include 'com.laegler.microservice.modeler.yaml.idea'

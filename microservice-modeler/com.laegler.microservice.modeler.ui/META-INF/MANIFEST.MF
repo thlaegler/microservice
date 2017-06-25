@@ -7,6 +7,8 @@ Bundle-SymbolicName: com.laegler.microservice.modeler.ui;singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: com.laegler.microservice.modeler,
  com.laegler.microservice.modeler.ide,
+ com.laegler.microservice.model,
+ com.laegler.microservice.codegen,
  org.eclipse.xtext.ui,
  org.eclipse.xtext.ui.shared,
  org.eclipse.xtext.ui.codetemplates.ui,
