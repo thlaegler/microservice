@@ -1,20 +1,16 @@
-package templates._common.src_main_resource.meta_inf
+package com.laegler.microservice.codegen.template.microservice.resource
 
-import com.laegler.stubbr.lang.genmodel.FileType
-import com.laegler.stubbr.lang.genmodel.Project
-import templates.AbstractTemplate
-import com.laegler.stubbr.lang.generator.repository.StubbrRegistry
+import com.laegler.microservice.codegen.template.utils.AbstractTemplate
+import com.laegler.microservice.codegen.model.FileType
+import com.laegler.microservice.codegen.model.Microservice
 
 /**
  * File Generator for OSGi Manifest descriptor (MANIFEST.MF)
  */
 class ManifestMfTemplateBase extends AbstractTemplate {
 
-	/**
-	 * 
-	 */
-	new(StubbrRegistry stubbr, Project project) {
-		super(stubbr, project)
+	new(Microservice m) {
+		super(m)
 		fileType = FileType.MANIFEST
 		fileName = 'MANIFEST'
 		relativPath = '/src/main/resource/META-INF/'

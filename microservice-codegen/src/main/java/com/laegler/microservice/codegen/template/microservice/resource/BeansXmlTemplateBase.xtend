@@ -1,19 +1,15 @@
-package templates._common.src_main_resource.meta_inf
+package com.laegler.microservice.codegen.template.microservice.resource
 
-import com.laegler.stubbr.lang.genmodel.Project
-import templates.AbstractXmlTemplate
-import com.laegler.stubbr.lang.generator.repository.StubbrRegistry
+import com.laegler.microservice.codegen.template.utils.AbstractXmlTemplate
+import com.laegler.microservice.codegen.model.Microservice
 
 /**
  * File Generator for EJB descriptor.
  */
 class BeansXmlTemplateBase extends AbstractXmlTemplate {
 
-	/**
-	 * 
-	 */
-	new(StubbrRegistry stubbr, Project project) {
-		super(stubbr, project)
+	new(Microservice m) {
+		super(m)
 		fileName = 'beans'
 		relativPath = '/src/main/webapp/META-INF/'
 		header = '''

@@ -1,4 +1,4 @@
-package com.laegler.microservice.codegen.template.microservice
+package com.laegler.microservice.codegen.template
 
 import com.laegler.microservice.codegen.model.Project
 import com.laegler.microservice.codegen.template.utils.AbstractIntellijProjectImlTemplate

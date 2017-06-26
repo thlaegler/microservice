@@ -77,13 +77,22 @@ public interface MicroserviceModelPackage extends EPackage {
 	int ARCHITECTURE__ARTIFACTS = 0;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ARCHITECTURE__NAME = 1;
+
+	/**
 	 * The number of structural features of the '<em>Architecture</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ARCHITECTURE_FEATURE_COUNT = 1;
+	int ARCHITECTURE_FEATURE_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link microserviceModel.impl.ArtifactImpl <em>Artifact</em>}' class.
@@ -1093,6 +1102,17 @@ public interface MicroserviceModelPackage extends EPackage {
 	EReference getArchitecture_Artifacts();
 
 	/**
+	 * Returns the meta object for the attribute '{@link microserviceModel.Architecture#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see microserviceModel.Architecture#getName()
+	 * @see #getArchitecture()
+	 * @generated
+	 */
+	EAttribute getArchitecture_Name();
+
+	/**
 	 * Returns the meta object for class '{@link microserviceModel.Artifact <em>Artifact</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1913,6 +1933,14 @@ public interface MicroserviceModelPackage extends EPackage {
 		 * @generated
 		 */
 		EReference ARCHITECTURE__ARTIFACTS = eINSTANCE.getArchitecture_Artifacts();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ARCHITECTURE__NAME = eINSTANCE.getArchitecture_Name();
 
 		/**
 		 * The meta object literal for the '{@link microserviceModel.impl.ArtifactImpl <em>Artifact</em>}' class.

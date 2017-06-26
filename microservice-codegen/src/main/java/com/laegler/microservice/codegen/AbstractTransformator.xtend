@@ -43,8 +43,13 @@ import org.eclipse.emf.ecore.resource.Resource
 import com.laegler.microservice.codegen.template.microservice.PomXmlTemplate
 import com.laegler.microservice.codegen.template.utils.AbstractTemplate
 import com.laegler.microservice.codegen.template.ParentPomXmlTemplate
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import com.laegler.microservice.codegen.model.MicroserviceBuilder
 
 class AbstractTransformator {
+	
+	private static Logger LOG = LoggerFactory.getLogger(AbstractTransformator)
 
 	protected val String dotColorRest = 'firebrick'
 	protected val String dotColorGrpc = 'dodgerblue'
@@ -57,21 +62,36 @@ class AbstractTransformator {
 	protected val String umlColorDraft = '#Lightgrey'
 
 	protected val ModelWrapper model = ModelAccessor.model
+		protected val MicroserviceBuilder mBuilder = new MicroserviceBuilder
+	
 
 	extension MicroserviceModelFactory microserviceModelFactory = new MicroserviceModelFactoryImpl
 	extension MavenXpp3Reader mavenreader = new MavenXpp3Reader
 	extension TemplateProvider templateProvider = new TemplateProvider
 
-	protected def void transform(MavenProject parentProject) {
-		(model.mavenProject = parentProject) => [basedir.transform]
+protected def void transform(MavenProject mavenProject) {
+	model.mavenProject = mavenProject
+	mavenProject.model.transform
+}
+	protected def void transform(Model pom) {
+				pom.artifacts.forEach[model.microservices.add(mBuilder.name(parentProject.artifactId).model(model as EObject).build())]
+		
+		() => [basedir.transform]
 	}
 
-	protected def void transform(Architecture architecture) {
+	public def void transform(Architecture architecture) {
 		model.architecture = architecture
-
+		model.name = ''
+		architecture.artifacts.forEach[model.microservices.add(mBuilder.name(model.name).model(model.architecture as EObject).build())]
+		
+		architecture.artifacts.forEach[it.transform]
+		
+		// PlantUML graph
 		writeFile(architecture.plantumlGraphFileContent,
 			getFilePath(model.rootDirectory, 'architecture.component.plantuml'))
-		writeFile(new ParentPomXmlTemplate);
+			
+		// Maven POM graph
+		writeFile(new ParentPomXmlTemplate(architecture));
 
 		architecture.artifacts.forEach[it.transform]
 	}
@@ -102,8 +122,6 @@ class AbstractTransformator {
 			model.microservices.add(new Microservice => [
 				it.name = pom.artifactId
 				it.pom = pom
-				it.model = createArchitecture as EObject
-				it.directory = projectDir
 			])
 		}
 		writeFile(model.microservices.dotGraphFileContent2, projectDir.getFilePath('architecture.component.plantuml'))
@@ -115,13 +133,7 @@ class AbstractTransformator {
 	}
 
 	protected def void transform(Artifact artifact) {
-		val Microservice m = new Microservice => [
-			it.name = artifact.name
-			it.pom = new Model
-			it.model = artifact as EObject
-		]
-		model.microservices.add(m)
-		writeFile(new PomXmlTemplate(m));
+		writeFile(new PomXmlTemplate(artifact));
 	}
 
 	protected def void transform(Spring spring) {
@@ -379,6 +391,7 @@ class AbstractTransformator {
 	}
 
 	protected def void writeFile(AbstractTemplate template) {
+		LOG.debug('''Trying to write file «template.fullPathWithName»''')
 		FileUtils.writeStringToFile(
 			new File(template.fullPathWithName) => [
 				parentFile.mkdirs
@@ -390,6 +403,7 @@ class AbstractTransformator {
 	}
 
 	protected def void writeFile(String content, String pathname) {
+		LOG.debug('''Trying to write file «pathname»''')
 		FileUtils.writeStringToFile(
 			new File(pathname) => [
 				parentFile.mkdirs

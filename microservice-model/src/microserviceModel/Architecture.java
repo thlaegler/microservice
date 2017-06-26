@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link microserviceModel.Architecture#getArtifacts <em>Artifacts</em>}</li>
+ *   <li>{@link microserviceModel.Architecture#getName <em>Name</em>}</li>
  * </ul>
  *
  * @see microserviceModel.MicroserviceModelPackage#getArchitecture()
@@ -39,5 +40,31 @@ public interface Architecture extends EObject {
 	 * @generated
 	 */
 	List<Artifact> getArtifacts();
+
+	/**
+	 * Returns the value of the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Name</em>' attribute.
+	 * @see #setName(String)
+	 * @see microserviceModel.MicroserviceModelPackage#getArchitecture_Name()
+	 * @model
+	 * @generated
+	 */
+	String getName();
+
+	/**
+	 * Sets the value of the '{@link microserviceModel.Architecture#getName <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Name</em>' attribute.
+	 * @see #getName()
+	 * @generated
+	 */
+	void setName(String value);
 
 } // Architecture

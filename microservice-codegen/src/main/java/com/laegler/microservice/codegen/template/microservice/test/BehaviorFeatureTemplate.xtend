@@ -1,14 +1,11 @@
-package templates.faces.src_test_java_basepack.faces
+package com.laegler.microservice.codegen.template.microservice.test
 
-import com.laegler.stubbr.lang.genmodel.FileType
-import com.laegler.stubbr.lang.genmodel.Project
-import com.laegler.stubbr.lang.stubbrLang.Feature
-import com.laegler.stubbr.lang.stubbrLang.GivenStep
-import com.laegler.stubbr.lang.stubbrLang.Scenario
-import com.laegler.stubbr.lang.stubbrLang.ThenStep
-import com.laegler.stubbr.lang.stubbrLang.WhenStep
-import templates.AbstractTemplate
-import com.laegler.stubbr.lang.generator.repository.StubbrRegistry
+import com.laegler.microservice.codegen.template.utils.AbstractTemplate
+import gherkin.ast.Feature
+import com.laegler.microservice.codegen.model.FileType
+import com.laegler.microservice.codegen.model.Microservice
+import gherkin.ast.Scenario
+import gherkin.ast.ScenarioDefinition
 
 /**
  * File template for Cucumber feature definition.
@@ -20,19 +17,19 @@ class BehaviorFeatureTemplate extends AbstractTemplate {
 	/**
 	 * 
 	 */
-	new(StubbrRegistry stubbr, Project project, Feature feature) {
-		super(stubbr, project)
+	new(Microservice m, Feature feature) {
+		super(m)
 		this.feature = feature
 		fileType = FileType.FEATURE
 		fileName = '''«feature?.name?.toLowerCase.replaceAll(' ', '')»'''
 		relativPath = '''/src-gen/test/java/«project?.basePackage?.toPath»/feature/«feature?.name?.replaceAll('"', '').toLowerCase»/'''
 		documentation = '''
-			The Cucumber feature definition for «feature?.name?.toFirstUpper» «feature?.label?.replaceAll('"', '')»
+			The Cucumber feature definition for «feature?.name?.toFirstUpper» «feature?.name?.replaceAll('"', '')»
 			
 			Scenarios:
 			<ul>
-			«FOR Scenario scenario : feature?.scenarios»
-				<li>«scenario?.name?.toFirstUpper» - «scenario?.label?.replaceAll('"', '')»</li>
+			«FOR ScenarioDefinition scenario : feature?.children»
+				<li>«scenario?.name?.toFirstUpper» - «scenario?.name?.replaceAll('"', '')»</li>
 			«ENDFOR»
 			</ul>
 		'''
@@ -41,22 +38,22 @@ class BehaviorFeatureTemplate extends AbstractTemplate {
 	}
 
 	private def String getTemplate() '''
-		# language: en
-		Feature: «feature?.name?.toFirstUpper» - «feature?.label?.replaceAll('"', '')»
-	
-			«FOR Scenario scenario : feature?.scenarios»
-			Scenario: «scenario?.name?.toFirstUpper» - «scenario?.label?.replaceAll('"', '')»
-				«FOR GivenStep step : scenario.givenSteps»
-				Given «step?.actor?.name»«step?.actorElement?.name»«step?.objectWildcard?.replaceAll('"', '')»
+			# language: en
+			Feature: «feature?.name?.toFirstUpper» - «feature?.name?.replaceAll('"', '')»
+		
+				«FOR ScenarioDefinition scenario : feature?.children»
+					Scenario: «scenario?.name?.toFirstUpper» - «scenario?.name?.replaceAll('"', '')»
+«««						«FOR GivenStep step : scenario.givenSteps»
+«««							Given «step?.actor?.name»«step?.actorElement?.name»«step?.objectWildcard?.replaceAll('"', '')»
+«««						«ENDFOR»
+«««						«FOR WhenStep step : scenario.whenSteps»
+«««							When «step?.actor?.name»«step?.actorElement?.name»«step?.objectWildcard?.replaceAll('"', '')» «step?.action» «step?.value» «step?.subjectElement?.name»«step?.subjectWildcard?.replaceAll('"', '')»
+«««						«ENDFOR»
+«««						«FOR ThenStep step : scenario.thenSteps»
+«««							Then «step?.actor?.name»«step?.actorElement?.name»«step?.objectWildcard?.replaceAll('"', '')» should «step?.action» «step?.value» «step?.subjectElement?.name»«step?.subjectWildcard?.replaceAll('"', '')»
+«««						«ENDFOR»
+						
 				«ENDFOR»
-				«FOR WhenStep step : scenario.whenSteps»
-				When «step?.actor?.name»«step?.actorElement?.name»«step?.objectWildcard?.replaceAll('"', '')» «step?.action» «step?.value» «step?.subjectElement?.name»«step?.subjectWildcard?.replaceAll('"', '')»
-				«ENDFOR»
-				«FOR ThenStep step : scenario.thenSteps»
-				Then «step?.actor?.name»«step?.actorElement?.name»«step?.objectWildcard?.replaceAll('"', '')» should «step?.action» «step?.value» «step?.subjectElement?.name»«step?.subjectWildcard?.replaceAll('"', '')»
-				«ENDFOR»
-				
-			«ENDFOR»
 		'''
 
 }

@@ -18,13 +18,23 @@ public enum ProjectType {
 	//
 	FACES("faces", "war"),
 	//
-	REST_SERVER("rest-server", "jar"),
+	REST("rest", "jar"),
 	//
-	REST_CLIENT("rest-client", "war"),
+	REST_SERVER("rest.server", "jar"),
 	//
-	SOAP_SERVER("soap-server", "jar"),
+	REST_CLIENT("rest.client", "war"),
 	//
-	SOAP_CLIENT("soap-client", "war"),
+	SOAP("soap", "jar"),
+	//
+	SOAP_CLIENT("soap.client", "war"),
+	//
+	SOAP_SERVER("soap.server", "jar"),
+	//
+	GRPC("grpc", "jar"),
+	//
+	GRPC_SERVER("grpc.server", "jar"),
+	//
+	GRPC_CLIENT("grpc.client", "war"),
 	//
 	EAR("ear", "ear"),
 	//

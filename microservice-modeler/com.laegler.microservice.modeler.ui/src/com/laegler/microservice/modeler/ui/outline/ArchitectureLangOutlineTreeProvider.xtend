@@ -4,15 +4,15 @@
 package com.laegler.microservice.modeler.ui.outline
 
 import com.google.inject.Inject
-import com.laegler.microservice.modeler.architectureLang.Architecture
-import com.laegler.microservice.modeler.architectureLang.GrpcConsume
-import com.laegler.microservice.modeler.architectureLang.GrpcExpose
-import com.laegler.microservice.modeler.architectureLang.Jar
-import com.laegler.microservice.modeler.architectureLang.RestConsume
-import com.laegler.microservice.modeler.architectureLang.RestExpose
-import com.laegler.microservice.modeler.architectureLang.Spring
-import com.laegler.microservice.modeler.architectureLang.SpringType
-import com.laegler.microservice.modeler.architectureLang.Dependency
+import microserviceModel.Architecture
+import microserviceModel.GrpcConsume
+import microserviceModel.GrpcExpose
+import microserviceModel.Jar
+import microserviceModel.RestConsume
+import microserviceModel.RestExpose
+import microserviceModel.Spring
+import microserviceModel.SpringType
+import microserviceModel.Dependency
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.swt.graphics.Image
 import org.eclipse.xtext.ui.IImageHelper

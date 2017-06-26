@@ -8,7 +8,7 @@
 			contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
 			default="true"
 			extensions="architecture"
-			id="com.laegler.microservice.modeler.ArchitectureLang"
+			id="microserviceModel"
 			name="ArchitectureLang Editor">
 		</editor>
 	</extension>
@@ -19,16 +19,16 @@
 			commandId="org.eclipse.xtext.ui.editor.hyperlinking.OpenDeclaration">
 			<activeWhen>
 				<reference
-					definitionId="com.laegler.microservice.modeler.ArchitectureLang.Editor.opened">
+					definitionId="microserviceModel.Editor.opened">
 				</reference>
 			</activeWhen>
 		</handler>
 		<handler
 			class="com.laegler.microservice.modeler.ui.ArchitectureLangExecutableExtensionFactory:org.eclipse.xtext.ui.editor.handler.ValidateActionHandler"
-			commandId="com.laegler.microservice.modeler.ArchitectureLang.validate">
+			commandId="microserviceModel.validate">
 		<activeWhen>
 			<reference
-					definitionId="com.laegler.microservice.modeler.ArchitectureLang.Editor.opened">
+					definitionId="microserviceModel.Editor.opened">
 			</reference>
 		</activeWhen>
 		</handler>
@@ -37,7 +37,7 @@
 			class="com.laegler.microservice.modeler.ui.ArchitectureLangExecutableExtensionFactory:org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedNameHandler"
 			commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedName">
 			<activeWhen>
-				<reference definitionId="com.laegler.microservice.modeler.ArchitectureLang.Editor.opened" />
+				<reference definitionId="microserviceModel.Editor.opened" />
 			</activeWhen>
 		</handler>
 		<handler
@@ -45,7 +45,7 @@
 			commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.OutlineCopyQualifiedName">
 			<activeWhen>
 				<and>
-					<reference definitionId="com.laegler.microservice.modeler.ArchitectureLang.XtextEditor.opened" />
+					<reference definitionId="microserviceModel.XtextEditor.opened" />
 					<iterate>
 						<adapt type="org.eclipse.xtext.ui.editor.outline.IOutlineNode" />
 					</iterate>
@@ -54,22 +54,22 @@
 		</handler>
 	</extension>
 	<extension point="org.eclipse.core.expressions.definitions">
-		<definition id="com.laegler.microservice.modeler.ArchitectureLang.Editor.opened">
+		<definition id="microserviceModel.Editor.opened">
 			<and>
 				<reference definitionId="isActiveEditorAnInstanceOfXtextEditor"/>
 				<with variable="activeEditor">
 					<test property="org.eclipse.xtext.ui.editor.XtextEditor.languageName"
-						value="com.laegler.microservice.modeler.ArchitectureLang"
+						value="microserviceModel"
 						forcePluginActivation="true"/>
 				</with>
 			</and>
 		</definition>
-		<definition id="com.laegler.microservice.modeler.ArchitectureLang.XtextEditor.opened">
+		<definition id="microserviceModel.XtextEditor.opened">
 			<and>
 				<reference definitionId="isXtextEditorActive"/>
 				<with variable="activeEditor">
 					<test property="org.eclipse.xtext.ui.editor.XtextEditor.languageName"
-						value="com.laegler.microservice.modeler.ArchitectureLang"
+						value="microserviceModel"
 						forcePluginActivation="true"/>
 				</with>
 			</and>
@@ -79,21 +79,21 @@
 			point="org.eclipse.ui.preferencePages">
 		<page
 			class="com.laegler.microservice.modeler.ui.ArchitectureLangExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
-			id="com.laegler.microservice.modeler.ArchitectureLang"
+			id="microserviceModel"
 			name="ArchitectureLang">
 			<keywordReference id="com.laegler.microservice.modeler.ui.keyword_ArchitectureLang"/>
 		</page>
 		<page
-			category="com.laegler.microservice.modeler.ArchitectureLang"
+			category="microserviceModel"
 			class="com.laegler.microservice.modeler.ui.ArchitectureLangExecutableExtensionFactory:org.eclipse.xtext.ui.editor.syntaxcoloring.SyntaxColoringPreferencePage"
-			id="com.laegler.microservice.modeler.ArchitectureLang.coloring"
+			id="microserviceModel.coloring"
 			name="Syntax Coloring">
 			<keywordReference id="com.laegler.microservice.modeler.ui.keyword_ArchitectureLang"/>
 		</page>
 		<page
-			category="com.laegler.microservice.modeler.ArchitectureLang"
+			category="microserviceModel"
 			class="com.laegler.microservice.modeler.ui.ArchitectureLangExecutableExtensionFactory:org.eclipse.xtext.ui.editor.templates.XtextTemplatePreferencePage"
-			id="com.laegler.microservice.modeler.ArchitectureLang.templates"
+			id="microserviceModel.templates"
 			name="Templates">
 			<keywordReference id="com.laegler.microservice.modeler.ui.keyword_ArchitectureLang"/>
 		</page>
@@ -102,7 +102,7 @@
 			point="org.eclipse.ui.propertyPages">
 		<page
 			class="com.laegler.microservice.modeler.ui.ArchitectureLangExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
-			id="com.laegler.microservice.modeler.ArchitectureLang"
+			id="microserviceModel"
 			name="ArchitectureLang">
 			<keywordReference id="com.laegler.microservice.modeler.ui.keyword_ArchitectureLang"/>
 			<enabledWhen>
@@ -121,7 +121,7 @@
 		point="org.eclipse.ui.commands">
 	<command
 			description="Trigger expensive validation"
-			id="com.laegler.microservice.modeler.ArchitectureLang.validate"
+			id="microserviceModel.validate"
 			name="Validate">
 	</command>
 	<!-- copy qualified name -->
@@ -142,12 +142,12 @@
 		<menuContribution
 			locationURI="popup:#TextEditorContext?after=group.edit">
 			 <command
-				 commandId="com.laegler.microservice.modeler.ArchitectureLang.validate"
+				 commandId="microserviceModel.validate"
 				 style="push"
 				 tooltip="Trigger expensive validation">
 			<visibleWhen checkEnabled="false">
 				<reference
-					definitionId="com.laegler.microservice.modeler.ArchitectureLang.Editor.opened">
+					definitionId="microserviceModel.Editor.opened">
 				</reference>
 			</visibleWhen>
 		</command>
@@ -157,7 +157,7 @@
 			<command commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedName"
 				style="push" tooltip="Copy Qualified Name">
 				<visibleWhen checkEnabled="false">
-					<reference definitionId="com.laegler.microservice.modeler.ArchitectureLang.Editor.opened" />
+					<reference definitionId="microserviceModel.Editor.opened" />
 				</visibleWhen>
 			</command>
 		</menuContribution>
@@ -165,7 +165,7 @@
 			<command commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedName"
 				style="push" tooltip="Copy Qualified Name">
 				<visibleWhen checkEnabled="false">
-					<reference definitionId="com.laegler.microservice.modeler.ArchitectureLang.Editor.opened" />
+					<reference definitionId="microserviceModel.Editor.opened" />
 				</visibleWhen>
 			</command>
 		</menuContribution>
@@ -174,7 +174,7 @@
 				style="push" tooltip="Copy Qualified Name">
 				<visibleWhen checkEnabled="false">
 					<and>
-						<reference definitionId="com.laegler.microservice.modeler.ArchitectureLang.XtextEditor.opened" />
+						<reference definitionId="microserviceModel.XtextEditor.opened" />
 						<iterate>
 							<adapt type="org.eclipse.xtext.ui.editor.outline.IOutlineNode" />
 						</iterate>
@@ -187,7 +187,7 @@
 		<menuContribution locationURI="popup:#TextEditorContext?endof=group.find">
 			<command commandId="org.eclipse.xtext.ui.editor.FindReferences">
 				<visibleWhen checkEnabled="false">
-					<reference definitionId="com.laegler.microservice.modeler.ArchitectureLang.Editor.opened">
+					<reference definitionId="microserviceModel.Editor.opened">
 					</reference>
 				</visibleWhen>
 			</command>
@@ -199,7 +199,7 @@
 			commandId="org.eclipse.xtext.ui.editor.FindReferences">
 			<activeWhen>
 				<reference
-					definitionId="com.laegler.microservice.modeler.ArchitectureLang.Editor.opened">
+					definitionId="microserviceModel.Editor.opened">
 				</reference>
 			</activeWhen>
 		</handler>
@@ -218,7 +218,7 @@
 			uriExtension="architecture">
 		</resourceServiceProvider>
 	</extension>
-	<!-- marker definitions for com.laegler.microservice.modeler.ArchitectureLang -->
+	<!-- marker definitions for microserviceModel -->
 	<extension
 			id="architecturelang.check.fast"
 			name="ArchitectureLang Problem"
@@ -247,18 +247,18 @@
 	</extension>
 	<extension point="org.eclipse.ui.preferencePages">
 		<page
-			category="com.laegler.microservice.modeler.ArchitectureLang"
+			category="microserviceModel"
 			class="com.laegler.microservice.modeler.ui.ArchitectureLangExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
-			id="com.laegler.microservice.modeler.ArchitectureLang.compiler.preferencePage"
+			id="microserviceModel.compiler.preferencePage"
 			name="Compiler">
 			<keywordReference id="com.laegler.microservice.modeler.ui.keyword_ArchitectureLang"/>
 		</page>
 	</extension>
 	<extension point="org.eclipse.ui.propertyPages">
 		<page
-			category="com.laegler.microservice.modeler.ArchitectureLang"
+			category="microserviceModel"
 			class="com.laegler.microservice.modeler.ui.ArchitectureLangExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
-			id="com.laegler.microservice.modeler.ArchitectureLang.compiler.propertyPage"
+			id="microserviceModel.compiler.propertyPage"
 			name="Compiler">
 			<keywordReference id="com.laegler.microservice.modeler.ui.keyword_ArchitectureLang"/>
 			<enabledWhen>
@@ -271,10 +271,10 @@
 		<menuContribution locationURI="popup:#TextEditorContext?after=xtext.ui.openDeclaration">
 			<command
 				commandId="org.eclipse.xtext.ui.OpenGeneratedFileCommand"
-				id="com.laegler.microservice.modeler.ArchitectureLang.OpenGeneratedCode"
+				id="microserviceModel.OpenGeneratedCode"
 				style="push">
 				<visibleWhen checkEnabled="false">
-					<reference definitionId="com.laegler.microservice.modeler.ArchitectureLang.Editor.opened" />
+					<reference definitionId="microserviceModel.Editor.opened" />
 				</visibleWhen>
 			</command>
 		</menuContribution>
@@ -284,7 +284,7 @@
 			class="com.laegler.microservice.modeler.ui.ArchitectureLangExecutableExtensionFactory:org.eclipse.xtext.ui.generator.trace.OpenGeneratedFileHandler"
 			commandId="org.eclipse.xtext.ui.OpenGeneratedFileCommand">
 			<activeWhen>
-				<reference definitionId="com.laegler.microservice.modeler.ArchitectureLang.Editor.opened" />
+				<reference definitionId="microserviceModel.Editor.opened" />
 			</activeWhen>
 		</handler>
 	</extension>
@@ -296,7 +296,7 @@
 			commandId="org.eclipse.xtext.ui.editor.outline.QuickOutline">
 			<activeWhen>
 				<reference
-					definitionId="com.laegler.microservice.modeler.ArchitectureLang.Editor.opened">
+					definitionId="microserviceModel.Editor.opened">
 				</reference>
 			</activeWhen>
 		</handler>
@@ -316,12 +316,12 @@
 				style="push"
 				tooltip="Open Quick Outline">
 				<visibleWhen checkEnabled="false">
-					<reference definitionId="com.laegler.microservice.modeler.ArchitectureLang.Editor.opened"/>
+					<reference definitionId="microserviceModel.Editor.opened"/>
 				</visibleWhen>
 			</command>
 		</menuContribution>
 	</extension>
-	<!-- quickfix marker resolution generator for com.laegler.microservice.modeler.ArchitectureLang -->
+	<!-- quickfix marker resolution generator for microserviceModel -->
 	<extension
 			point="org.eclipse.ui.ide.markerResolution">
 		<markerResolutionGenerator
@@ -356,7 +356,7 @@
 			commandId="org.eclipse.xtext.ui.refactoring.RenameElement">
 			<activeWhen>
 				<reference
-					definitionId="com.laegler.microservice.modeler.ArchitectureLang.Editor.opened">
+					definitionId="microserviceModel.Editor.opened">
 				</reference>
 			</activeWhen>
 		</handler>
@@ -368,7 +368,7 @@
 				style="push">
 				<visibleWhen checkEnabled="false">
 					<reference
-						definitionId="com.laegler.microservice.modeler.ArchitectureLang.Editor.opened">
+						definitionId="microserviceModel.Editor.opened">
 					</reference>
 				</visibleWhen>
 			</command>
@@ -376,27 +376,27 @@
 	</extension>
 	<extension point="org.eclipse.ui.preferencePages">
 		<page
-			category="com.laegler.microservice.modeler.ArchitectureLang"
+			category="microserviceModel"
 			class="com.laegler.microservice.modeler.ui.ArchitectureLangExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.RefactoringPreferencePage"
-			id="com.laegler.microservice.modeler.ArchitectureLang.refactoring"
+			id="microserviceModel.refactoring"
 			name="Refactoring">
 			<keywordReference id="com.laegler.microservice.modeler.ui.keyword_ArchitectureLang"/>
 		</page>
 	</extension>
 	<extension point="org.eclipse.compare.contentViewers">
-		<viewer id="com.laegler.microservice.modeler.ArchitectureLang.compare.contentViewers"
+		<viewer id="microserviceModel.compare.contentViewers"
 			class="com.laegler.microservice.modeler.ui.ArchitectureLangExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
 			extensions="architecture">
 		</viewer>
 	</extension>
 	<extension point="org.eclipse.compare.contentMergeViewers">
-		<viewer id="com.laegler.microservice.modeler.ArchitectureLang.compare.contentMergeViewers"
+		<viewer id="microserviceModel.compare.contentMergeViewers"
 			class="com.laegler.microservice.modeler.ui.ArchitectureLangExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
 			extensions="architecture" label="ArchitectureLang Compare">
 		</viewer>
 	</extension>
 	<extension point="org.eclipse.ui.editors.documentProviders">
-		<provider id="com.laegler.microservice.modeler.ArchitectureLang.editors.documentProviders"
+		<provider id="microserviceModel.editors.documentProviders"
 			class="com.laegler.microservice.modeler.ui.ArchitectureLangExecutableExtensionFactory:org.eclipse.xtext.ui.editor.model.XtextDocumentProvider"
 			extensions="architecture">
 		</provider>

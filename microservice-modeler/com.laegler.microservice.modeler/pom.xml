@@ -165,11 +165,11 @@
 			<artifactId>microservice-model</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.laegler.microservice</groupId>
 			<artifactId>microservice-codegen</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
-		</dependency>
+		</dependency> -->
 	</dependencies>
 
 </project>

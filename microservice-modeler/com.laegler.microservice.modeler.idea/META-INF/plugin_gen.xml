@@ -1,9 +1,5 @@
 <idea-plugin version="2">
 	<extensions defaultExtensionNs="org.eclipse.xtext.idea">
-		<package
-			uri="http://www.laegler.com/microservice/model/ArchitectureLang"
-			class="com.laegler.microservice.modeler.architectureLang.ArchitectureLangPackage"
-		/>
 		<resourceFactory 
 			type="architecture"
 			class="org.eclipse.xtext.resource.IResourceFactory"

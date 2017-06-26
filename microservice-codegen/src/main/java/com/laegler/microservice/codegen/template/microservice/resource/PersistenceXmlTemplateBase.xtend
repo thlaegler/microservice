@@ -1,9 +1,7 @@
-package templates._common.src_main_resource.meta_inf
+package com.laegler.microservice.codegen.template.microservice.resource
 
-import com.laegler.stubbr.lang.genmodel.Project
-import com.laegler.stubbr.lang.stubbrLang.Level1Attribute
-import templates.AbstractXmlTemplate
-import com.laegler.stubbr.lang.generator.repository.StubbrRegistry
+import com.laegler.microservice.codegen.template.utils.AbstractXmlTemplate
+import com.laegler.microservice.codegen.model.Microservice
 
 /**
  * File Generator for JPA descriptor (persistence.xml)
@@ -13,8 +11,8 @@ class PersistenceXmlTemplateBase extends AbstractXmlTemplate {
 	/**
 	 * 
 	 */
-	new(StubbrRegistry stubbr, Project project) {
-		super(stubbr, project)
+	new(Microservice m) {
+		super(m)
 		fileName = 'persistence'
 		relativPath = '/src/main/resource/META-INF/'
 		header = '''
@@ -33,22 +31,22 @@ class PersistenceXmlTemplateBase extends AbstractXmlTemplate {
 	}
 
 	private def String getTemplate() '''
-		«FOR Level1Attribute persistenceUnit : stubbr?.stubb?.persistence?.persistenceUnits»
-			<persistence-unit name="«persistenceUnit?.name»" transaction-type="JTA">
-				<jta-data-source>java:jboss/datasources/«stubbr?.stubb?.persistence?.datasources?.get(0)?.name»</jta-data-source>
-				<properties>
-					<property name="hibernate.show_sql" value="true" />
-					<property name="hibernate.format_sql" value="true" />
-					<property name="hibernate.hbm2ddl.auto" value="validate" />
-					<!-- <property name="hibernate.hbm2ddl.auto" value="create-drop" /> -->
-					         <!-- <property name="hibernate.hbm2ddl.import_files" value="import.sql" /> -->
-					<property name="hibernate.dialect"
-						value="de.citysquire.model.database.«stubbr?.stubb?.prefix»«stubbr?.stubb?.persistence?.databases?.get(0)?.type.literal»5InnoDBDialect" />
-					<property name="jadira.usertype.autoRegisterUserTypes"
-						value="true" />
-				</properties>
-			</persistence-unit>
-		«ENDFOR»
+«««		«FOR Level1Attribute persistenceUnit : stubbr?.stubb?.persistence?.persistenceUnits»
+«««			<persistence-unit name="«persistenceUnit?.name»" transaction-type="JTA">
+«««				<jta-data-source>java:jboss/datasources/«stubbr?.stubb?.persistence?.datasources?.get(0)?.name»</jta-data-source>
+«««				<properties>
+«««					<property name="hibernate.show_sql" value="true" />
+«««					<property name="hibernate.format_sql" value="true" />
+«««					<property name="hibernate.hbm2ddl.auto" value="validate" />
+«««					<!-- <property name="hibernate.hbm2ddl.auto" value="create-drop" /> -->
+«««					         <!-- <property name="hibernate.hbm2ddl.import_files" value="import.sql" /> -->
+«««					<property name="hibernate.dialect"
+«««						value="de.citysquire.model.database.«stubbr?.stubb?.prefix»«stubbr?.stubb?.persistence?.databases?.get(0)?.type.literal»5InnoDBDialect" />
+«««					<property name="jadira.usertype.autoRegisterUserTypes"
+«««						value="true" />
+«««				</properties>
+«««			</persistence-unit>
+«««		«ENDFOR»
 	'''
 
 }

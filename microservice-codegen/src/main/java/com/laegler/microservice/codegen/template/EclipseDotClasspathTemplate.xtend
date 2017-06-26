@@ -1,8 +1,7 @@
-package com.laegler.microservice.codegen.template.microservice
+package com.laegler.microservice.codegen.template
 
-import com.laegler.microservice.codegen.model.ProjectType
-import com.laegler.microservice.codegen.template.utils.AbstractEclipseDotClasspathTemplate
 import com.laegler.microservice.codegen.model.Project
+import com.laegler.microservice.codegen.template.utils.AbstractEclipseDotClasspathTemplate
 
 /**
  * File Generator for .classpath
@@ -84,14 +83,14 @@ class EclipseDotClasspathTemplate extends AbstractEclipseDotClasspathTemplate {
 				</attributes>
 			</classpathentry>
 
-			<classpathentry kind="con" path="org.eclipse.jst.server.core.container/rg.jboss.ide.eclrse.as.core.server.runtime.runtimeTarget/WildFly 10.x Runtime">r			<attributes>
+			<classpathentry kind="con" path="org.eclipse.jst.server.core.container/rg.jboss.ide.eclse.as.core.server.runtime.runtimeTarget/WildFly 10.x Runtime">r			<attributes>
 						<attribute name="owner.project.facets" value="jst.jaxrs"/>
 				</attributes>
 			</classpathentry>
 
 			<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-«model.getOption('jvmVersion')»">
 			<attributes>
-				<attribute name="maven.pomderived" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
 			</attributes>
 			</classpathentry>
 			<classpathentry kind="output" path="target/classes"/>

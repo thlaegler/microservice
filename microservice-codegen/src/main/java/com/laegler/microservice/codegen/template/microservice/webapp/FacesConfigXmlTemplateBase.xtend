@@ -1,19 +1,15 @@
-package templates._common.src_main_webapp.web_inf
+package com.laegler.microservice.codegen.template.microservice.webapp
 
-import com.laegler.stubbr.lang.genmodel.Project
-import templates.AbstractXmlTemplate
-import com.laegler.stubbr.lang.generator.repository.StubbrRegistry
+import com.laegler.microservice.codegen.template.utils.AbstractXmlTemplate
+import com.laegler.microservice.codegen.model.Microservice
 
 /**
  * File Generator for Java Faces descriptor.
  */
 class FacesConfigXmlTemplateBase extends AbstractXmlTemplate {
 
-	/**
-	 * 
-	 */
-	new(StubbrRegistry stubbr, Project project) {
-		super(stubbr, project)
+	new(Microservice m) {
+		super(m)
 		fileName = 'faces-config'
 		relativPath = '/src/main/webapp/META-INF/'
 		header = '''

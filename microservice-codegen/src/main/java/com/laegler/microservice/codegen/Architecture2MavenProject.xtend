@@ -13,6 +13,9 @@ class Architecture2MavenProject extends AbstractTransformator {
 	
 	extension MicroserviceModelFactory microserviceModelFactory = new MicroserviceModelFactoryImpl
 	
+	/**
+	 * Transform a Architecture Model into a maven project structure and write to file system.
+	 */
 	override transform(Architecture architecture) {
 		super.transform(architecture)
 	}

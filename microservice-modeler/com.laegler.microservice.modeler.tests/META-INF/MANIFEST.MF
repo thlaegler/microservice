@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.laegler.microservice.modeler.tests
-Bundle-Vendor: thlaegler
+Bundle-Vendor: Laegler
 Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: com.laegler.microservice.modeler.tests; singleton:=true
 Bundle-ActivationPolicy: lazy
@@ -9,7 +9,8 @@ Require-Bundle: com.laegler.microservice.modeler,
  org.junit;bundle-version="4.12.0",
  org.eclipse.xtext.testing,
  org.eclipse.xtext.xbase.testing,
- org.eclipse.xtext.xbase.lib
+ org.eclipse.xtext.xbase.lib,
+ com.laegler.microservice.model
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: com.laegler.microservice.modeler.tests;x-internal=true
 Import-Package: org.hamcrest.core,

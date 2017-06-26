@@ -25,6 +25,6 @@ Require-Bundle: com.laegler.microservice.modeler,
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: com.laegler.microservice.modeler.ui.contentassist,
- com.laegler.microservice.modeler.ui.internal,
- com.laegler.microservice.modeler.ui.quickfix
+ com.laegler.microservice.modeler.ui.quickfix,
+ com.laegler.microservice.modeler.ui.internal
 Bundle-Activator: com.laegler.microservice.modeler.ui.internal.ModelerActivator

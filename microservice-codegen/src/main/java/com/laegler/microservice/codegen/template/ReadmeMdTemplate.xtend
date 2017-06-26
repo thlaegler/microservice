@@ -1,4 +1,4 @@
-package com.laegler.microservice.codegen.template.utils
+package com.laegler.microservice.codegen.template
 
 import com.laegler.microservice.codegen.model.Project
 import com.laegler.microservice.codegen.model.FileType
@@ -6,7 +6,7 @@ import com.laegler.microservice.codegen.model.FileType
 /**
  * File Generator for github documentation (README.MD)
  */
-abstract class ReadmeMdTemplate extends AbstractReadmeMdTemplate {
+abstract class ReadmeMdTemplate extends com.laegler.microservice.codegen.template.utils.AbstractReadmeMdTemplate {
 
 	/**
 	 * 
@@ -23,14 +23,14 @@ abstract class ReadmeMdTemplate extends AbstractReadmeMdTemplate {
 	}
 
 	private def String getTemplate() '''
-		«project?.canonicalName»
-				
-		«model.getOption('documentation')»
-		
-		# Stakeholders
-		## Organizations
-		«model.getOption('organizationName')»
-«««		«FOR Organization organization : model.getOption('documentation').stakeholders?.organizations»
+	«project?.canonicalName»
+			
+	«model.getOption('documentation')»
+	
+	# Stakeholders
+	## Organizations
+	«model.getOption('organizationName')»
+	«««		«FOR Organization organization : model.getOption('documentation').stakeholders?.organizations»
 «««			* «organization?.name»
 «««		«ENDFOR»
 		

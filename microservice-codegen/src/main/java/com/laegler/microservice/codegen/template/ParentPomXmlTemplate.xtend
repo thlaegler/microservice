@@ -2,16 +2,20 @@ package com.laegler.microservice.codegen.template
 
 import com.laegler.microservice.codegen.model.Microservice
 import com.laegler.microservice.codegen.template.utils.AbstractPomXmlTemplate
+import microserviceModel.Architecture
 
 /**
  * File Generator for Maven project object model (pom.xml)
  */
 class ParentPomXmlTemplate extends AbstractPomXmlTemplate {
 
-	new() {
-		super(new Microservice)
+	val Architecture architecture
+
+	new(Architecture a) {
+		super(new Project)
+		architecture = a
 		documentation = 'Maven project object model (pom.xml)'
-		
+
 		content = template
 	}
 

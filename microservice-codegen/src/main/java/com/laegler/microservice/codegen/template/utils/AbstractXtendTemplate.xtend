@@ -2,12 +2,18 @@ package com.laegler.microservice.codegen.template.utils
 
 import com.laegler.microservice.codegen.model.FileType
 import com.laegler.microservice.codegen.model.Project
+import com.laegler.microservice.codegen.model.Microservice
 
 /**
  * Abstract super type for all Xtend files.
  */
 abstract class AbstractXtendTemplate extends AbstractTemplate {
 
+	new(Microservice m) {
+		super(m)
+		this.fileType = FileType.XTEND
+	}
+	
 	new(Project project) {
 		super(project)
 		this.fileType = FileType.XTEND
