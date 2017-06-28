@@ -2,7 +2,7 @@ package com.laegler.microservice.codegen.template.microservice
 
 import com.laegler.microservice.codegen.model.Project
 import com.laegler.microservice.codegen.model.FileType
-import com.laegler.microservice.codegen.template.utils.AbstractReadmeMdTemplate
+import com.laegler.microservice.codegen.template.base.AbstractReadmeMdTemplate
 
 /**
  * File Generator for github documentation (README.MD)

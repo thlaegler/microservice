@@ -1,6 +1,6 @@
 package com.laegler.microservice.modeler.mojo;
 
-import com.laegler.microservice.codegen.MavenProject2Architecture;
+import com.laegler.microservice.codegen.Code2ModelTransformator;
 import java.io.File;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -11,7 +11,6 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 import org.eclipse.xtend.lib.annotations.Data;
-import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Pure;
 import org.eclipse.xtext.xbase.lib.util.ToStringBuilder;
 
@@ -28,15 +27,14 @@ public class CodegenMojo extends AbstractMojo {
   @Parameter(property = "targetDirectory", defaultValue = "${project.build.outputDirectory}/generated", required = false, readonly = true)
   private final File targetDirectory;
   
-  @Extension
-  private final MavenProject2Architecture mavenProject2Architecture = new MavenProject2Architecture();
+  private final Code2ModelTransformator transformator = new Code2ModelTransformator();
   
   public void execute() throws MojoExecutionException, MojoFailureException {
     if (this.activateCodeGen) {
       this.getLog().info("Code Generation is not activated: set <activateCodeGen>true<activateCodeGen>.");
       return;
     }
-    this.mavenProject2Architecture.transform(this.project);
+    this.transformator.transform(this.project);
   }
   
   public CodegenMojo(final MavenProject project, final File targetDirectory) {
@@ -53,7 +51,7 @@ public class CodegenMojo extends AbstractMojo {
     result = prime * result + ((this.project== null) ? 0 : this.project.hashCode());
     result = prime * result + (this.activateCodeGen ? 1231 : 1237);
     result = prime * result + ((this.targetDirectory== null) ? 0 : this.targetDirectory.hashCode());
-    result = prime * result + ((this.mavenProject2Architecture== null) ? 0 : this.mavenProject2Architecture.hashCode());
+    result = prime * result + ((this.transformator== null) ? 0 : this.transformator.hashCode());
     return result;
   }
   
@@ -79,10 +77,10 @@ public class CodegenMojo extends AbstractMojo {
         return false;
     } else if (!this.targetDirectory.equals(other.targetDirectory))
       return false;
-    if (this.mavenProject2Architecture == null) {
-      if (other.mavenProject2Architecture != null)
+    if (this.transformator == null) {
+      if (other.transformator != null)
         return false;
-    } else if (!this.mavenProject2Architecture.equals(other.mavenProject2Architecture))
+    } else if (!this.transformator.equals(other.transformator))
       return false;
     return true;
   }
@@ -112,7 +110,7 @@ public class CodegenMojo extends AbstractMojo {
   }
   
   @Pure
-  public MavenProject2Architecture getMavenProject2Architecture() {
-    return this.mavenProject2Architecture;
+  public Code2ModelTransformator getTransformator() {
+    return this.transformator;
   }
 }

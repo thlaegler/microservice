@@ -34,6 +34,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link microserviceModel.impl.ArchitectureImpl#getArtifacts <em>Artifacts</em>}</li>
  *   <li>{@link microserviceModel.impl.ArchitectureImpl#getName <em>Name</em>}</li>
+ *   <li>{@link microserviceModel.impl.ArchitectureImpl#getBasePackage <em>Base Package</em>}</li>
+ *   <li>{@link microserviceModel.impl.ArchitectureImpl#getVersion <em>Version</em>}</li>
  * </ul>
  *
  * @generated
@@ -67,6 +69,46 @@ public class ArchitectureImpl extends MinimalEObjectImpl.Container implements Ar
 	 * @ordered
 	 */
 	protected String name = NAME_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getBasePackage() <em>Base Package</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getBasePackage()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String BASE_PACKAGE_EDEFAULT = "";
+
+	/**
+	 * The cached value of the '{@link #getBasePackage() <em>Base Package</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getBasePackage()
+	 * @generated
+	 * @ordered
+	 */
+	protected String basePackage = BASE_PACKAGE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getVersion() <em>Version</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getVersion()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String VERSION_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getVersion() <em>Version</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getVersion()
+	 * @generated
+	 * @ordered
+	 */
+	protected String version = VERSION_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -125,6 +167,48 @@ public class ArchitectureImpl extends MinimalEObjectImpl.Container implements Ar
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getBasePackage() {
+		return basePackage;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setBasePackage(String newBasePackage) {
+		String oldBasePackage = basePackage;
+		basePackage = newBasePackage;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MicroserviceModelPackage.ARCHITECTURE__BASE_PACKAGE, oldBasePackage, basePackage));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getVersion() {
+		return version;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setVersion(String newVersion) {
+		String oldVersion = version;
+		version = newVersion;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MicroserviceModelPackage.ARCHITECTURE__VERSION, oldVersion, version));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -146,6 +230,10 @@ public class ArchitectureImpl extends MinimalEObjectImpl.Container implements Ar
 				return getArtifacts();
 			case MicroserviceModelPackage.ARCHITECTURE__NAME:
 				return getName();
+			case MicroserviceModelPackage.ARCHITECTURE__BASE_PACKAGE:
+				return getBasePackage();
+			case MicroserviceModelPackage.ARCHITECTURE__VERSION:
+				return getVersion();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -166,6 +254,12 @@ public class ArchitectureImpl extends MinimalEObjectImpl.Container implements Ar
 			case MicroserviceModelPackage.ARCHITECTURE__NAME:
 				setName((String)newValue);
 				return;
+			case MicroserviceModelPackage.ARCHITECTURE__BASE_PACKAGE:
+				setBasePackage((String)newValue);
+				return;
+			case MicroserviceModelPackage.ARCHITECTURE__VERSION:
+				setVersion((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -184,6 +278,12 @@ public class ArchitectureImpl extends MinimalEObjectImpl.Container implements Ar
 			case MicroserviceModelPackage.ARCHITECTURE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
+			case MicroserviceModelPackage.ARCHITECTURE__BASE_PACKAGE:
+				setBasePackage(BASE_PACKAGE_EDEFAULT);
+				return;
+			case MicroserviceModelPackage.ARCHITECTURE__VERSION:
+				setVersion(VERSION_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -200,6 +300,10 @@ public class ArchitectureImpl extends MinimalEObjectImpl.Container implements Ar
 				return artifacts != null && !artifacts.isEmpty();
 			case MicroserviceModelPackage.ARCHITECTURE__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case MicroserviceModelPackage.ARCHITECTURE__BASE_PACKAGE:
+				return BASE_PACKAGE_EDEFAULT == null ? basePackage != null : !BASE_PACKAGE_EDEFAULT.equals(basePackage);
+			case MicroserviceModelPackage.ARCHITECTURE__VERSION:
+				return VERSION_EDEFAULT == null ? version != null : !VERSION_EDEFAULT.equals(version);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -216,6 +320,10 @@ public class ArchitectureImpl extends MinimalEObjectImpl.Container implements Ar
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");
 		result.append(name);
+		result.append(", basePackage: ");
+		result.append(basePackage);
+		result.append(", version: ");
+		result.append(version);
 		result.append(')');
 		return result.toString();
 	}

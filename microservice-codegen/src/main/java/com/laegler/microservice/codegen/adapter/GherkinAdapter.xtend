@@ -3,7 +3,6 @@ package com.laegler.microservice.codegen.adapter
 import java.io.File
 import java.util.HashMap
 import java.util.Map
-import java.util.logging.Logger
 import javax.inject.Inject
 import java.util.ArrayList
 import java.util.List
@@ -22,20 +21,23 @@ import com.laegler.microservice.codegen.adapter.cucumber.FunctionNameGenerator
 import com.laegler.microservice.codegen.adapter.cucumber.Snippet
 import gherkin.ast.ScenarioDefinition
 import gherkin.ast.Step
+import org.slf4j.LoggerFactory
+import org.slf4j.Logger
 
 /**
  * Reads, parses and generates Cucumber/Gherkin files.
  */
 class GherkinAdapter implements StubbrAdapter<GherkinDocument> {
 
-	@Inject FileHelper fileHelper
-	@Inject Logger log
+	private static Logger LOG = LoggerFactory.getLogger(GherkinAdapter)
+
+	extension FileHelper fileHelper
 
 	public override GherkinDocument parse(String fileLocation) {
-		log.info('''Parsing Swagger YAML file.''')
+		LOG.info('''Parsing Swagger YAML file.''')
 		val File file = fileHelper.findFile(fileLocation)
 
-		val String gherkinFileContent = fileHelper.getFileContent(file)
+		val String gherkinFileContent = file.asString
 
 		val TokenMatcher matcher = new TokenMatcher => []
 		val AstBuilder builder = new AstBuilder => []
@@ -45,10 +47,10 @@ class GherkinAdapter implements StubbrAdapter<GherkinDocument> {
 
 		try {
 			val GherkinDocument featureModel = parser.parse(gherkinFileContent, matcher)
-			log.info('Gherkin feature file successfully parsed')
+			LOG.info('Gherkin feature file successfully parsed')
 			return featureModel
 		} catch (ParserException e) {
-			log.warning('''Failed to parse gherkin feature «file»''')
+			LOG.warn('''Failed to parse gherkin feature «file»''')
 		}
 		null
 	}
@@ -58,7 +60,7 @@ class GherkinAdapter implements StubbrAdapter<GherkinDocument> {
 	}
 
 	public override String generate(Project project, String fileLocation, Map<String, Object> params) {
-		log.info('''Generate Cucumber snippets/stubs for feature «fileLocation».''')
+		LOG.info('''Generate Cucumber snippets/stubs for feature «fileLocation».''')
 		val GherkinDocument featureModel = parse(fileLocation)
 
 		val Snippet snippet = new XtendSnippet
@@ -67,7 +69,7 @@ class GherkinAdapter implements StubbrAdapter<GherkinDocument> {
 		val FunctionNameGenerator fuctionNameGen = new FunctionNameGenerator(concatenator)
 
 		val List<String> methodSnippets = new ArrayList<String>
-		
+
 		return '''
 			package «project?.basePackage».feature
 			

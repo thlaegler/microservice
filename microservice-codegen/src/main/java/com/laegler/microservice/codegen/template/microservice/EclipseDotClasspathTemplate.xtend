@@ -1,7 +1,6 @@
 package com.laegler.microservice.codegen.template.microservice
 
-import com.laegler.microservice.codegen.model.ProjectType
-import com.laegler.microservice.codegen.template.utils.AbstractEclipseDotClasspathTemplate
+import com.laegler.microservice.codegen.template.base.AbstractEclipseDotClasspathTemplate
 import com.laegler.microservice.codegen.model.Project
 
 /**

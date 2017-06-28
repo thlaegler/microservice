@@ -1,16 +1,17 @@
 package com.laegler.microservice.codegen.template.microservice.resource
 
-import com.laegler.microservice.codegen.template.utils.AbstractTemplate
+import com.laegler.microservice.codegen.template.base.BaseTemplate
 import com.laegler.microservice.codegen.model.FileType
-import com.laegler.microservice.codegen.model.Microservice
+import com.laegler.microservice.codegen.model.Project
+import com.laegler.microservice.codegen.template.base.AbstractTemplate
 
 /**
  * File Generator for OSGi Manifest descriptor (MANIFEST.MF)
  */
 class ManifestMfTemplateBase extends AbstractTemplate {
 
-	new(Microservice m) {
-		super(m)
+	new(Project p) {
+		super(p)
 		fileType = FileType.MANIFEST
 		fileName = 'MANIFEST'
 		relativPath = '/src/main/resource/META-INF/'

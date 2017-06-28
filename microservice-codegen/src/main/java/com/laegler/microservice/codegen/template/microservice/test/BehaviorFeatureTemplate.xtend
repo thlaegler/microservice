@@ -1,10 +1,9 @@
 package com.laegler.microservice.codegen.template.microservice.test
 
-import com.laegler.microservice.codegen.template.utils.AbstractTemplate
-import gherkin.ast.Feature
 import com.laegler.microservice.codegen.model.FileType
-import com.laegler.microservice.codegen.model.Microservice
-import gherkin.ast.Scenario
+import com.laegler.microservice.codegen.model.Project
+import com.laegler.microservice.codegen.template.base.AbstractTemplate
+import gherkin.ast.Feature
 import gherkin.ast.ScenarioDefinition
 
 /**
@@ -14,11 +13,8 @@ class BehaviorFeatureTemplate extends AbstractTemplate {
 
 	private Feature feature
 
-	/**
-	 * 
-	 */
-	new(Microservice m, Feature feature) {
-		super(m)
+	new(Project p, Feature feature) {
+		super(p)
 		this.feature = feature
 		fileType = FileType.FEATURE
 		fileName = '''«feature?.name?.toLowerCase.replaceAll(' ', '')»'''
@@ -38,11 +34,11 @@ class BehaviorFeatureTemplate extends AbstractTemplate {
 	}
 
 	private def String getTemplate() '''
-			# language: en
-			Feature: «feature?.name?.toFirstUpper» - «feature?.name?.replaceAll('"', '')»
-		
-				«FOR ScenarioDefinition scenario : feature?.children»
-					Scenario: «scenario?.name?.toFirstUpper» - «scenario?.name?.replaceAll('"', '')»
+		# language: en
+		Feature: «feature?.name?.toFirstUpper» - «feature?.name?.replaceAll('"', '')»
+	
+			«FOR ScenarioDefinition scenario : feature?.children»
+				Scenario: «scenario?.name?.toFirstUpper» - «scenario?.name?.replaceAll('"', '')»
 «««						«FOR GivenStep step : scenario.givenSteps»
 «««							Given «step?.actor?.name»«step?.actorElement?.name»«step?.objectWildcard?.replaceAll('"', '')»
 «««						«ENDFOR»
@@ -52,8 +48,8 @@ class BehaviorFeatureTemplate extends AbstractTemplate {
 «««						«FOR ThenStep step : scenario.thenSteps»
 «««							Then «step?.actor?.name»«step?.actorElement?.name»«step?.objectWildcard?.replaceAll('"', '')» should «step?.action» «step?.value» «step?.subjectElement?.name»«step?.subjectWildcard?.replaceAll('"', '')»
 «««						«ENDFOR»
-						
-				«ENDFOR»
-		'''
+					
+			«ENDFOR»
+	'''
 
 }

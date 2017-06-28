@@ -1,14 +1,14 @@
 package com.laegler.microservice.codegen.template.microservice.webapp
 
-import com.laegler.microservice.codegen.template.utils.AbstractXmlTemplate
-import com.laegler.microservice.codegen.model.Microservice
+import com.laegler.microservice.codegen.template.base.AbstractXmlTemplate
+import com.laegler.microservice.codegen.model.Project
 
 /**
  * File Generator for Web project descriptor.
  */
 class WebXmlTemplateBase extends AbstractXmlTemplate {
 
-	new(Microservice m) {
+	new(Project m) {
 		super(m)
 		fileName = 'web'
 		relativPath = '/src/main/webapp/META-INF/'

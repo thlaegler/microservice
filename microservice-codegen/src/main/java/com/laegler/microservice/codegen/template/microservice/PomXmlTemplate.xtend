@@ -1,26 +1,32 @@
 package com.laegler.microservice.codegen.template.microservice
 
-import com.laegler.microservice.codegen.template.utils.AbstractPomXmlTemplate
+import com.laegler.microservice.codegen.template.base.AbstractPomXmlTemplate
 import com.laegler.microservice.codegen.model.Project
-import com.laegler.microservice.codegen.model.Microservice
+import com.laegler.microservice.codegen.model.OverwritePolicy
 
 /**
  * File Generator for Maven project object model (pom.xml) for model project.
  */
 class PomXmlTemplate extends AbstractPomXmlTemplate {
 
-	new(Microservice m) {
-		super(m)
-		documentation = '''«this.documentation» for model project'''
-
-		content = template
-	}
-
 	new(Project project) {
 		super(project)
-		documentation = '''«this.documentation» for model project'''
+		fileName = 'pom'
+		relativPath = '/'
+		header = '''
+			<project
+				xmlns="http://maven.apache.org/POM/4.0.0"
+				xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+					http://maven.apache.org/xsd/maven-4.0.0.xsd">
+				<modelVersion>4.0.0</modelVersion>
+		'''
+		footer = '</project>'
+		documentation = 'Maven project object model (pom.xml)'
+		version = project?.version
 
 		content = template
+
 	}
 
 	private def String getTemplate() '''
@@ -33,7 +39,17 @@ class PomXmlTemplate extends AbstractPomXmlTemplate {
 			<!-- Project internal -->
 			<dependency>
 				<groupId>${project.groupId}</groupId>
-				<artifactId>«model?.getOption('name')?.toLowerCase»-common</artifactId>
+				<artifactId>«model.getOption('name')?.toLowerCase»-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>«model.getOption('name')?.toLowerCase»-model</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>«model.getOption('name')?.toLowerCase»-persistence</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -55,34 +71,14 @@ class PomXmlTemplate extends AbstractPomXmlTemplate {
 				<artifactId>jboss-annotations-api_1.2_spec</artifactId>
 			</dependency>
 			<dependency>
-				<groupId>mysql</groupId>
-				<artifactId>mysql-connector-java</artifactId>
-				<version>6.0.3</version>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-jaxrs</artifactId>
+				<version>3.1.0.Beta1</version>
 			</dependency>
 			<dependency>
-				<groupId>org.hibernate.javax.persistence</groupId>
-				<artifactId>hibernate-jpa-2.1-api</artifactId>
-				<version>1.0.0.Final</version>
-			</dependency>
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-core</artifactId>
-				<version>5.2.2.Final</version>
-			</dependency>
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-validator</artifactId>
-				<version>5.2.2.Final</version>
-			</dependency>
-			<dependency>
-				<groupId>org.hibernate.common</groupId>
-				<artifactId>hibernate-commons-annotations</artifactId>
-				<version>5.0.1.Final</version>
-			</dependency>
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-entitymanager</artifactId>
-				<version>5.2.2.Final</version>
+				<groupId>io.rest-assured</groupId>
+				<artifactId>rest-assured</artifactId>
+				<version>3.0.0</version>
 			</dependency>
 			<dependency>
 				<groupId>org.eclipse.xtend</groupId>
@@ -140,11 +136,12 @@ class PomXmlTemplate extends AbstractPomXmlTemplate {
 			<finalName>${project.artifactId}</finalName>
 			<plugins>
 				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-ejb-plugin</artifactId>
-					<version>${ejb.plugin.version}</version>
+					<groupId>org.apache.maven</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>${war.plugin.version}</version>
 					<configuration>
-					   	<ejbVersion>3.1</ejbVersion>
+						<failOnMissingWebXml>false</failOnMissingWebXml>
+						<webXml>src/main/webapp/WEB-INF/web.xml</webXml>
 					</configuration>
 				</plugin>
 			</plugins>

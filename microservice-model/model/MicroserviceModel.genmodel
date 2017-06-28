@@ -20,6 +20,8 @@
     <genClasses ecoreClass="MicroserviceModel.ecore#//Architecture">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MicroserviceModel.ecore#//Architecture/artifacts"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MicroserviceModel.ecore#//Architecture/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MicroserviceModel.ecore#//Architecture/basePackage"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MicroserviceModel.ecore#//Architecture/version"/>
     </genClasses>
     <genClasses ecoreClass="MicroserviceModel.ecore#//Artifact">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MicroserviceModel.ecore#//Artifact/name"/>

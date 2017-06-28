@@ -14,9 +14,11 @@ import "platform:/resource/com.laegler.microservice.modeler/model/MicroserviceMo
 
 Architecture returns Architecture:
 	{Architecture}
-//	'architecture' name=FQN (
+	('package' basePackage=FQN)?
+	('version' version=STRING)
+	'architecture' name=FQN (
 		artifacts+=Artifact*
-//	)?
+	)?
 	;
 Artifact returns Artifact:
 	Spring | Jar | GrpcJar | Gateway | Option;

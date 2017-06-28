@@ -1,17 +1,14 @@
 package com.laegler.microservice.codegen.template.microservice.resource
 
-import com.laegler.microservice.codegen.template.utils.AbstractXmlTemplate
-import com.laegler.microservice.codegen.model.Microservice
+import com.laegler.microservice.codegen.template.base.AbstractXmlTemplate
+import com.laegler.microservice.codegen.model.Project
 
 /**
  * File Generator for JPA descriptor (persistence.xml)
  */
 class PersistenceXmlTemplateBase extends AbstractXmlTemplate {
 
-	/**
-	 * 
-	 */
-	new(Microservice m) {
+	new(Project m) {
 		super(m)
 		fileName = 'persistence'
 		relativPath = '/src/main/resource/META-INF/'

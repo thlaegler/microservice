@@ -1,7 +1,7 @@
 package com.laegler.microservice.codegen.template.microservice.src.soap.server
 
 import com.laegler.microservice.codegen.model.Project
-import com.laegler.microservice.codegen.template.utils.AbstractXtendTemplate
+import com.laegler.microservice.codegen.template.base.AbstractXtendTemplate
 
 /**
  * File template for SOAP endpoint publisher.

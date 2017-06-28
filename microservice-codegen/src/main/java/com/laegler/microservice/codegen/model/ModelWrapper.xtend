@@ -16,15 +16,23 @@ class ModelWrapper {
 
 	private static final MicroserviceModelFactory microserviceModelFactory = new MicroserviceModelFactoryImpl
 
-//	String name = 'default-project'
+	String name = 'default-project'
+	File rootDirectory = new File('root/')
+
 	Architecture architecture = microserviceModelFactory.createArchitecture
 	Model mavenModel = new Model
 	MavenProject mavenProject = new MavenProject(mavenModel)
-	List<Microservice> microservices = new ArrayList
-	File rootDirectory = new File('root/')
+
+	Project parentProject
+	List<Project> projects = new ArrayList
+
+	new() {
+		val projectBuilder = new ProjectBuilder
+		parentProject = projectBuilder.microserviceModel(architecture).build
+	}
 
 	public def String getOption(String key) {
-		architecture.artifacts.filter(Option)?.findFirst[name == 'version']?.value
+		architecture.artifacts.filter(Option)?.findFirst[name == key]?.value
 	}
 
 	public def String getName() {

@@ -86,13 +86,31 @@ public interface MicroserviceModelPackage extends EPackage {
 	int ARCHITECTURE__NAME = 1;
 
 	/**
+	 * The feature id for the '<em><b>Base Package</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ARCHITECTURE__BASE_PACKAGE = 2;
+
+	/**
+	 * The feature id for the '<em><b>Version</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ARCHITECTURE__VERSION = 3;
+
+	/**
 	 * The number of structural features of the '<em>Architecture</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ARCHITECTURE_FEATURE_COUNT = 2;
+	int ARCHITECTURE_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link microserviceModel.impl.ArtifactImpl <em>Artifact</em>}' class.
@@ -1113,6 +1131,28 @@ public interface MicroserviceModelPackage extends EPackage {
 	EAttribute getArchitecture_Name();
 
 	/**
+	 * Returns the meta object for the attribute '{@link microserviceModel.Architecture#getBasePackage <em>Base Package</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Base Package</em>'.
+	 * @see microserviceModel.Architecture#getBasePackage()
+	 * @see #getArchitecture()
+	 * @generated
+	 */
+	EAttribute getArchitecture_BasePackage();
+
+	/**
+	 * Returns the meta object for the attribute '{@link microserviceModel.Architecture#getVersion <em>Version</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Version</em>'.
+	 * @see microserviceModel.Architecture#getVersion()
+	 * @see #getArchitecture()
+	 * @generated
+	 */
+	EAttribute getArchitecture_Version();
+
+	/**
 	 * Returns the meta object for class '{@link microserviceModel.Artifact <em>Artifact</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1941,6 +1981,22 @@ public interface MicroserviceModelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ARCHITECTURE__NAME = eINSTANCE.getArchitecture_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Base Package</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ARCHITECTURE__BASE_PACKAGE = eINSTANCE.getArchitecture_BasePackage();
+
+		/**
+		 * The meta object literal for the '<em><b>Version</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ARCHITECTURE__VERSION = eINSTANCE.getArchitecture_Version();
 
 		/**
 		 * The meta object literal for the '{@link microserviceModel.impl.ArtifactImpl <em>Artifact</em>}' class.

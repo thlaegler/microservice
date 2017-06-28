@@ -1,80 +1,122 @@
 package com.laegler.microservice.codegen.model
 
-import com.laegler.microservice.codegen.template.utils.AbstractTemplate
+import com.laegler.microservice.codegen.template.base.AbstractTemplate
+import java.io.File
 import java.util.ArrayList
 import java.util.List
-import org.eclipse.xtend.lib.annotations.Accessors
-import org.eclipse.xtend.lib.annotations.FinalFieldsConstructor
-import org.eclipse.xtend.lib.annotations.Data
 import microserviceModel.MicroserviceModelFactory
+import microserviceModel.impl.MicroserviceModelFactoryImpl
 import org.apache.maven.model.Model
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.xtend.lib.annotations.Data
+import org.eclipse.xtend.lib.annotations.FinalFieldsConstructor
 
 @Data
-//@Accessors
 @FinalFieldsConstructor
 class Project {
 
 	val String name
-	val Model pom
-	val EObject model
-	val File directory
-
-	
-	val String basePackage
-	val String relativePath
-	val String version
-	val List<AbstractTemplate> files
 	val ProjectType projectType
+	val String basePackage
+	val String version
 	val String canonicalName
 	val String documentation
 
-	new() {
-		super()
-		name = 'undefined-project'
-		relativePath = '''undefined/«name»'''
-		version = model.getOption('version').replaceFirst('v', '')
-		dependencies = new ArrayList<String>
-		files = new ArrayList<AbstractTemplate>
-		projectType = ProjectType.UNDEFINED
-		canonicalName = 'Undefined project'
-		documentation = 'This is an undefined project (Generator is not implemented yet)'
-	}
+	val String directory
+
+	val Model pom
+	val EObject microserviceModel
+	
+	List<AbstractTemplate> templates = new ArrayList
+	List<Project> subProjects = new ArrayList
 
 	public def String getPackaging() {
 		projectType.packaging
 	}
+	
+	public static def ProjectBuilder getBuilder() {
+		new ProjectBuilder
+	}
 }
 
 class ProjectBuilder {
-	
-	private static val MicroserviceModelFactory microserviceModelFactory = new MicroserviceModelFactoryImpl
 
-	String name
-	Model pom
-	EObject model
-	File directory
+	private static val MicroserviceModelFactory microserviceModelFactory = new MicroserviceModelFactoryImpl
+	private static val ModelWrapper model = ModelAccessor.model
+
+	var String name
+	var ProjectType projectType
+	var String basePackage
+	var String version
+	var String canonicalName
+	var String documentation
+
+	var String directory
+
+	var Model pom
+	var EObject microserviceModel
 
 	new() {
 	}
 
 	def Project build() {
-		if (this.name == null) {
-			this.name = 'default-service'
+		if (name == null) {
+			name = 'undefined-project'
 		}
-		if (this.pom == null) {
-			this.pom = new Model => [artifactId = name]
+		if (projectType == null) {
+			projectType = ProjectType.UNDEFINED
 		}
-		if (this.model == null) {
-			this.model = microserviceModelFactory.createArtifact => [it.name = name]
+		if (basePackage == null) {
+			basePackage = 'org.example.undefined'
 		}
-		if (this.directory == null) {
-			this.directory = new File('default-service')
+		if (pom == null) {
+			pom = new Model => [
+				artifactId = name
+				groupId = basePackage
+			]
 		}
-		new Project(this.name,this.pom,this.model, this.directory)
+		if (microserviceModel == null) {
+			microserviceModel = microserviceModelFactory.createSpring => [
+				it.name = name
+//				it.options.basePackage = this.basePackage
+			]
+		}
+		if (directory == null) {
+//			Files.createDirectory(Path.new Path('''undefined/«name»'''))
+			directory = 'undefined/' + name
+		}
+
+		if (version == null) {
+			version = model.getOption('version').replaceFirst('v', '')
+		}
+		if (canonicalName == null) {
+			canonicalName = 'Undefined project'
+		}
+		if (documentation == null) {
+			documentation = 'This is an undefined project (Generator is not implemented yet)'
+		}
+
+		new Project(name, projectType, basePackage, version, canonicalName, documentation, directory, pom,
+			microserviceModel)
 	}
 
 	def name(String name) {
 		this.name = name
+		this
+	}
+
+	def projectType(ProjectType projectType) {
+		this.projectType = projectType
+		this
+	}
+
+	def basePackage(String basePackage) {
+		this.basePackage = basePackage
+		this
+	}
+
+	def version(String version) {
+		this.version = version
 		this
 	}
 
@@ -83,14 +125,18 @@ class ProjectBuilder {
 		this
 	}
 
-	def model(EObject model) {
-		this.model = model
+	def microserviceModel(EObject microserviceModel) {
+		this.microserviceModel = microserviceModel
 		this
 	}
 
 	def dir(File directory) {
+		this.directory = directory.absolutePath
+		this
+	}
+	
+	def dir(String directory) {
 		this.directory = directory
 		this
 	}
 }
-

@@ -1,8 +1,8 @@
-package com.laegler.microservice.codegen.template
+package com.laegler.microservice.codegen.template.parent
 
-import com.laegler.microservice.codegen.model.Microservice
-import com.laegler.microservice.codegen.template.utils.AbstractPomXmlTemplate
+import com.laegler.microservice.codegen.template.base.AbstractPomXmlTemplate
 import microserviceModel.Architecture
+import com.laegler.microservice.codegen.model.Project
 
 /**
  * File Generator for Maven project object model (pom.xml)
@@ -12,7 +12,7 @@ class ParentPomXmlTemplate extends AbstractPomXmlTemplate {
 	val Architecture architecture
 
 	new(Architecture a) {
-		super(new Project)
+		super(Project.builder.name(a.name).build)
 		architecture = a
 		documentation = 'Maven project object model (pom.xml)'
 
@@ -20,11 +20,11 @@ class ParentPomXmlTemplate extends AbstractPomXmlTemplate {
 	}
 
 	private def String getTemplate() '''
-		«parentSection»
 		<artifactId>«project?.name»</artifactId>
 		<name>«project?.canonicalName»</name>
 		<packaging>«project?.packaging»</packaging>
 		<description>«project?.documentation»</description>
+		«modulesSection»
 		<dependencies>
 			<!-- Project internal -->
 			<dependency>
@@ -163,4 +163,17 @@ class ParentPomXmlTemplate extends AbstractPomXmlTemplate {
 		</build>
 	'''
 
+	/**
+	 * Parent section in POM depending, if projects are nested in parent project or sibling projects.
+	 */
+	protected def String getModulesSection() '''
+		<modules>
+			<module>«model.getOption('packageName')?.toLowerCase»</module>
+			<module>«model.getOption('name')?.toLowerCase»-parent</module>
+			<version>«project?.version»</version>
+		«««			«IF !model.getOption('structure')?.isNestedParent»
+				<relativePath>../«model.getOption('name')?.toLowerCase»-parent/</relativePath>
+		«««			«ENDIF»
+		</modules>
+	'''
 }

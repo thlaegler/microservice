@@ -2,7 +2,7 @@ package com.laegler.microservice.codegen.model;
 
 public enum ProjectType {
 
-	PARENT("", "pom"),
+	PARENT("parent", "pom"),
 	//
 	// ASSETS("assets", "jar"),
 	//
@@ -18,11 +18,13 @@ public enum ProjectType {
 	//
 	FACES("faces", "war"),
 	//
+	BASE("", "war"),
+	//
 	REST("rest", "jar"),
 	//
 	REST_SERVER("rest.server", "jar"),
 	//
-	REST_CLIENT("rest.client", "war"),
+	REST_CLIENT("rest.client", "jar"),
 	//
 	SOAP("soap", "jar"),
 	//
@@ -34,7 +36,7 @@ public enum ProjectType {
 	//
 	GRPC_SERVER("grpc.server", "jar"),
 	//
-	GRPC_CLIENT("grpc.client", "war"),
+	GRPC_CLIENT("grpc.client", "jar"),
 	//
 	EAR("ear", "ear"),
 	//

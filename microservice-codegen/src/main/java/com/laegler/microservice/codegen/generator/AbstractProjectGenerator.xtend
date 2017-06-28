@@ -1,35 +1,25 @@
 package com.laegler.microservice.codegen.generator
 
-import java.util.logging.Logger
-import javax.inject.Inject
-import org.eclipse.xtend.lib.annotations.Accessors
-import java.util.Collection
 import com.laegler.microservice.codegen.model.Project
-import com.laegler.microservice.codegen.model.Microservice
+import microserviceModel.Architecture
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import com.laegler.microservice.codegen.model.ModelWrapper
+import com.laegler.microservice.codegen.model.ModelAccessor
 
 /**
  * Abstract project generator.
  */
 abstract class AbstractProjectGenerator {
 	
-	@Inject protected Logger log
+	protected static Logger LOG = LoggerFactory.getLogger(AbstractProjectGenerator)
 
-	@Accessors
-	private Microservice microservice
-	
-	@Accessors
-	private Project project
+	protected ModelWrapper model = ModelAccessor.model
+
+	protected Project project
 	
 	abstract public def Project prepare()
-
-	protected def boolean isNullOrEmpty2(Object object) {
-		if(object instanceof Collection) {
-			return object != null && !object.empty
-		}
-		if(object instanceof String) {
-			return object != null && !object.empty
-		}
-		return object != null
-	}
+	
+	abstract public def Project generate(Architecture a)
 
 }

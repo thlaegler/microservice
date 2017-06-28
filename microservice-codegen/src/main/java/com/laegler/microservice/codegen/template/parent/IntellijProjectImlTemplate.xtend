@@ -1,7 +1,7 @@
-package com.laegler.microservice.codegen.template
+package com.laegler.microservice.codegen.template.parent
 
 import com.laegler.microservice.codegen.model.Project
-import com.laegler.microservice.codegen.template.utils.AbstractIntellijProjectImlTemplate
+import com.laegler.microservice.codegen.template.base.AbstractIntellijProjectImlTemplate
 
 /**
  * File Generator for project.iml

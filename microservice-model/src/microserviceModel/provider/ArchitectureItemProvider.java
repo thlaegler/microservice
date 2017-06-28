@@ -65,6 +65,8 @@ public class ArchitectureItemProvider
 			super.getPropertyDescriptors(object);
 
 			addNamePropertyDescriptor(object);
+			addBasePackagePropertyDescriptor(object);
+			addVersionPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -83,6 +85,50 @@ public class ArchitectureItemProvider
 				 getString("_UI_Architecture_name_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Architecture_name_feature", "_UI_Architecture_type"),
 				 MicroserviceModelPackage.Literals.ARCHITECTURE__NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Base Package feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addBasePackagePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Architecture_basePackage_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Architecture_basePackage_feature", "_UI_Architecture_type"),
+				 MicroserviceModelPackage.Literals.ARCHITECTURE__BASE_PACKAGE,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Version feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addVersionPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Architecture_version_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Architecture_version_feature", "_UI_Architecture_type"),
+				 MicroserviceModelPackage.Literals.ARCHITECTURE__VERSION,
 				 true,
 				 false,
 				 false,
@@ -160,6 +206,8 @@ public class ArchitectureItemProvider
 
 		switch (notification.getFeatureID(Architecture.class)) {
 			case MicroserviceModelPackage.ARCHITECTURE__NAME:
+			case MicroserviceModelPackage.ARCHITECTURE__BASE_PACKAGE:
+			case MicroserviceModelPackage.ARCHITECTURE__VERSION:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case MicroserviceModelPackage.ARCHITECTURE__ARTIFACTS:

@@ -6,7 +6,7 @@ import microserviceModel.MicroserviceModelFactory
 import microserviceModel.impl.MicroserviceModelFactoryImpl
 import org.apache.maven.project.MavenProject
 
-class MavenProject2Architecture extends AbstractTransformator {
+class Code2ModelTransformator extends AbstractTransformator {
 	
 	val ModelWrapper model = ModelAccessor.model
 	

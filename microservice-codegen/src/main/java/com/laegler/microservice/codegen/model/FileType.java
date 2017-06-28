@@ -40,7 +40,8 @@ public enum FileType {
 	private String beginComment;
 	private String endComment;
 
-	FileType(String extension, String lineComment, String beginComment, String endComment) {
+	FileType(String extension, String lineComment, String beginComment,
+			String endComment) {
 		this.extension = extension;
 		this.lineComment = lineComment;
 		this.beginComment = beginComment;
@@ -61,6 +62,12 @@ public enum FileType {
 
 	public String getEndComment() {
 		return endComment;
+	}
+	public String getComment(String text) {
+		if (lineComment == null) {
+			return beginComment + ' ' + text + ' ' + endComment;
+		}
+		return lineComment + ' ' + text;
 	}
 
 }

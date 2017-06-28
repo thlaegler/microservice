@@ -1,7 +1,7 @@
 package com.laegler.microservice.codegen.template.microservice.src.rest
 
 import com.laegler.microservice.codegen.model.Project
-import com.laegler.microservice.codegen.template.utils.AbstractXtendTemplate
+import com.laegler.microservice.codegen.template.base.AbstractXtendTemplate
 import io.swagger.models.Operation
 import io.swagger.models.parameters.AbstractSerializableParameter
 import io.swagger.models.parameters.BodyParameter

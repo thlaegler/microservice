@@ -1,4 +1,4 @@
-package com.laegler.microservice.codegen.template.utils
+package com.laegler.microservice.codegen.template.base
 
 import com.laegler.microservice.codegen.model.FileType
 import com.laegler.microservice.codegen.model.Project

@@ -18,6 +18,8 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link microserviceModel.Architecture#getArtifacts <em>Artifacts</em>}</li>
  *   <li>{@link microserviceModel.Architecture#getName <em>Name</em>}</li>
+ *   <li>{@link microserviceModel.Architecture#getBasePackage <em>Base Package</em>}</li>
+ *   <li>{@link microserviceModel.Architecture#getVersion <em>Version</em>}</li>
  * </ul>
  *
  * @see microserviceModel.MicroserviceModelPackage#getArchitecture()
@@ -66,5 +68,58 @@ public interface Architecture extends EObject {
 	 * @generated
 	 */
 	void setName(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Base Package</b></em>' attribute.
+	 * The default value is <code>""</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Base Package</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Base Package</em>' attribute.
+	 * @see #setBasePackage(String)
+	 * @see microserviceModel.MicroserviceModelPackage#getArchitecture_BasePackage()
+	 * @model default=""
+	 * @generated
+	 */
+	String getBasePackage();
+
+	/**
+	 * Sets the value of the '{@link microserviceModel.Architecture#getBasePackage <em>Base Package</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Base Package</em>' attribute.
+	 * @see #getBasePackage()
+	 * @generated
+	 */
+	void setBasePackage(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Version</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Version</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Version</em>' attribute.
+	 * @see #setVersion(String)
+	 * @see microserviceModel.MicroserviceModelPackage#getArchitecture_Version()
+	 * @model
+	 * @generated
+	 */
+	String getVersion();
+
+	/**
+	 * Sets the value of the '{@link microserviceModel.Architecture#getVersion <em>Version</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Version</em>' attribute.
+	 * @see #getVersion()
+	 * @generated
+	 */
+	void setVersion(String value);
 
 } // Architecture

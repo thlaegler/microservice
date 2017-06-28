@@ -1,4 +1,4 @@
-package com.laegler.microservice.codegen.template.utils
+package com.laegler.microservice.codegen.template.base
 
 import com.laegler.microservice.codegen.model.Project
 import com.laegler.microservice.codegen.model.FileType
@@ -8,9 +8,6 @@ import com.laegler.microservice.codegen.model.FileType
  */
 abstract class AbstractEclipseDotProjectTemplate extends AbstractTemplate {
 
-	/**
-	 * 
-	 */
 	new(Project project) {
 		super(project)
 		fileType = FileType.ECLIPSE_PROJECT

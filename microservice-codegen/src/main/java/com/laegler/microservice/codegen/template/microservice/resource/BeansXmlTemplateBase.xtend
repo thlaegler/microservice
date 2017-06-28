@@ -1,14 +1,14 @@
 package com.laegler.microservice.codegen.template.microservice.resource
 
-import com.laegler.microservice.codegen.template.utils.AbstractXmlTemplate
-import com.laegler.microservice.codegen.model.Microservice
+import com.laegler.microservice.codegen.template.base.AbstractXmlTemplate
+import com.laegler.microservice.codegen.model.Project
 
 /**
  * File Generator for EJB descriptor.
  */
 class BeansXmlTemplateBase extends AbstractXmlTemplate {
 
-	new(Microservice m) {
+	new(Project m) {
 		super(m)
 		fileName = 'beans'
 		relativPath = '/src/main/webapp/META-INF/'

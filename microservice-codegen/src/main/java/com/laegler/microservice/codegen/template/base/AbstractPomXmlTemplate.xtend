@@ -1,31 +1,12 @@
-package com.laegler.microservice.codegen.template.utils
+
+package com.laegler.microservice.codegen.template.base
 
 import com.laegler.microservice.codegen.model.Project
-import com.laegler.microservice.codegen.model.Microservice
 
 /**
  * File Generator for Maven project object model (pom.xml)
  */
 abstract class AbstractPomXmlTemplate extends AbstractXmlTemplate {
-
-	new(Microservice m) {
-		super(m)
-		fileName = 'pom'
-		relativPath = '/'
-		header = '''
-			<project
-				xmlns="http://maven.apache.org/POM/4.0.0"
-				xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-				xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
-					http://maven.apache.org/xsd/maven-4.0.0.xsd">
-				<modelVersion>4.0.0</modelVersion>
-		'''
-		footer = '</project>'
-		documentation = 'Maven project object model (pom.xml)'
-		version = project?.version
-
-		content = template
-	}
 
 	new(Project project) {
 		super(project)
@@ -58,6 +39,17 @@ abstract class AbstractPomXmlTemplate extends AbstractXmlTemplate {
 //		val ObjectFactory mavenFactory = new ObjectFactory
 //		val String content = marshal(mavenFactory.createProject(model), Model)
 	}
+//new(String relativPath, Project project, String content, HashMap parameters,
+//		OverwritePolicy overwritePolicy, String documentation, String version, boolean skipStamping) {
+//		super('pom', relativPath, project, '''
+//			<project
+//				xmlns="http://maven.apache.org/POM/4.0.0"
+//				xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+//				xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+//					http://maven.apache.org/xsd/maven-4.0.0.xsd">
+//				<modelVersion>4.0.0</modelVersion>
+//		''', content, '</project>', parameters, overwritePolicy, documentation, version, skipStamping)
+//	}
 
 	private def String getTemplate() '''
 		«parentSection»
@@ -193,3 +185,4 @@ abstract class AbstractPomXmlTemplate extends AbstractXmlTemplate {
 	'''
 
 }
+

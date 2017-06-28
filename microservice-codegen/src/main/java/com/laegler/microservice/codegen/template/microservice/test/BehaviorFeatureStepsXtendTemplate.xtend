@@ -1,8 +1,8 @@
 package com.laegler.microservice.codegen.template.microservice.test
 
-import com.laegler.microservice.codegen.template.utils.AbstractXtendTemplate
+import com.laegler.microservice.codegen.template.base.AbstractXtendTemplate
 import gherkin.ast.Feature
-import com.laegler.microservice.codegen.model.Microservice
+import com.laegler.microservice.codegen.model.Project
 import gherkin.ast.ScenarioDefinition
 
 /**
@@ -12,8 +12,8 @@ class BehaviorFeatureStepsXtendTemplate extends AbstractXtendTemplate {
 
 	private Feature feature
 
-	new(Microservice m, Feature feature) {
-		super(m)
+	new(Project p, Feature feature) {
+		super(p)
 		this.feature = feature
 		fileName = '''«feature?.name?.replaceAll(' ', '').toFirstUpper»StepDefinitions'''
 		relativPath = '''/src-gen/test/java/«project?.basePackage?.toPath»/feature/«feature?.name?.replaceAll('"', '').toLowerCase»/'''

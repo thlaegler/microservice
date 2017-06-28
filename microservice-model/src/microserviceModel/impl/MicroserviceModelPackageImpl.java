@@ -290,6 +290,24 @@ public class MicroserviceModelPackageImpl extends EPackageImpl implements Micros
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getArchitecture_BasePackage() {
+		return (EAttribute)architectureEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getArchitecture_Version() {
+		return (EAttribute)architectureEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getArtifact() {
 		return artifactEClass;
 	}
@@ -973,6 +991,8 @@ public class MicroserviceModelPackageImpl extends EPackageImpl implements Micros
 		architectureEClass = createEClass(ARCHITECTURE);
 		createEReference(architectureEClass, ARCHITECTURE__ARTIFACTS);
 		createEAttribute(architectureEClass, ARCHITECTURE__NAME);
+		createEAttribute(architectureEClass, ARCHITECTURE__BASE_PACKAGE);
+		createEAttribute(architectureEClass, ARCHITECTURE__VERSION);
 
 		artifactEClass = createEClass(ARTIFACT);
 		createEAttribute(artifactEClass, ARTIFACT__NAME);
@@ -1111,6 +1131,8 @@ public class MicroserviceModelPackageImpl extends EPackageImpl implements Micros
 		initEClass(architectureEClass, Architecture.class, "Architecture", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getArchitecture_Artifacts(), this.getArtifact(), null, "artifacts", null, 0, -1, Architecture.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getArchitecture_Name(), ecorePackage.getEString(), "name", null, 0, 1, Architecture.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getArchitecture_BasePackage(), ecorePackage.getEString(), "basePackage", "", 0, 1, Architecture.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getArchitecture_Version(), ecorePackage.getEString(), "version", null, 0, 1, Architecture.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(artifactEClass, Artifact.class, "Artifact", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getArtifact_Name(), ecorePackage.getEString(), "name", null, 0, 1, Artifact.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

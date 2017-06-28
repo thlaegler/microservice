@@ -1,8 +1,6 @@
 package com.laegler.microservice.codegen.model;
 
-import com.google.inject.Inject
 import java.io.File
-import java.util.logging.Logger
 //import org.eclipse.core.resources.IFile
 //import org.eclipse.core.resources.IProject
 //import org.eclipse.core.resources.IWorkspaceRoot
@@ -10,6 +8,13 @@ import java.util.logging.Logger
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.charset.StandardCharsets
+import org.apache.commons.io.FileUtils
+import java.nio.charset.Charset
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import java.util.Collection
+import com.laegler.microservice.codegen.template.base.AbstractTemplate
+import com.laegler.microservice.codegen.template.base.BaseTemplate
 
 /**
  * File helpers with convenience methods.
@@ -18,7 +23,7 @@ import java.nio.charset.StandardCharsets
  */
 public class FileHelper {
 
-	@Inject Logger log
+	protected static Logger LOG = LoggerFactory.getLogger(FileHelper)
 
 	/**
 	 * Get file with given workspace relative path.
@@ -26,8 +31,8 @@ public class FileHelper {
 	def File findFile(String fileLocation1) {
 		// Strip unwanted characters
 		val String fileLocation = fileLocation1.replaceAll('%22', '').replaceAll('"', '')
-		log.info('''Searching for file: «fileLocation»''')
-		
+		LOG.info('''Searching for file: «fileLocation»''')
+
 //		val IWorkspaceRoot root = ResourcesPlugin.workspace.root
 //
 //		// Loop over all projects and search given file
@@ -39,24 +44,86 @@ public class FileHelper {
 //				return file.location.toFile
 //			}
 //		}
-
-		log.info('''File not found: «fileLocation»)''')
+		LOG.info('''File not found: «fileLocation»)''')
 		null
 	}
 
-	/**
-	 * 
-	 */
-	public def String getFileContent(File file) {
+	public def boolean isNullOrEmpty2(Object object) {
+		if (object instanceof Collection) {
+			return object != null && !object.empty
+		}
+		if (object instanceof String) {
+			return object != null && !object.empty
+		}
+		return object != null
+	}
+
+	public def String asString(File file) {
 		val byte[] encoded = Files.readAllBytes(Paths.get(file.path))
 		new String(encoded, StandardCharsets.UTF_8)
+	}
+
+	public def boolean toFile2(AbstractTemplate template) {
+		LOG.info('''Try to generate file from «template.fullPathWithName»''')
+
+		// Don't overwrite existing files if defined in template
+		if (template.overwritePolicy != OverwritePolicy.OVERWRITE) {
+
+			val File file = findFile(template.fullPathWithName)
+			if (file != null) {
+
+				// Check if there are file changes
+				if (asString(file).equalsIgnoreCase(template.fileContent)) {
+					LOG.
+						info('''No changes in file so we skip generation and keep the old version for file «template.fullPathWithName»''')
+					return false
+				}
+
+				// Compare versions
+				val String fileVersion = getFileVersion(file)
+				val int versionCompare = versionCompare(fileVersion, template.version)
+				if (versionCompare > 0) {
+					LOG.info('''Version is older than the existing version for file «template.fullPathWithName»''')
+					return false
+				}
+			}
+		}
+
+		LOG.info('''Generating file «template.fullPathWithName»''')
+//		stubbr.fsa.generateFile('''../«template.fullPathWithName»''', template.fileContent)
+		LOG.info('''Successfully generated file «template.fullPathWithName»''')
+		true
+	}
+
+	public def void toFile(AbstractTemplate template) {
+		LOG.debug('''Trying to write file «template.fullPathWithName»''')
+		FileUtils.writeStringToFile(
+			new File(template.fullPathWithName) => [
+				parentFile.mkdirs
+				createNewFile
+			],
+			template.fileContent,
+			Charset.defaultCharset()
+		)
+	}
+
+	public def void toFile(String content, String pathname) {
+		LOG.debug('''Trying to write file «pathname»''')
+		FileUtils.writeStringToFile(
+			new File(pathname) => [
+				parentFile.mkdirs
+				createNewFile
+			],
+			content,
+			Charset.defaultCharset()
+		)
 	}
 
 	/**
 	 * 
 	 */
 	public def getFileVersion(File file) {
-		val String fileContent = getFileContent(file)
+		val String fileContent = asString(file)
 		if (fileContent.contains('{{{Version: ') && fileContent.contains('}}}')) {
 			val String version = fileContent.substring(fileContent.indexOf("{{{Version: ") + 1,
 				fileContent.indexOf("}}}"))

@@ -1,7 +1,7 @@
 package com.laegler.microservice.codegen.template.microservice
 
 import com.laegler.microservice.codegen.model.Project
-import com.laegler.microservice.codegen.template.utils.AbstractEclipseDotProjectTemplate
+import com.laegler.microservice.codegen.template.base.AbstractEclipseDotProjectTemplate
 
 /**
  * File template for Eclipse project file.

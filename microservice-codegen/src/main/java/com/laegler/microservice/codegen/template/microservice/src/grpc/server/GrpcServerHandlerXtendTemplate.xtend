@@ -1,6 +1,6 @@
 package com.laegler.microservice.codegen.template.microservice.src.grpc.server
 
-import com.laegler.microservice.codegen.template.utils.AbstractXtendTemplate
+import com.laegler.microservice.codegen.template.base.AbstractXtendTemplate
 import microserviceModel.Entity
 import com.laegler.microservice.codegen.model.Project
 

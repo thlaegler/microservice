@@ -1,19 +1,19 @@
-package com.laegler.microservice.codegen.template.utils
+package com.laegler.microservice.codegen.template.base
 
 import com.laegler.microservice.codegen.model.FileType
 import com.laegler.microservice.codegen.model.Project
-import com.laegler.microservice.codegen.model.Microservice
 
 /**
  * Abstract super type for all Xtend files.
  */
 abstract class AbstractXtendTemplate extends AbstractTemplate {
 
-	new(Microservice m) {
-		super(m)
-		this.fileType = FileType.XTEND
-	}
-	
+//	new(String fileName, String relativPath, Project project, String header, String content, String footer,
+//		HashMap parameters, OverwritePolicy overwritePolicy, String documentation, String version,
+//		boolean skipStamping) {
+//			super(fileName, FileType.XTEND, relativPath, project, header, content, footer, parameters,
+//				overwritePolicy, documentation, version, skipStamping)
+//		}
 	new(Project project) {
 		super(project)
 		this.fileType = FileType.XTEND
@@ -55,5 +55,4 @@ abstract class AbstractXtendTemplate extends AbstractTemplate {
 		//@Since(«version»)
 		@Until(0.0)
 	'''
-
 }

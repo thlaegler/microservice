@@ -1,15 +1,15 @@
 package com.laegler.microservice.codegen.template.microservice
 
 import com.laegler.microservice.codegen.model.FileType
-import com.laegler.microservice.codegen.model.Microservice
-import com.laegler.microservice.codegen.template.utils.AbstractDotGitignoreTemplate
+import com.laegler.microservice.codegen.template.base.AbstractDotGitignoreTemplate
+import com.laegler.microservice.codegen.model.Project
 
 /**
  * File template for git ignore file
  */
 abstract class DotGitignoreTemplate extends AbstractDotGitignoreTemplate {
 
-	new(Microservice m) {
+	new(Project m) {
 		super(m)
 		fileType = FileType.GITIGNORE
 		fileName = ''

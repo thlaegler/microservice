@@ -1,7 +1,7 @@
-package com.laegler.microservice.codegen.template
+package com.laegler.microservice.codegen.template.parent
 
 import com.laegler.microservice.codegen.model.Project
-import com.laegler.microservice.codegen.template.utils.AbstractEclipseDotClasspathTemplate
+import com.laegler.microservice.codegen.template.base.AbstractEclipseDotClasspathTemplate
 
 /**
  * File Generator for .classpath
@@ -83,7 +83,7 @@ class EclipseDotClasspathTemplate extends AbstractEclipseDotClasspathTemplate {
 				</attributes>
 			</classpathentry>
 
-			<classpathentry kind="con" path="org.eclipse.jst.server.core.container/rg.jboss.ide.eclse.as.core.server.runtime.runtimeTarget/WildFly 10.x Runtime">r			<attributes>
+			<classpathentry kind="con" path="org.eclipse.jst.server.core.container/rg.jboss.ide.ecse.as.core.server.runtime.runtimeTarget/WildFly 10.x Runtime">r			<attributes>
 						<attribute name="owner.project.facets" value="jst.jaxrs"/>
 				</attributes>
 			</classpathentry>

@@ -1,4 +1,4 @@
-package com.laegler.microservice.codegen.template.utils
+package com.laegler.microservice.codegen.template.base
 
 import com.google.common.base.CaseFormat
 import com.laegler.microservice.codegen.model.FileType
@@ -12,16 +12,12 @@ import java.util.UUID
 import org.eclipse.xtend.lib.annotations.Accessors
 import com.laegler.microservice.codegen.model.Project
 import com.laegler.microservice.codegen.model.OverwritePolicy
-import com.laegler.microservice.codegen.model.Microservice
+import java.io.File
 
 /**
  * Abstract super type for all templates.
  */
 abstract class AbstractTemplate {
-
-//	@Inject protected Logger log
-//	@Inject protected StubbrRegistry stubbr
-//	@Accessors StubbrRegistry stubbr
 
 	protected ModelWrapper model = ModelAccessor.model
 
@@ -34,8 +30,6 @@ abstract class AbstractTemplate {
 	@Accessors String header
 	@Accessors String content
 	@Accessors String footer
-	
-	@Accessors Microservice microservice
 
 	@Accessors HashMap<String, Object> parameters
 	@Accessors OverwritePolicy overwritePolicy
@@ -48,15 +42,11 @@ abstract class AbstractTemplate {
 	 * Set default preferences for all templates.
 	 */
 	new(Project project) {
-		}
-		
-		new(Microservice m) {
 		this.id = UUID.randomUUID()
 		this.fileName = 'undefined file name'
 		this.fileType = FileType.UNDEFINED
 		this.relativPath = ''
 		this.project = project
-		this.microservice = m
 		this.header = null
 		this.content = null
 		this.footer = null
@@ -71,7 +61,7 @@ abstract class AbstractTemplate {
 	 * 
 	 */
 	public def String getFullPathWithName() {
-		'''«project.getRelativePath»/«relativPath»/«fileName».«fileType.extension»'''
+		'''«project.directory»/«relativPath»/«fileName».«fileType.extension»'''
 	}
 
 	protected def String getTemplateName() {
@@ -106,9 +96,6 @@ abstract class AbstractTemplate {
 		}
 	}
 
-	/**
-	 * 
-	 */
 	public def String getStamp() {
 		if (skipStamping == false) {
 			if (fileType.lineComment != null) {
@@ -131,9 +118,6 @@ abstract class AbstractTemplate {
 		}
 	}
 
-	/**
-	 * 
-	 */
 	protected def String getCurrentDate() {
 		val DateFormat sdf = new SimpleDateFormat('dd.MM.yyyy - HH:mm:ss:SS')
 		val GregorianCalendar calendar = new GregorianCalendar
@@ -177,5 +161,21 @@ abstract class AbstractTemplate {
 
 		'''http://www.«parts.get(1)».«parts.get(0)»«FOR String part : lastParts»/«part»«ENDFOR»'''
 	}
+
+	protected def String getFormatted(String description) {
+		if (description.nullOrEmpty) {
+			return ''
+		} else {
+			return ''' («description»)'''
+		}
+	}
+
+	protected def String getClean(String identifier) {
+		return identifier?.replaceAll('[^a-zA-Z0-9]', '')
+	}
+
+	protected def String getFilePath(File path, String filename) '''«path»«File.separator»«filename»'''
+
+	protected def String getFilePath(Project m, String filename) '''«m.directory»«File.separator»«filename»'''
 
 }
