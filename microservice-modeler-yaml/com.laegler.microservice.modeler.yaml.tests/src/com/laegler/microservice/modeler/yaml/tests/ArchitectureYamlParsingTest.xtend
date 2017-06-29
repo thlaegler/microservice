@@ -4,19 +4,19 @@
 package com.laegler.microservice.modeler.yaml.tests
 
 import com.google.inject.Inject
-import com.laegler.microservice.modeler.yaml.architectureYaml.Architecture
 import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.util.ParseHelper
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
+import com.laegler.microservice.modeler.yaml.architectureYaml.ArchitectureYaml
 
 @RunWith(XtextRunner)
 @InjectWith(ArchitectureYamlInjectorProvider)
 class ArchitectureYamlParsingTest {
 	@Inject
-	ParseHelper<Architecture> parseHelper
+	ParseHelper<ArchitectureYaml> parseHelper
 	
 	@Test
 	def void loadModel() {

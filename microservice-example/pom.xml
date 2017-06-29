@@ -18,7 +18,23 @@
 			<plugin>
 				<groupId>com.laegler.microservice</groupId>
 				<artifactId>microservice-maven-plugin</artifactId>
-				<version>1.0.0-SNAPSHOT</version>
+				<version>${project.version}</version>
+				<executions>
+					<execution>
+						<id>generate-code</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>model2code</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>generate-model</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>code2model</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

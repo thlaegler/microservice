@@ -27,37 +27,63 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.constructor.Constructor
+import com.laegler.microservice.codegen.adapter.NamingStrategy
+import java.util.Map
+import java.lang.reflect.Method
+import java.util.HashMap
+import java.util.Set
+import org.apache.commons.lang3.AnnotationUtils
+import java.util.Arrays
+import java.lang.annotation.Annotation
+import java.util.LinkedHashSet
+import org.reflections.Reflections
 
 class AbstractTransformator {
 
-	private static Logger LOG = LoggerFactory.getLogger(AbstractTransformator)
-
-	protected val ModelWrapper model = ModelAccessor.model
-
-	extension MicroserviceModelFactory microserviceModelFactory = new MicroserviceModelFactoryImpl
 	extension MavenXpp3Reader mavenreader = new MavenXpp3Reader
-//	extension TemplateProvider templateProvider = new TemplateProvider
 
-	protected def void transform(MavenProject mavenProject) {
-		model.mavenProject = mavenProject
-		mavenProject.model.transform
+	protected static Logger LOG = LoggerFactory.getLogger(AbstractTransformator)
+
+	protected ModelWrapper model = ModelAccessor.model
+	protected NamingStrategy namingStrategy
+	protected MicroserviceModelFactory microserviceModelFactory = new MicroserviceModelFactoryImpl
+
+	protected def Set<Class<?>> getValidClasses(String basePackage, Class<? extends Annotation> clazz) {
+		val Set<Class<?>> classes = new LinkedHashSet<Class<?>>
+		val Set<Class<?>> c = new Reflections(basePackage).getTypesAnnotatedWith(clazz, true);
+		classes.addAll(c)
+		val Set<Class<?>> inherited = new Reflections(basePackage).getTypesAnnotatedWith(clazz);
+		classes.addAll(inherited)
+		classes
 	}
 
-	protected def void transform(Model pom) {
-		pom.modules.forEach [
-			model.projects.add(
-				Project.builder.name(pom.artifactId).microserviceModel(model as EObject).build
-			)
-		]
-
-//		() => [basedir.transform]
+	protected def Map<String, SpringResource> getResourceMap(Set<Class<?>> validClasses) {
+//	 throws GenerateException {
+		val Map<String, SpringResource> resourceMap = new HashMap<String, SpringResource>
+//	for (Class<?> aClass : validClasses) {
+//		val RequestMapping requestMapping = AnnotationUtils.findAnnotation(aClass, RequestMapping.class);
+//		// This try/catch block is to stop a bamboo build from failing due to NoClassDefFoundError
+//		// This occurs when a class or method loaded by reflections contains a type that has no dependency
+//		try {
+//			resourceMap = analyzeController(aClass, resourceMap, "");
+//			val List<Method> mList = new ArrayList<Method>(Arrays.asList(aClass.getMethods()));
+//			if (aClass.getSuperclass() != null) {
+//				mList.addAll(Arrays.asList(aClass.getSuperclass().getMethods()));
+//			}
+//		} catch (NoClassDefFoundError e) {
+//			LOG.error(e.getMessage());
+//			LOG.info(aClass.getName());
+//		// exception occurs when a method type or annotation is not recognized by the plugin
+//		}
+//	}
+		resourceMap
 	}
 
 	public def void transform(Architecture architecture) {
 		model.architecture = architecture
 		model.name = ''
 		architecture.artifacts.forEach [
-			model.projects.add(Project.builder.name(model.name).microserviceModel(model.architecture as EObject).build)
+			model.projects?.add(Project.builder.name(model.name).microserviceModel(model.architecture as EObject).build)
 		]
 
 		architecture.artifacts.forEach[it.transform]
@@ -65,17 +91,15 @@ class AbstractTransformator {
 		// PlantUML graph
 //		writeFile(architecture.plantumlGraphFileContent,
 //			getFilePath(model.rootDirectory, 'architecture.component.plantuml'))
-
 		// Maven POM graph
 //		writeFile(new ParentPomXmlTemplate(architecture));
-
 		architecture.artifacts.forEach[it.transform]
 	}
 
 	protected def void transform(Resource resource) {
 //		model.architecture = resource.allContents.filter(Architecture).findFirst[]
 //		model.architecture = (resource?.contents?.head as Architecture)
-		model.architecture.artifacts.forEach [
+		model.architecture?.artifacts?.forEach [
 //			templateProvider.generateFile(template)
 		]
 	}
@@ -83,7 +107,7 @@ class AbstractTransformator {
 	protected def void transform(File rootDir) {
 		model.rootDirectory = rootDir
 		rootDir?.listFiles?.filter [
-			it?.listFiles != null
+			it?.listFiles !== null
 		].forEach[transform(it, it.name)]
 	}
 
@@ -94,11 +118,11 @@ class AbstractTransformator {
 		val Model pom = read(new FileReader(pomXmlFile))
 
 //			if (!model.artifactId?.equals(pomXmlFile?.name)) {}
-		if (pom != null) {
-			model.projects.add(Project.builder.name(pom.artifactId).pom(pom).build)
+		if (pom !== null) {
+			model.projects?.add(Project.builder.name(pom?.artifactId).pom(pom).build)
 		}
 //		writeFile(model.projects.dotGraphFileContent2, projectDir.getFilePath('architecture.component.plantuml'))
-		model.projects.transform
+		model.projects?.transform
 	}
 
 	protected def void transform(List<Project> projects) {
@@ -144,8 +168,6 @@ class AbstractTransformator {
 		pod: «m.name»
 	'''
 
-	
-
 	protected def String getSpringApplicationFileContent(Project m) {
 //		m.directory.listFiles.filter[it?.listFiles?.c]
 		val Constructor constructor = new Constructor(YamlConfig);
@@ -160,8 +182,6 @@ class AbstractTransformator {
 		val YamlConfig data = yaml.loadAs(input, YamlConfig)
 		''
 	}
-
-
 
 	protected def String getFormatted(String description) {
 		if (description.nullOrEmpty) {
@@ -179,4 +199,61 @@ class AbstractTransformator {
 
 	protected def String getFilePath(Project m, String filename) '''«m.directory»«File.separator»«filename»'''
 
+	private def Map<String, SpringResource> analyzeController(Class<?> controllerClazz,
+		Map<String, SpringResource> resourceMap, String description) {
+//		val String[] controllerRequestMappingValues = SpringUtils.getControllerRequestMapping(controllerClazz);
+//
+//		// Iterate over all value attributes of the class-level RequestMapping annotation
+//		for (String controllerRequestMappingValue : controllerRequestMappingValues) {
+//			for (Method method : controllerClazz.getMethods()) {
+//				val RequestMapping methodRequestMapping = SpringUtils.getMethodRequestMapping(method);
+//
+//				// Look for method-level @RequestMapping annotation
+//				if (methodRequestMapping != null) {
+//					val RequestMethod[] requestMappingRequestMethods = methodRequestMapping.method();
+//
+//					// For each method-level @RequestMapping annotation, iterate over HTTP Verb
+//					for (RequestMethod requestMappingRequestMethod : requestMappingRequestMethods) {
+//						val String[] methodRequestMappingValues = methodRequestMapping.value();
+//
+//						// Check for cases where method-level @RequestMapping#value is not set, and use the controllers @RequestMapping
+//						if (methodRequestMappingValues.length == 0) {
+//							// The map key is a concat of the following:
+//							// 1. The controller package
+//							// 2. The controller class name
+//							// 3. The controller-level @RequestMapping#value
+//							val String resourceKey = controllerClazz.getCanonicalName() +
+//								controllerRequestMappingValue + requestMappingRequestMethod;
+//							if (!resourceMap.containsKey(resourceKey)) {
+//								resourceMap.put(resourceKey,
+//									new SpringResource(controllerClazz, controllerRequestMappingValue, resourceKey,
+//										description));
+//							}
+//							resourceMap.get(resourceKey).addMethod(method);
+//						} else {
+//							// Here we know that method-level @RequestMapping#value is populated, so
+//							// iterate over all the @RequestMapping#value attributes, and add them to the resource map.
+//							for (String methodRequestMappingValue : methodRequestMappingValues) {
+//								val String resourceKey = controllerClazz.getCanonicalName() +
+//									controllerRequestMappingValue + methodRequestMappingValue +
+//									requestMappingRequestMethod;
+//									if (!methodRequestMappingValue.isEmpty()) {
+//										if (!resourceMap.containsKey(resourceKey)) {
+//											resourceMap.put(resourceKey,
+//												new SpringResource(controllerClazz, methodRequestMappingValue,
+//													resourceKey, description));
+//										}
+//										resourceMap.get(resourceKey).addMethod(method);
+//									}
+//								}
+//							}
+//						}
+//					}
+//				}
+//			}
+//			controllerClazz.getFields();
+//			controllerClazz.getDeclaredFields(); // <--In case developer declares a field without an associated getter/setter.
+//			// this will allow NoClassDefFoundError to be caught before it triggers bamboo failure.
+//			return resourceMap;
+	}
 }

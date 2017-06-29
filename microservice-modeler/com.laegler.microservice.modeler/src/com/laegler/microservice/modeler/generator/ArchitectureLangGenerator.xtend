@@ -3,12 +3,12 @@
  */
 package com.laegler.microservice.modeler.generator
 
-import com.laegler.microservice.codegen.Architecture2MavenProject
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
 import microserviceModel.Architecture
+import com.laegler.microservice.codegen.Model2CodeTransformator
 
 /**
  * Generates code from your model files on save.
@@ -17,7 +17,7 @@ import microserviceModel.Architecture
  */
 class ArchitectureLangGenerator extends AbstractGenerator {
 
-	extension Architecture2MavenProject architecture2MavenProject = new Architecture2MavenProject
+	extension Model2CodeTransformator architecture2MavenProject = new Model2CodeTransformator
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		transform(resource?.contents?.head as Architecture)

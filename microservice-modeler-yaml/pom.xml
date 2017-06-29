@@ -14,6 +14,7 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 	<modules>
+		<module>../microservice-model</module>
 		<module>com.laegler.microservice.modeler.yaml</module>
 		<module>com.laegler.microservice.modeler.yaml.ide</module>
 		<module>com.laegler.microservice.modeler.yaml.ui</module>
@@ -282,5 +283,15 @@
 	</pluginRepositories>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.laegler.microservice</groupId>
+			<artifactId>microservice-model</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.laegler.microservice</groupId>
+			<artifactId>microservice-codegen</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
 </project>

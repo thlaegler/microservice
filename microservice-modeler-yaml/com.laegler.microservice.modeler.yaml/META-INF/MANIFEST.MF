@@ -1,11 +1,12 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.laegler.microservice.modeler.yaml
-Bundle-Vendor: My Company
+Bundle-Vendor: Laegler
 Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: com.laegler.microservice.modeler.yaml; singleton:=true
 Bundle-ActivationPolicy: lazy
-Require-Bundle: microservice-model,
+Require-Bundle: com.laegler.microservice.model,
+ com.laegler.microservice.codegen,
  org.eclipse.xtext,
  org.eclipse.xtext.xbase,
  org.eclipse.equinox.common;bundle-version="3.5.0",

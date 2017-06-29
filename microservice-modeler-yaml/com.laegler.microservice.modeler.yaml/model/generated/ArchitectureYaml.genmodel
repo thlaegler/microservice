@@ -6,32 +6,16 @@
     complianceLevel="6.0" copyrightFields="false" runtimeVersion="2.12">
   <genPackages prefix="ArchitectureYaml" basePackage="com.laegler.microservice.modeler.yaml"
       disposableProviderFactory="true" fileExtensions="yaml,yml" ecorePackage="ArchitectureYaml.ecore#/">
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="ArchitectureYaml.ecore#//YamlType">
-      <genEnumLiterals ecoreEnumLiteral="ArchitectureYaml.ecore#//YamlType/FILE"/>
-      <genEnumLiterals ecoreEnumLiteral="ArchitectureYaml.ecore#//YamlType/NODE"/>
-      <genEnumLiterals ecoreEnumLiteral="ArchitectureYaml.ecore#//YamlType/INLINE"/>
-    </genEnums>
-    <genClasses ecoreClass="ArchitectureYaml.ecore#//Architecture">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureYaml.ecore#//Architecture/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureYaml.ecore#//Architecture/packageName"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ArchitectureYaml.ecore#//Architecture/yamls"/>
+    <genClasses ecoreClass="ArchitectureYaml.ecore#//ArchitectureYaml">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureYaml.ecore#//ArchitectureYaml/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureYaml.ecore#//ArchitectureYaml/packageName"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ArchitectureYaml.ecore#//ArchitectureYaml/yamls"/>
     </genClasses>
     <genClasses ecoreClass="ArchitectureYaml.ecore#//Yaml">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureYaml.ecore#//Yaml/source"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureYaml.ecore#//Yaml/yamlFile"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ArchitectureYaml.ecore#//Yaml/yamlRoot"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureYaml.ecore#//Yaml/yamlInline"/>
-    </genClasses>
-    <genClasses ecoreClass="ArchitectureYaml.ecore#//YamlFile">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ArchitectureYaml.ecore#//YamlFile/yamlFile"/>
-    </genClasses>
-    <genClasses ecoreClass="ArchitectureYaml.ecore#//YamlRoot">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ArchitectureYaml.ecore#//YamlRoot/yamlRoot"/>
-    </genClasses>
-    <genClasses ecoreClass="ArchitectureYaml.ecore#//YamlInline">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureYaml.ecore#//YamlInline/yamlInline"/>
-    </genClasses>
-    <genClasses ecoreClass="ArchitectureYaml.ecore#//WorkspaceFile">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureYaml.ecore#//WorkspaceFile/location"/>
     </genClasses>
     <genClasses ecoreClass="ArchitectureYaml.ecore#//YamlNode">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ArchitectureYaml.ecore#//YamlNode/name"/>

@@ -6,41 +6,40 @@ import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 
 generate architectureYaml "http://www.laegler.com/microservice/modeler/ArchitectureYaml"
 
-Architecture:
+ArchitectureYaml:
 	'architecture:' name=ID NEWLINE
-		WS 'package:' packageName=STRING NEWLINE
-		WS (yamls+=Yaml)*
+		(WS 'package:' packageName=STRING NEWLINE)
+		(WS yamls+=Yaml)*
 ;
 Yaml:
-	'yaml:'
+	WS 'yaml:'
 //	type=YamlType
 	(
-		('file' yamlFile=STRING)
-		| ('node' NEWLINE WS yamlRoot=YamlNode)
-		| ('inline' yamlInline=STRING)
+		(source='file' yamlFile=STRING)
+		| (source='node' NEWLINE yamlRoot=YamlNode)
+		| (source='inline' yamlInline=STRING)
 	)
 	NEWLINE
 ;
-YamlFile:
-	'yaml:' ('file' yamlFile=WorkspaceFile)
-;
-YamlRoot:
-	'yaml:' ('node' NEWLINE WS yamlRoot=YamlNode)
-;
-YamlInline:
-	'yaml:' ('inline' yamlInline=STRING)
-;
-enum YamlType:
-	FILE='file' | NODE='node' | INLINE='inline'
-;
-
-WorkspaceFile:
-	location=STRING
-;
+//YamlFile:
+//	WS WS 'yaml:' ('file' yamlFile=WorkspaceFile)
+//;
+//YamlRoot:
+//	WS WS 'yaml:' ('node' NEWLINE WS yamlRoot=YamlNode)
+//;
+//YamlInline:
+//	'yaml:' ('inline' yamlInline=STRING)
+//;
+//enum YamlType:
+//	FILE='file' | NODE='node' | INLINE='inline'
+//;
+//WorkspaceFile:
+//	location=STRING
+//;
 YamlNode:
-	name=ID (':') value=YAML_PROPERTY_VALUE
+	WS WS name=ID (':') value=YAML_PROPERTY_VALUE
 	(
-		nodes+=YamlNode
+		WS nodes+=YamlNode NEWLINE
 	)*
 ;
 //Artifact:
@@ -138,10 +137,10 @@ YamlNode:
 //		('target' target=[GrpcExpose|ID])?
 //	'}';
 
-terminal YAML_PROPERTY_VALUE: !('\n' | '\r')* NEWLINE WS;
+terminal YAML_PROPERTY_VALUE: WS !('\n' | '\r')* NEWLINE;
 
 terminal WS:
-    ('  ' | '\t')+;
+    ('  ' | '\t');
 
 terminal NEWLINE:
 // New line on DOS or Unix 

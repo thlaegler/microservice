@@ -2,38 +2,24 @@ package com.laegler.microservice.codegen.model;
 
 public enum FileType {
 
-	//
-	UNDEFINED("undefined", "// ", "/* ", " */"),
-	//
-	XML("xml", null, "<!--", "-->"),
-	//
-	JAVA("java", "// ", "/* ", " */"),
-	//
-	XTEND("xtend", "// ", "/* ", " */"),
-	//
-	PROPERTIES("properties", "# ", null, null),
-	//
-	GITIGNORE("gitignore", "# ", null, null),
-	//
-	XHTML("xhtml", null, "<!--", "-->"),
-	//
-	HTML("html", null, "<!--", "-->"),
-	//
-	MD("md", null, "<!---", "-->"),
-	//
-	FEATURE("feature", "# ", null, null),
-	//
-	TEXTILE("textile", null, "<!--", "-->"),
-	//
-	ECLIPSE_PROJECT("project", null, "<!--", "-->"),
-	//
-	ECLIPSE_CLASSPATH("classpath", null, "<!--", "-->"),
-	//
-	ECLIPSE_PREFS("prefs", null, "<!--", "-->"),
-	//
-	INTELLIJ_PROJECT("iml", null, "<!--", "-->"),
-	//
-	MANIFEST("MF", "# ", null, null);
+	UNDEFINED("undefined", "// ", "/* ", " */"), //
+	XML("xml", null, "<!--", "-->"), //
+	JAVA("java", "// ", "/* ", " */"), //
+	XTEND("xtend", "// ", "/* ", " */"), //
+	PROPERTIES("properties", "# ", null, null), //
+	GITIGNORE("gitignore", "# ", null, null), //
+	XHTML("xhtml", null, "<!--", "-->"), //
+	HTML("html", null, "<!--", "-->"), //
+	MD("md", null, "<!---", "-->"), //
+	FEATURE("feature", "# ", null, null), //
+	TEXTILE("textile", null, "<!--", "-->"), //
+	ECLIPSE_PROJECT("project", null, "<!--", "-->"), //
+	ECLIPSE_CLASSPATH("classpath", null, "<!--", "-->"), //
+	ECLIPSE_PREFS("prefs", null, "<!--", "-->"), //
+	INTELLIJ_PROJECT("iml", null, "<!--", "-->"), //
+	MANIFEST("MF", "# ", null, null), //
+	PROTO("proto", "# ", null, null), //
+	ARCHITECTURE("architecture", "// ", "/* ", " */");
 
 	private String extension;
 	private String lineComment;
