@@ -1,6 +1,6 @@
 define(["ace/lib/oop", "ace/mode/text", "ace/mode/text_highlight_rules"], function(oop, mText, mTextHighlightRules) {
 	var HighlightRules = function() {
-		var keywords = "List|String|TODO|attribute|boolean|consumeGrpc|consumeRest|dependency|documentation|draft|endpoint|entity|enumeration|from|gateway|grpc|grpcJar|jar|label|model|name|option|port|primaryKey|protoFile|protoInline|relationship|rest|route|swaggerFile|to|type";
+		var keywords = "List|String|TODO|architecture|attribute|boolean|consumeGrpc|consumeRest|dependency|documentation|draft|endpoint|entity|enumeration|from|gateway|grpc|grpcJar|jar|label|model|name|option|overwrite|package|parentProject|port|primaryKey|protoFile|protoInline|relationship|rest|route|swaggerFile|to|type|version";
 		this.$rules = {
 			"start": [
 				{token: "comment", regex: "\\/\\/.*$"},

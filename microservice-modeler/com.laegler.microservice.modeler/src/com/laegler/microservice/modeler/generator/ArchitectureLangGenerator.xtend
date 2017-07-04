@@ -7,7 +7,7 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
-import microserviceModel.Architecture
+import com.laegler.microservice.model.microserviceModel.Architecture
 import com.laegler.microservice.codegen.Model2CodeTransformator
 
 /**

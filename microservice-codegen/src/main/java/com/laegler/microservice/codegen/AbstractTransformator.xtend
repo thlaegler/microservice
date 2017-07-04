@@ -1,52 +1,62 @@
 package com.laegler.microservice.codegen
 
+import com.laegler.microservice.codegen.generator.DocuProjectGenerator
+import com.laegler.microservice.codegen.generator.GrpcProjectGenerator
+import com.laegler.microservice.codegen.generator.RestProjectGenerator
+import com.laegler.microservice.codegen.generator.SoapProjectGenerator
+import com.laegler.microservice.codegen.model.FileHelper
 import com.laegler.microservice.codegen.model.ModelAccessor
 import com.laegler.microservice.codegen.model.ModelWrapper
 import com.laegler.microservice.codegen.model.Project
+import com.laegler.microservice.codegen.model.ProjectBuilder
 import com.laegler.microservice.codegen.model.YamlConfig
+import com.laegler.microservice.codegen.template.base.TemplateBuilder
+import com.laegler.microservice.model.microserviceModel.Architecture
+import com.laegler.microservice.model.microserviceModel.Artifact
+import com.laegler.microservice.model.microserviceModel.GrpcConsume
+import com.laegler.microservice.model.microserviceModel.MicroserviceModelFactory
+import com.laegler.microservice.model.microserviceModel.RestConsume
+import com.laegler.microservice.model.microserviceModel.Spring
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
 import java.io.FileReader
 import java.io.InputStream
+import java.lang.annotation.Annotation
+import java.util.LinkedHashSet
 import java.util.List
-import microserviceModel.Architecture
-import microserviceModel.Artifact
-import microserviceModel.GrpcConsume
-import microserviceModel.MicroserviceModelFactory
-import microserviceModel.RestConsume
-import microserviceModel.Spring
-import microserviceModel.impl.MicroserviceModelFactoryImpl
+import java.util.Set
+import javax.inject.Inject
 import org.apache.maven.model.Dependency
 import org.apache.maven.model.Model
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader
-import org.apache.maven.project.MavenProject
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
+import org.reflections.Reflections
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.constructor.Constructor
-import com.laegler.microservice.codegen.adapter.NamingStrategy
-import java.util.Map
-import java.lang.reflect.Method
-import java.util.HashMap
-import java.util.Set
-import org.apache.commons.lang3.AnnotationUtils
-import java.util.Arrays
-import java.lang.annotation.Annotation
-import java.util.LinkedHashSet
-import org.reflections.Reflections
 
-class AbstractTransformator {
-
-	extension MavenXpp3Reader mavenreader = new MavenXpp3Reader
+abstract class AbstractTransformator {
 
 	protected static Logger LOG = LoggerFactory.getLogger(AbstractTransformator)
 
-	protected ModelWrapper model = ModelAccessor.model
-	protected NamingStrategy namingStrategy
-	protected MicroserviceModelFactory microserviceModelFactory = new MicroserviceModelFactoryImpl
+	@Inject protected MavenXpp3Reader mavenReader
+	@Inject protected ModelAccessor modelAccessor
+	@Inject protected MicroserviceModelFactory microserviceModelFactory
+	@Inject protected FileHelper fileHelper
+	@Inject protected ProjectBuilder projectBuilder
+	@Inject protected TemplateBuilder templateBuilder
+
+	@Inject protected SoapProjectGenerator soapProject
+	@Inject protected RestProjectGenerator restProject
+	@Inject protected GrpcProjectGenerator grpcProject
+	@Inject protected DocuProjectGenerator docuProject
+
+	protected def ModelWrapper getModel() {
+		return modelAccessor.model
+	}
 
 	protected def Set<Class<?>> getValidClasses(String basePackage, Class<? extends Annotation> clazz) {
 		val Set<Class<?>> classes = new LinkedHashSet<Class<?>>
@@ -57,9 +67,9 @@ class AbstractTransformator {
 		classes
 	}
 
-	protected def Map<String, SpringResource> getResourceMap(Set<Class<?>> validClasses) {
+//	protected def Map<String, SpringResource> getResourceMap(Set<Class<?>> validClasses) {
 //	 throws GenerateException {
-		val Map<String, SpringResource> resourceMap = new HashMap<String, SpringResource>
+//		val Map<String, SpringResource> resourceMap = new HashMap<String, SpringResource>
 //	for (Class<?> aClass : validClasses) {
 //		val RequestMapping requestMapping = AnnotationUtils.findAnnotation(aClass, RequestMapping.class);
 //		// This try/catch block is to stop a bamboo build from failing due to NoClassDefFoundError
@@ -76,36 +86,36 @@ class AbstractTransformator {
 //		// exception occurs when a method type or annotation is not recognized by the plugin
 //		}
 //	}
-		resourceMap
-	}
-
+//		resourceMap
+//	}
 	public def void transform(Architecture architecture) {
-		model.architecture = architecture
-		model.name = ''
+		modelAccessor.model.architecture = architecture
 		architecture.artifacts.forEach [
-			model.projects?.add(Project.builder.name(model.name).microserviceModel(model.architecture as EObject).build)
+			modelAccessor.model.projects?.add(
+				projectBuilder.name(modelAccessor.model.name).microserviceModel(
+					modelAccessor.model.architecture as EObject).build)
 		]
 
 		architecture.artifacts.forEach[it.transform]
 
-		// PlantUML graph
+	// PlantUML graph
 //		writeFile(architecture.plantumlGraphFileContent,
 //			getFilePath(model.rootDirectory, 'architecture.component.plantuml'))
-		// Maven POM graph
+	// Maven POM graph
 //		writeFile(new ParentPomXmlTemplate(architecture));
-		architecture.artifacts.forEach[it.transform]
+//		architecture.artifacts.forEach[it.transform]
 	}
 
 	protected def void transform(Resource resource) {
 //		model.architecture = resource.allContents.filter(Architecture).findFirst[]
 //		model.architecture = (resource?.contents?.head as Architecture)
-		model.architecture?.artifacts?.forEach [
+		modelAccessor.model.architecture?.artifacts?.forEach [
 //			templateProvider.generateFile(template)
 		]
 	}
 
 	protected def void transform(File rootDir) {
-		model.rootDirectory = rootDir
+		modelAccessor.model.rootDirectory = rootDir
 		rootDir?.listFiles?.filter [
 			it?.listFiles !== null
 		].forEach[transform(it, it.name)]
@@ -115,14 +125,14 @@ class AbstractTransformator {
 		var File pomXmlFile = projectDir?.listFiles?.findFirst [
 			it.name.equals('pom.xml')
 		]
-		val Model pom = read(new FileReader(pomXmlFile))
+		val Model pom = mavenReader.read(new FileReader(pomXmlFile))
 
 //			if (!model.artifactId?.equals(pomXmlFile?.name)) {}
 		if (pom !== null) {
-			model.projects?.add(Project.builder.name(pom?.artifactId).pom(pom).build)
+			modelAccessor.model.projects?.add(projectBuilder.name(pom?.artifactId).pom(pom).build)
 		}
 //		writeFile(model.projects.dotGraphFileContent2, projectDir.getFilePath('architecture.component.plantuml'))
-		model.projects?.transform
+		modelAccessor.model.projects?.transform
 	}
 
 	protected def void transform(List<Project> projects) {
@@ -199,8 +209,8 @@ class AbstractTransformator {
 
 	protected def String getFilePath(Project m, String filename) '''«m.directory»«File.separator»«filename»'''
 
-	private def Map<String, SpringResource> analyzeController(Class<?> controllerClazz,
-		Map<String, SpringResource> resourceMap, String description) {
+//	private def Map<String, SpringResource> analyzeController(Class<?> controllerClazz,
+//		Map<String, SpringResource> resourceMap, String description) {
 //		val String[] controllerRequestMappingValues = SpringUtils.getControllerRequestMapping(controllerClazz);
 //
 //		// Iterate over all value attributes of the class-level RequestMapping annotation
@@ -255,5 +265,5 @@ class AbstractTransformator {
 //			controllerClazz.getDeclaredFields(); // <--In case developer declares a field without an associated getter/setter.
 //			// this will allow NoClassDefFoundError to be caught before it triggers bamboo failure.
 //			return resourceMap;
-	}
+//	}
 }

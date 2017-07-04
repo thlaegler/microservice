@@ -6,7 +6,7 @@
       provider-name="Laegler">
 
    <url>
-      <update label="Microservice Modeler" url="http://thlaegler.github.io/microservice-modeler/eclipse/latest"/>
+      <update label="Microservice Modeler" url="http://thlaegler.github.io/microservice/eclipse/latest"/>
    </url>
 
    <plugin

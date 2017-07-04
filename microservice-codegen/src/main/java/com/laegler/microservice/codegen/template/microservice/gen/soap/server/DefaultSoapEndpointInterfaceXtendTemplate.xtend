@@ -1,9 +1,9 @@
 package com.laegler.microservice.codegen.template.microservice.gen.soap.server
 
-import microserviceModel.Entity
+import com.laegler.microservice.model.microserviceModel.Entity
 import com.laegler.microservice.codegen.template.base.AbstractXtendTemplate
 import com.laegler.microservice.codegen.model.Project
-import microserviceModel.Attribute
+import com.laegler.microservice.model.microserviceModel.Attribute
 
 /**
  * File template for SOAP endpoint interface.

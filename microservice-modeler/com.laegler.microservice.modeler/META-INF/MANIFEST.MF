@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: com.laegler.microservice.modeler
 Bundle-Vendor: Laegler
 Bundle-Version: 1.0.0.qualifier
-Bundle-SymbolicName: com.laegler.microservice.modeler; singleton:=true
+Bundle-SymbolicName: com.laegler.microservice.modeler;singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtext.xbase,
@@ -18,12 +18,24 @@ Require-Bundle: org.eclipse.xtext,
  com.laegler.microservice.codegen,
  org.eclipse.xtext.xtext.generator;bundle-version="2.12.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: com.laegler.microservice.modeler.serializer,
- com.laegler.microservice.modeler.services,
+Export-Package: com.laegler.microservice.modeler,
+ com.laegler.microservice.modeler.generator;uses:="org.eclipse.xtext.generator,org.eclipse.emf.ecore.resource",
+ com.laegler.microservice.modeler.parser.antlr;uses:="com.laegler.microservice.modeler.services,org.eclipse.xtext.parser.antlr,com.laegler.microservice.modeler.parser.antlr.internal",
+ com.laegler.microservice.modeler.parser.antlr.internal;
+  uses:="org.eclipse.emf.ecore,
+   com.laegler.microservice.modeler.services,
+   org.eclipse.emf.common.util,
+   org.eclipse.xtext.parser.antlr,
+   org.antlr.runtime",
  com.laegler.microservice.modeler.scoping,
- com.laegler.microservice.modeler.parser.antlr.internal,
- com.laegler.microservice.modeler,
- com.laegler.microservice.modeler.parser.antlr,
- com.laegler.microservice.modeler.validation,
- com.laegler.microservice.modeler.generator
+ com.laegler.microservice.modeler.serializer;
+  uses:="org.eclipse.emf.ecore,
+   org.eclipse.xtext.nodemodel,
+   com.laegler.microservice.modeler.services,
+   org.eclipse.xtext.serializer.analysis,
+   org.eclipse.xtext.serializer.sequencer,
+   org.eclipse.xtext,
+   org.eclipse.xtext.serializer",
+ com.laegler.microservice.modeler.services;uses:="org.eclipse.xtext.common.services,org.eclipse.xtext.service,org.eclipse.xtext",
+ com.laegler.microservice.modeler.validation
 Import-Package: org.apache.log4j

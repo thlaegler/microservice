@@ -8,21 +8,20 @@ import com.laegler.microservice.codegen.template.base.BaseTemplate
 import com.laegler.microservice.codegen.template.microservice.PomXmlTemplate
 import java.util.ArrayList
 import java.util.List
-import microserviceModel.Architecture
-import microserviceModel.Spring
+import com.laegler.microservice.model.microserviceModel.Architecture
+import com.laegler.microservice.model.microserviceModel.Spring
+import javax.inject.Inject
 
 /**
  * Project Generator for REST Project(s)
  */
 class RestProjectGenerator extends AbstractProjectGenerator {
 
-	extension FileHelper fileHelper
-
 	val List<Project> subProjects = new ArrayList
 	var List<AbstractTemplate> templates = new ArrayList
 
 	override Project generate(Architecture a) {
-		project = Project.builder.name(a.name).microserviceModel(a).build
+		project = projectBuilder.name(a.name).microserviceModel(a).build
 		model.projects.add(project)
 
 		a.artifacts.filter(Spring).forEach [ s |
@@ -39,7 +38,7 @@ class RestProjectGenerator extends AbstractProjectGenerator {
 	}
 
 	protected def Project generateRestServerProject(Spring s) {
-		var Project it = Project.builder.name(s.name + '.server').build
+		var Project it = projectBuilder.name(s.name + '.server').build
 		templates.addAll(
 			it.generateRestDefaultServerJava(s),
 			it.generateRestServerJava(s)
@@ -48,7 +47,7 @@ class RestProjectGenerator extends AbstractProjectGenerator {
 	}
 
 	protected def Project generateRestClientProject(Spring s) {
-		var Project it = Project.builder.name(s.name + '.client').build
+		var Project it = projectBuilder.name(s.name + '.client').build
 		templates.addAll(
 			it.generateRestClientJava(s),
 			it.generateRestDefaultClientJava(s)
@@ -58,12 +57,12 @@ class RestProjectGenerator extends AbstractProjectGenerator {
 	}
 
 	protected def Project generateRestModelProject(Spring s) {
-		var Project it = Project.builder.name(s.name + '.model').build
+		var Project it = projectBuilder.name(s.name + '.model').build
 		it
 	}
 
 	protected def Project generateRestParentProject(Spring s) {
-		var Project it = Project.builder.name(s.name).build
+		var Project it = projectBuilder.name(s.name).build
 		it
 	}
 
@@ -74,7 +73,7 @@ class RestProjectGenerator extends AbstractProjectGenerator {
 	}
 
 	protected def AbstractTemplate generateRestClientJava(Project project, Spring s) {
-		BaseTemplate.builder.fileName('''«s.name»RestClient''').fileType(FileType.XTEND).
+		templateBuilder.fileName('''«s.name»RestClient''').fileType(FileType.XTEND).
 			relativPath('''src/main/gen/«s.name»''').content('''
 				This is the template of RestClient.java
 			''').build

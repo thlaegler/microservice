@@ -4,7 +4,7 @@
 package com.laegler.microservice.modeler.tests
 
 import com.google.inject.Inject
-import microserviceModel.Architecture
+import com.laegler.microservice.model.microserviceModel.Architecture
 import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.util.ParseHelper

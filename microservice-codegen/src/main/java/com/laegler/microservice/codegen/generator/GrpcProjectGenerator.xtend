@@ -1,28 +1,24 @@
 package com.laegler.microservice.codegen.generator
 
-import com.laegler.microservice.codegen.model.FileHelper
 import com.laegler.microservice.codegen.model.FileType
 import com.laegler.microservice.codegen.model.Project
 import com.laegler.microservice.codegen.template.base.AbstractTemplate
-import com.laegler.microservice.codegen.template.base.BaseTemplate
 import com.laegler.microservice.codegen.template.microservice.PomXmlTemplate
+import com.laegler.microservice.model.microserviceModel.Architecture
+import com.laegler.microservice.model.microserviceModel.Spring
 import java.util.ArrayList
 import java.util.List
-import microserviceModel.Architecture
-import microserviceModel.Spring
 
 /**
  * Project Generator for JSF/Faces Project
  */
 class GrpcProjectGenerator extends AbstractProjectGenerator {
 
-	extension FileHelper fileHelper
-
 	val List<Project> subProjects = new ArrayList
 	var List<AbstractTemplate> templates = new ArrayList
 
 	override Project generate(Architecture a) {
-		project = Project.builder.name(a.name).microserviceModel(a).build
+		project = projectBuilder.name(a.name).microserviceModel(a).build
 		model.projects.add(project)
 
 		a.artifacts.filter(Spring).forEach [ s |
@@ -35,7 +31,7 @@ class GrpcProjectGenerator extends AbstractProjectGenerator {
 			)
 		]
 
-		Project.builder.name(a.name).microserviceModel(a)
+		projectBuilder.name(a.name).microserviceModel(a)
 //		
 //		project.
 //		subProjects.forEach[templates.forEach[it]]
@@ -43,7 +39,7 @@ class GrpcProjectGenerator extends AbstractProjectGenerator {
 	}
 
 	protected def Project generateGrpcServerProject(Spring s) {
-		var Project it = Project.builder.name(s.name + '.server').build
+		var Project it = projectBuilder.name(s.name + '.server').build
 		templates.addAll(
 			it.generateGrpcDefaultServerJava(s),
 			it.generateGrpcServerJava(s)
@@ -52,7 +48,7 @@ class GrpcProjectGenerator extends AbstractProjectGenerator {
 	}
 
 	protected def Project generateGrpcClientProject(Spring s) {
-		var Project it = Project.builder.name(s.name + '.client').build
+		var Project it = projectBuilder.name(s.name + '.client').build
 		templates.addAll(
 			it.generateGrpcClientJava(s),
 			it.generateGrpcDefaultClientJava(s)
@@ -62,12 +58,12 @@ class GrpcProjectGenerator extends AbstractProjectGenerator {
 	}
 
 	protected def Project generateGrpcModelProject(Spring s) {
-		var Project it = Project.builder.name(s.name + '.model').build
+		var Project it = projectBuilder.name(s.name + '.model').build
 		it
 	}
 
 	protected def Project generateGrpcParentProject(Spring s) {
-		var Project it = Project.builder.name(s.name).build
+		var Project it = projectBuilder.name(s.name).build
 		it
 	}
 
@@ -78,7 +74,7 @@ class GrpcProjectGenerator extends AbstractProjectGenerator {
 	}
 
 	protected def AbstractTemplate generateGrpcClientJava(Project project, Spring s) {
-		BaseTemplate.builder.fileName('''«s.name»GrpcClient''').fileType(FileType.XTEND).
+		templateBuilder.fileName('''«s.name»GrpcClient''').fileType(FileType.XTEND).
 			relativPath('''src/main/gen/«s.name»''').content('''
 				This is the template of GrpcClient.java
 			''').build

@@ -4,15 +4,15 @@
 package com.laegler.microservice.modeler.yaml.formatting2
 
 import com.google.inject.Inject
-import microserviceModel.Artifact
-import microserviceModel.Consume
-import microserviceModel.Expose
-import microserviceModel.Spring
-import microserviceModel.Dependency
+import com.laegler.microservice.model.microserviceModel.Artifact
+import com.laegler.microservice.model.microserviceModel.Consume
+import com.laegler.microservice.model.microserviceModel.Expose
+import com.laegler.microservice.model.microserviceModel.Spring
+import com.laegler.microservice.model.microserviceModel.Dependency
 import com.laegler.microservice.modeler.yaml.services.ArchitectureYamlGrammarAccess
 import org.eclipse.xtext.formatting2.AbstractFormatter2
 import org.eclipse.xtext.formatting2.IFormattableDocument
-import microserviceModel.Architecture
+import com.laegler.microservice.model.microserviceModel.Architecture
 
 class ArchitectureYamlFormatter extends AbstractFormatter2 {
 	

@@ -13,13 +13,21 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import com.laegler.microservice.codegen.model.Project
 import com.laegler.microservice.codegen.model.OverwritePolicy
 import java.io.File
+import com.laegler.microservice.codegen.model.FileHelper
+import com.laegler.microservice.model.microserviceModel.MicroserviceModelFactory
+import javax.inject.Inject
+import com.laegler.microservice.codegen.model.ProjectBuilder
 
 /**
  * Abstract super type for all templates.
  */
 abstract class AbstractTemplate {
 
-	protected ModelWrapper model = ModelAccessor.model
+	@Inject protected ModelAccessor modelAccessor
+	@Inject protected MicroserviceModelFactory microserviceModelFactory
+	@Inject protected FileHelper fileHelper
+	@Inject protected ProjectBuilder projectBuilder
+	@Inject protected TemplateBuilder templateBuilder
 
 	@Accessors UUID id
 	@Accessors String fileName
@@ -42,24 +50,29 @@ abstract class AbstractTemplate {
 	 * Set default preferences for all templates.
 	 */
 	new(Project project) {
+		if(project === null) {
+			this.project = projectBuilder.build
+		} else {
+			this.project = project
+		}
 		this.id = UUID.randomUUID()
 		this.fileName = 'undefined file name'
 		this.fileType = FileType.UNDEFINED
 		this.relativPath = ''
-		this.project = project
 		this.header = null
 		this.content = null
 		this.footer = null
 		this.parameters = null
 		this.overwritePolicy = OverwritePolicy.OVERWRITE
 		this.documentation = null
-		this.version = project?.version
+		this.version = this.project?.version
 		this.skipStamping = false
 	}
 
-	/**
-	 * 
-	 */
+	public def ModelWrapper getModel() {
+		return modelAccessor.model
+	}
+
 	public def String getFullPathWithName() {
 		'''«project.directory»/«relativPath»/«fileName».«fileType.extension»'''
 	}
@@ -98,7 +111,7 @@ abstract class AbstractTemplate {
 
 	public def String getStamp() {
 		if (skipStamping == false) {
-			if (fileType.lineComment != null) {
+			if (fileType.lineComment !== null) {
 				return '''
 					«fileType.lineComment»Generated with Stubbr
 					«fileType.lineComment»«documentation»

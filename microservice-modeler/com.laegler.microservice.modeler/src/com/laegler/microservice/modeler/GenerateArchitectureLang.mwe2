@@ -47,7 +47,7 @@ Workflow {
 			name = "com.laegler.microservice.modeler.ArchitectureLang"
 			fileExtensions = "architecture"
 			
-			referencedResource = "platform:/resource/com.laegler.microservice.modeler/model/MicroserviceModel.genmodel"
+			referencedResource = "platform:/resource/microservice-model/model/MicroserviceModel.genmodel"
 			
 			fragment = ecore2xtext.Ecore2XtextValueConverterServiceFragment2 auto-inject {}
 //			fragment = adapter.FragmentAdapter {}

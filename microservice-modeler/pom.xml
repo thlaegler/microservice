@@ -14,8 +14,8 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 	<modules>
-		<module>../microservice-model</module>
-		<module>../microservice-codegen</module>
+		<!-- <module>../microservice-model</module>
+		<module>../microservice-codegen</module> -->
 		<module>com.laegler.microservice.modeler</module>
 		<module>com.laegler.microservice.modeler.ide</module>
 		<module>com.laegler.microservice.modeler.ui</module>
@@ -80,6 +80,7 @@
 				<artifactId>target-platform-configuration</artifactId>
 				<version>${tycho-version}</version>
 				<configuration>
+					<pomDependencies>consider</pomDependencies>
 					<target>
 						<artifact>
 							<groupId>com.laegler.microservice.modeler</groupId>

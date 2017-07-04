@@ -2,14 +2,14 @@ package com.laegler.microservice.codegen.template.parent.docs
 
 import com.laegler.microservice.codegen.model.Project
 import java.util.ArrayList
-import microserviceModel.Architecture
-import microserviceModel.GrpcConsume
-import microserviceModel.GrpcExpose
-import microserviceModel.GrpcJar
-import microserviceModel.Jar
-import microserviceModel.RestConsume
-import microserviceModel.RestExpose
-import microserviceModel.Spring
+import com.laegler.microservice.model.microserviceModel.Architecture
+import com.laegler.microservice.model.microserviceModel.GrpcConsume
+import com.laegler.microservice.model.microserviceModel.GrpcExpose
+import com.laegler.microservice.model.microserviceModel.GrpcJar
+import com.laegler.microservice.model.microserviceModel.Jar
+import com.laegler.microservice.model.microserviceModel.RestConsume
+import com.laegler.microservice.model.microserviceModel.RestExpose
+import com.laegler.microservice.model.microserviceModel.Spring
 import com.laegler.microservice.codegen.template.base.AbstractDocuTemplate
 import com.laegler.microservice.codegen.model.FileType
 

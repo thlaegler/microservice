@@ -1,6 +1,6 @@
 package com.laegler.microservice.modeler.ui.plantuml
 
-import microserviceModel.Architecture
+import com.laegler.microservice.model.microserviceModel.Architecture
 import net.sourceforge.plantuml.eclipse.utils.DiagramTextProvider
 import org.eclipse.jface.viewers.ISelection
 import org.eclipse.ui.IEditorPart

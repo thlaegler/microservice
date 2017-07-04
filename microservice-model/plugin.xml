@@ -10,7 +10,7 @@
       <!-- @generated MicroserviceModel -->
       <package
             uri="http://www.laegler.com/microservice/model/MicroserviceModel"
-            class="microserviceModel.MicroserviceModelPackage"
+            class="com.laegler.microservice.model.microserviceModel.MicroserviceModelPackage"
             genModel="model/MicroserviceModel.genmodel"/>
    </extension>
 
@@ -18,7 +18,7 @@
       <!-- @generated MicroserviceModel -->
       <factory
             uri="http://www.laegler.com/microservice/model/MicroserviceModel"
-            class="microserviceModel.provider.MicroserviceModelItemProviderAdapterFactory"
+            class="com.laegler.microservice.model.microserviceModel.provider.MicroserviceModelItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider
@@ -33,9 +33,9 @@
             id="org.eclipse.emf.ecore.Wizard.category.ID"
             name="%_UI_Wizard_category"/>
       <wizard
-            id="microserviceModel.presentation.MicroserviceModelModelWizardID"
+            id="com.laegler.microservice.model.microserviceModel.presentation.MicroserviceModelModelWizardID"
             name="%_UI_MicroserviceModelModelWizard_label"
-            class="microserviceModel.presentation.MicroserviceModelModelWizard"
+            class="com.laegler.microservice.model.microserviceModel.presentation.MicroserviceModelModelWizard"
             category="org.eclipse.emf.ecore.Wizard.category.ID"
             icon="icons/full/obj16/MicroserviceModelModelFile.gif">
          <description>%_UI_MicroserviceModelModelWizard_description</description>
@@ -46,21 +46,12 @@
    <extension point="org.eclipse.ui.editors">
       <!-- @generated MicroserviceModel -->
       <editor
-            id="microserviceModel.presentation.MicroserviceModelEditorID"
+            id="com.laegler.microservice.model.microserviceModel.presentation.MicroserviceModelEditorID"
             name="%_UI_MicroserviceModelEditor_label"
             icon="icons/full/obj16/MicroserviceModelModelFile.gif"
             extensions="microservicemodel"
-            class="microserviceModel.presentation.MicroserviceModelEditor"
-            contributorClass="microserviceModel.presentation.MicroserviceModelActionBarContributor">
+            class="com.laegler.microservice.model.microserviceModel.presentation.MicroserviceModelEditor"
+            contributorClass="com.laegler.microservice.model.microserviceModel.presentation.MicroserviceModelActionBarContributor">
       </editor>
    </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated ArchitectureLang -->
-      <package
-            uri="http://www.laegler.com/microservice/model/ArchitectureLang"
-            class="com.laegler.microservice.modeler.architectureLang.ArchitectureLangPackage"
-            genModel="model/MicroserviceModel.genmodel"/>
-   </extension>
-
 </plugin>

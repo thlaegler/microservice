@@ -2,9 +2,9 @@ package com.laegler.microservice.codegen.generator
 
 import gherkin.ast.GherkinDocument
 import javax.inject.Inject
-import microserviceModel.Artifact
-import microserviceModel.Architecture
-import microserviceModel.Spring
+import com.laegler.microservice.model.microserviceModel.Artifact
+import com.laegler.microservice.model.microserviceModel.Architecture
+import com.laegler.microservice.model.microserviceModel.Spring
 import com.laegler.microservice.codegen.template.base.BaseTemplate
 import com.laegler.microservice.codegen.model.Project
 import com.laegler.microservice.codegen.model.FileHelper
@@ -27,7 +27,7 @@ class DocuProjectGenerator extends AbstractProjectGenerator {
 	var List<AbstractTemplate> templates = new ArrayList
 
 	override Project generate(Architecture a) {
-		project = Project.builder.name(a.name).microserviceModel(a).build
+		project = projectBuilder.name(a.name).microserviceModel(a).build
 		model.projects.add(project)
 
 		a.artifacts.filter(Spring).forEach [ s |
@@ -40,7 +40,7 @@ class DocuProjectGenerator extends AbstractProjectGenerator {
 	}
 
 	protected def Project generateDocuProject(Spring s) {
-		var Project it = Project.builder.name(s.name + '.docu').build
+		var Project it = projectBuilder.name(s.name + '.docu').build
 		templates.addAll(
 			it.generatePlantUml
 		)
@@ -55,7 +55,7 @@ class DocuProjectGenerator extends AbstractProjectGenerator {
 	}
 
 	protected def generateGrpcClientJava(Project project, Spring s) {
-		BaseTemplate.builder.fileName('''«s.name»GrpcClient''').fileType(FileType.XTEND).
+		templateBuilder.fileName('''«s.name»GrpcClient''').fileType(FileType.XTEND).
 			relativPath('''src/main/gen/«(project.microserviceModel as Architecture).basePackage»''').content('''
 				This is the template of GrpcClient.java
 			''').build.toFile

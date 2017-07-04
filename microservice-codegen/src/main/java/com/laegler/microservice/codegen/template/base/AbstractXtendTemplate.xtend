@@ -30,7 +30,7 @@ abstract class AbstractXtendTemplate extends AbstractTemplate {
 		/**
 		 * «documentation»
 		 * 
-		 * @author «model?.getOption('author')?.replaceAll('"','')» {@literal <«model?.getOption('email')?.replace('@', '[at]').replaceAll('"','')»>} 
+		 * @author «model.getOption('author')?.replaceAll('"','')» {@literal <«model?.getOption('email')?.replace('@', '[at]').replaceAll('"','')»>} 
 		 * @since «version»
 		 * @version «version»
 		 * @generated «currentDate»

@@ -1,7 +1,7 @@
 package com.laegler.microservice.codegen.template.microservice.gen.grpc.client
 
 import com.laegler.microservice.codegen.template.base.AbstractXtendTemplate
-import microserviceModel.Entity
+import com.laegler.microservice.model.microserviceModel.Entity
 import com.laegler.microservice.codegen.model.Project
 
 /**

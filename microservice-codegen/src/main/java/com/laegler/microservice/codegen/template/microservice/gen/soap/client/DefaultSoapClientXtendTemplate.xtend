@@ -1,6 +1,6 @@
 package com.laegler.microservice.codegen.template.microservice.gen.soap.client
 
-import microserviceModel.Entity
+import com.laegler.microservice.model.microserviceModel.Entity
 import com.laegler.microservice.codegen.template.base.AbstractXtendTemplate
 import com.laegler.microservice.codegen.model.Project
 

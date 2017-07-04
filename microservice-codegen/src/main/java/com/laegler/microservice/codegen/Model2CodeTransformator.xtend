@@ -1,32 +1,40 @@
 package com.laegler.microservice.codegen
 
-import com.laegler.microservice.codegen.generator.DocuProjectGenerator
-import com.laegler.microservice.codegen.generator.GrpcProjectGenerator
-import com.laegler.microservice.codegen.generator.RestProjectGenerator
-import com.laegler.microservice.codegen.generator.SoapProjectGenerator
-import com.laegler.microservice.codegen.model.FileHelper
-import com.laegler.microservice.codegen.model.ModelAccessor
-import com.laegler.microservice.codegen.model.ModelWrapper
 import com.laegler.microservice.codegen.model.Project
 import com.laegler.microservice.codegen.template.parent.docs.PlantUmlTemplate
-import microserviceModel.Architecture
-import microserviceModel.MicroserviceModelFactory
-import microserviceModel.impl.MicroserviceModelFactoryImpl
+import com.laegler.microservice.model.microserviceModel.Architecture
+import java.io.File
+import org.apache.maven.project.MavenProject
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import javax.inject.Named
 
+@Named
 class Model2CodeTransformator extends AbstractTransformator {
 
-//	private static Logger LOG = LoggerFactory.getLogger(Model2CodeTransformator)
+	private static final Logger LOG = LoggerFactory.getLogger(Model2CodeTransformator)
 
-	extension FileHelper fileHelper
+	public def void generate(MavenProject mavenProject, String name, String basePackage) {
+		// Get Xtext Architecture file
+//		val File architectureFile = mavenProject.getFile('*.architecture')
+		val File architectureFile = new File('test.architecture')
+		// Parse it
+		val Architecture architecture = getArchitecture(architectureFile)
+		architecture.generate
+	}
 
-	val ModelWrapper model = ModelAccessor.model
-
-	val soapProject = new SoapProjectGenerator
-	val restProject = new RestProjectGenerator
-	val grpcProject = new GrpcProjectGenerator
-	val docuProject = new DocuProjectGenerator
-
-	extension MicroserviceModelFactory microserviceModelFactory = new MicroserviceModelFactoryImpl
+	private def Architecture getArchitecture(File architectureFile) {
+		var Architecture architecture
+//		new StandaloneSetup().setPlatformUri("../")
+//		val Injector injector = new ArchitectureLangStandaloneSetup().createInjectorAndDoEMFRegistration
+//		val XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet)
+//		resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE)
+//		val Resource resource = resourceSet.createResource(URI.createURI("dummy:/example.architecture"))
+//		val InputStream in = new ByteArrayInputStream("type foo type bar".bytes)
+//		resource.load(in, resourceSet.loadOptions)
+//		it = resource.getContents().get(0) as Architecture
+		architecture
+	}
 
 	public def void generate(Architecture a) {
 		model.projects.addAll(
@@ -37,7 +45,7 @@ class Model2CodeTransformator extends AbstractTransformator {
 		)
 
 		model.projects.forEach [
-			templates.forEach[toFile]
+			templates.forEach[fileHelper.toFile(it)]
 		]
 	}
 
@@ -49,7 +57,7 @@ class Model2CodeTransformator extends AbstractTransformator {
 	}
 
 	def public String getPlantumlGraphFileContent(Architecture model) {
-		new PlantUmlTemplate(Project.builder.microserviceModel(model).build).content
+		new PlantUmlTemplate(projectBuilder.microserviceModel(model).build).content
 	}
 
 }

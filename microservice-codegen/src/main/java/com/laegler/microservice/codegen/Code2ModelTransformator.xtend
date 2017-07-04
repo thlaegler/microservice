@@ -1,42 +1,21 @@
 package com.laegler.microservice.codegen
 
-import com.laegler.microservice.codegen.generator.DocuProjectGenerator
-import com.laegler.microservice.codegen.generator.GrpcProjectGenerator
-import com.laegler.microservice.codegen.generator.RestProjectGenerator
-import com.laegler.microservice.codegen.generator.SoapProjectGenerator
-import com.laegler.microservice.codegen.model.FileHelper
-import microserviceModel.MicroserviceModelFactory
-import microserviceModel.impl.MicroserviceModelFactoryImpl
-import org.apache.maven.project.MavenProject
-import com.laegler.microservice.codegen.model.Project
-import java.util.List
-import org.apache.maven.model.Model
-import java.util.ArrayList
-import microserviceModel.Artifact
-import com.laegler.microservice.codegen.template.base.BaseTemplate
 import com.laegler.microservice.codegen.model.FileType
+import com.laegler.microservice.model.microserviceModel.Architecture
+import com.laegler.microservice.model.microserviceModel.Artifact
 import java.nio.file.Files
-import java.nio.file.Path
-import java.io.File
-import java.util.stream.Stream
-import java.nio.file.Paths
-import java.util.stream.Collectors
-import org.eclipse.emf.ecore.EObject
-import microserviceModel.Architecture
-import java.util.Set
+import java.util.ArrayList
+import java.util.List
 import java.util.Map
-import java.util.HashMap
+import java.util.Set
+import java.util.stream.Collectors
+import org.apache.maven.model.Model
+import org.apache.maven.project.MavenProject
+import org.eclipse.emf.ecore.EObject
+import javax.inject.Named
 
+@Named
 class Code2ModelTransformator extends AbstractTransformator {
-
-	extension FileHelper fileHelper
-
-	extension MicroserviceModelFactory microserviceModelFactory = new MicroserviceModelFactoryImpl
-
-	val soapProject = new SoapProjectGenerator
-	val restProject = new RestProjectGenerator
-	val grpcProject = new GrpcProjectGenerator
-	val docuProject = new DocuProjectGenerator
 
 	public def void generate(MavenProject mavenProject) {
 		mavenProject?.generate(mavenProject?.artifactId, mavenProject?.groupId)
@@ -53,23 +32,24 @@ class Code2ModelTransformator extends AbstractTransformator {
 			mavenProject?.transformSpring
 		]
 
-		val parentProject = Project.builder.name(name).basePackage(basePackage).microserviceModel(
-			createArchitecture => [
+		val parentProject = projectBuilder.name(name).basePackage(basePackage).microserviceModel(
+			microserviceModelFactory.createArchitecture => [
 				artifacts.addAll(artifacts)
 			]
 		)
 
-		BaseTemplate.builder.fileName(name + '-microservice').relativPath('/').fileType(FileType.ARCHITECTURE).
-			content('''
-				architecture: «name» {
-					«FOR Artifact a : artifacts»
-						service: «a.name»
-					«ENDFOR»
-				}
-			''').build?.toFile
+		fileHelper.toFile(
+			templateBuilder.fileName(name + '-microservice').relativPath('/').fileType(FileType.ARCHITECTURE).
+				content('''
+					architecture: «name» {
+						«FOR Artifact a : artifacts»
+							service: «a.name»
+						«ENDFOR»
+					}
+				''').build)
 
-		model.projects?.forEach [
-			templates?.forEach[toFile]
+		modelAccessor.model.projects?.forEach [
+			templates?.forEach[fileHelper.toFile(it)]
 		]
 	}
 
@@ -77,33 +57,33 @@ class Code2ModelTransformator extends AbstractTransformator {
 		LOG.info('''Trying to transform POM to Model: «pom.artifactId»''')
 		pom?.modules?.forEach [
 			model.projects?.add(
-				Project.builder.name(pom.artifactId).microserviceModel(model as EObject).build
+				projectBuilder.name(pom.artifactId).microserviceModel(model as EObject).build
 			)
 		]
 		LOG.info('POM to Model Transformation done.')
-		LOG.info('''Found «model.projects?.size» projects in Model «pom.artifactId»''')
+		LOG.info('''Found «model.projects.size» projects in Model «pom.artifactId»''')
 		LOG.info('''	«model.projects?.join(', ')»''')
 	}
 
-	protected def void transformSpring(MavenProject it) {
-		it?.compileClasspathElements
-		LOG.info('''Trying to find and transform Spring from Class and Annotation level to Model: «it.artifactId»''')
-		LOG.info('''	basedir: «it.basedir»''')
-		LOG.info('''	projects: «it.collectedProjects.join(', ')»''')
-		LOG.info('''	classpathElements:«it.compileClasspathElements.join(', ')»''')
-		LOG.info('''	compileSourceRoots: «it.compileSourceRoots.join(', ')»''')
-		it?.collectedProjects?.forEach [cP |
+	protected def void transformSpring(MavenProject mavenProject) {
+		mavenProject?.compileClasspathElements
+		LOG.
+			info('''Trying to find and transform Spring from Class and Annotation level to Model: «mavenProject.artifactId»''')
+		LOG.info('''	basedir: «mavenProject.basedir»''')
+		LOG.info('''	projects: «mavenProject.collectedProjects.join(', ')»''')
+		LOG.info('''	classpathElements:«mavenProject.compileClasspathElements.join(', ')»''')
+		LOG.info('''	compileSourceRoots: «mavenProject.compileSourceRoots.join(', ')»''')
+		mavenProject?.collectedProjects?.forEach [cP |
 //			cP.
 //			model.projects?.add(
-//				Project.builder.name(cP.artifactId).microserviceModel(model as EObject).build
+//				projectBuilder.name(cP.artifactId).microserviceModel(model as EObject).build
 //			)
 		]
 //		 TODO
 //		val Architecture architecture = resolveApiReader().read(getValidClasses(RestController.class));
 		LOG.info('POM to Model Transformation done.')
-		LOG.info('''Found «model.projects?.size» Spring Projects in classpath(s) of «it.artifactId»''')
+		LOG.info('''Found «model.projects.size» Spring Projects in classpath(s) of «mavenProject.artifactId»''')
 		LOG.info('''	«model.projects?.join(', ')»''')
-
 	}
 
 	private def Architecture read(Set<Class<?>> classes) {
@@ -111,20 +91,19 @@ class Code2ModelTransformator extends AbstractTransformator {
 		// relate all methods to one base request mapping if multiple controllers exist for that mapping
 		// get all methods from each controller & find their request mapping
 		// create map - resource string (after first slash) as key, new SpringResource as value
-		val Architecture architecture = createArchitecture
-		val Map<String, SpringResource> resourceMap = getResourceMap(classes);
-		for (String str : resourceMap.keySet()) {
-			val SpringResource resource = resourceMap.get(str);
-			read(resource, architecture);
-		}
-
+		val Architecture architecture = microserviceModelFactory.createArchitecture
+//		val Map<String, SpringResource> resourceMap = getResourceMap(classes);
+//		for (String str : resourceMap.keySet()) {
+//			val SpringResource resource = resourceMap.get(str);
+//			read(resource, architecture);
+//		}
 		architecture
 	}
 
-	/**
-	 * see ClassSwaggerReader
-	 */
-	private def Architecture read(SpringResource resource, Architecture architecture) {
+//	/**
+//	 * see ClassSwaggerReader
+//	 */
+//	private def Architecture read(SpringResource resource, Architecture architecture) {
 //		val List<Method> methods = resource.getMethods();
 //		val Map<String, Tag> tags = new HashMap<String, Tag>();
 //
@@ -196,62 +175,60 @@ class Code2ModelTransformator extends AbstractTransformator {
 //			}
 //		}
 //		swagger
-		null
-	}
-
+//		null
+//	}
 	private def List<Artifact> transformMavenDependencies(Model pom, String basePackage) {
 		val List<Artifact> artifacts = new ArrayList
-		
+
 		LOG.info('''Trying to transform POM child-modules to Model: «pom.artifactId»''')
-		pom?.modules?.forEach [mo|
+		pom?.modules?.forEach [ mo |
 			model.projects?.add(
-				Project.builder.name(pom.artifactId).microserviceModel(model as EObject).build
+				projectBuilder.name(pom.artifactId).microserviceModel(model as EObject).build
 			)
 			artifacts.add(
-				createArtifact => [
+				microserviceModelFactory.createArtifact => [
 					name = mo
 				]
 			)
 		]
 		LOG.info('POM to Model Transformation done.')
-		LOG.info('''Found «model.projects?.size» projects in Model «pom.artifactId»''')
-		LOG.info('''	«model.projects?.join(', ')»''')
-
+		LOG.info('''Found «model.projects.size» projects in Model «pom.artifactId»''')
+		LOG.info('''	«model.projects.join(', ')»''')
 
 		LOG.info('''Trying to transform POM dependencies to Model: «pom.artifactId»''')
-		pom?.dependencies?.forEach [dep|
+		pom?.dependencies?.forEach [ dep |
 			model.projects?.add(
-				Project.builder.name(pom.artifactId).microserviceModel(model as EObject).build
+				projectBuilder.name(pom.artifactId).microserviceModel(model as EObject).build
 			)
 			artifacts.add(
-				createArtifact => [
+				microserviceModelFactory.createArtifact => [
 					name = dep.artifactId
 				]
 			)
 		]
 		LOG.info('POM to Model Transformation done.')
-		LOG.info('''Found «model.projects?.size» projects in Model «pom.artifactId»''')
-		LOG.info('''	«model.projects?.join(', ')»''')
-		
+		LOG.info('''Found «model.projects.size» projects in Model «pom.artifactId»''')
+		LOG.info('''	«model.projects.join(', ')»''')
+
 		artifacts
 	}
 
 	private def List<Artifact> transformFileStructure(MavenProject mavenProject, String basePackage) {
 		val List<Artifact> artifacts = new ArrayList
 		val parentPath = mavenProject.basedir.toPath
-		
+
 		LOG.info('''Trying to transform file structure to Model: «mavenProject.artifactId»''')
 		if (Files.isDirectory(parentPath)) {
 			Files.walk(parentPath).collect(Collectors.toList()).filter[Files.isDirectory(it)].forEach [ f |
-				artifacts.add(createArtifact => [
+				artifacts.add(microserviceModelFactory.createArtifact => [
 					name = f.fileName.toString
 				])
 			]
 		}
 		LOG.info('File structure to Model Transformation done.')
-		LOG.info('''Found «artifacts?.size» projects in file structure «mavenProject.artifactId»''')
-		LOG.info('''	«artifacts?.join(', ')»''')
-		
+		LOG.info('''Found «artifacts.size» projects in file structure «mavenProject.artifactId»''')
+		LOG.info('''	«artifacts.join(', ')»''')
+
 		artifacts
 	}
 

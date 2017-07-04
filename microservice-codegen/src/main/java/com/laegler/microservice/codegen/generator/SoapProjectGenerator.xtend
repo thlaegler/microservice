@@ -8,24 +8,23 @@ import com.laegler.microservice.codegen.template.base.BaseTemplate
 import com.laegler.microservice.codegen.template.microservice.PomXmlTemplate
 import java.util.ArrayList
 import java.util.List
-import microserviceModel.Architecture
-import microserviceModel.Spring
+import com.laegler.microservice.model.microserviceModel.Architecture
+import com.laegler.microservice.model.microserviceModel.Spring
 import com.laegler.microservice.codegen.adapter.NamingStrategy
 import com.laegler.microservice.codegen.adapter.DefaultNamingStrategy
+import javax.inject.Named
 
 /**
  * Project Generator for SAOP Project(s)
  */
+@Named
 class SoapProjectGenerator extends AbstractProjectGenerator {
-
-	extension FileHelper fileHelper
-	extension DefaultNamingStrategy namingStrategy
 
 	val List<Project> subProjects = new ArrayList
 	var List<AbstractTemplate> templates = new ArrayList
 
 	override Project generate(Architecture a) {
-		project = Project.builder.name(getProjectName(a.name)).microserviceModel(a).build
+		project = projectBuilder.name(namingStrategy.getProjectName(a.name)).microserviceModel(a).build
 		model.projects.add(project)
 
 		a.artifacts.filter(Spring).forEach [ s |
@@ -40,8 +39,8 @@ class SoapProjectGenerator extends AbstractProjectGenerator {
 	}
 
 	protected def Project generateSoapServerProject(Spring s) {
-		var Project it = Project.builder.name(getProjectName(s.name, 'soap', 'server')).dir(
-			getProjectDir(s.name, 'soap', 'server')).build
+		var Project it = projectBuilder.name(namingStrategy.getProjectName(s.name, 'soap', 'server')).dir(
+			namingStrategy.getProjectDir(s.name, 'soap', 'server')).build
 
 		templates.addAll(
 			it.generateSoapDefaultServerJava(s),
@@ -51,8 +50,8 @@ class SoapProjectGenerator extends AbstractProjectGenerator {
 	}
 
 	protected def Project generateSoapClientProject(Spring s) {
-		var Project it = Project.builder.name(getProjectName(s.name, 'soap', 'client')).dir(
-			getProjectDir(s.name, 'soap', 'client')).build
+		var Project it = projectBuilder.name(namingStrategy.getProjectName(s.name, 'soap', 'client')).dir(
+			namingStrategy.getProjectDir(s.name, 'soap', 'client')).build
 
 		templates.addAll(
 			it.generateSoapClientJava(s),
@@ -62,8 +61,8 @@ class SoapProjectGenerator extends AbstractProjectGenerator {
 	}
 
 	protected def Project generateSoapModelProject(Spring s) {
-		var Project it = Project.builder.name(getProjectName(s.name, 'soap', 'model')).dir(
-			getProjectDir(s.name, 'soap', 'model')).build
+		var Project it = projectBuilder.name(namingStrategy.getProjectName(s.name, 'soap', 'model')).dir(
+			namingStrategy.getProjectDir(s.name, 'soap', 'model')).build
 
 		templates.addAll(
 			it.generateSoapModelPomXml(s),
@@ -74,7 +73,8 @@ class SoapProjectGenerator extends AbstractProjectGenerator {
 	}
 
 	protected def Project generateSoapParentProject(Spring s) {
-		var Project it = Project.builder.name(getProjectName(s.name, 'soap')).dir(getProjectDir(s.name, 'soap')).build
+		var Project it = projectBuilder.name(namingStrategy.getProjectName(s.name, 'soap')).dir(
+			namingStrategy.getProjectDir(s.name, 'soap')).build
 
 		templates.addAll(
 			it.generateParentPomXml(s)
@@ -95,7 +95,7 @@ class SoapProjectGenerator extends AbstractProjectGenerator {
 	}
 
 	protected def AbstractTemplate generateSoapClientJava(Project project, Spring s) {
-		BaseTemplate.builder.fileName('''«s.name»SoapClient''').fileType(FileType.XTEND).
+		templateBuilder.fileName('''«s.name»SoapClient''').fileType(FileType.XTEND).
 			relativPath('''src/main/gen/«s.name»''').content('''
 				This is the template of SoapClient.java
 			''').build

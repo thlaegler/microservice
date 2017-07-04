@@ -13,7 +13,7 @@
 //import org.eclipse.xtext.generator.IGeneratorContext
 //import com.laegler.stubbr.lang.genmodel.Project
 //import java.util.ArrayList
-//import microserviceModel.Architecture
+//import com.laegler.microservice.model.microserviceModel.Architecture
 //
 ///**
 // * Generates code from your model files on save.

@@ -2,7 +2,7 @@ package com.laegler.microservice.codegen.template.microservice.gen.rest
 
 import com.laegler.microservice.codegen.model.Project
 import com.laegler.microservice.codegen.template.base.AbstractXtendTemplate
-import microserviceModel.Entity
+import com.laegler.microservice.model.microserviceModel.Entity
 
 /**
  * File Generator for Spring REST controller for managing entity

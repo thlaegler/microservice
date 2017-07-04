@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
-	<extension point="org.eclipse.emf.ecore.generated_package">
-		<package 
-			uri = "http://www.laegler.com/microservice/modeler/ArchitectureLang"
-			class = "com.laegler.microservice.modeler.architectureLang.ArchitectureLangPackage"
-			genModel = "model/generated/ArchitectureLang.genmodel" />
-	</extension>
+<extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated MicroserviceModel -->
+      <package
+            uri="http://www.laegler.com/microservice/model/MicroserviceModel"
+            class="com.laegler.microservice.model.microserviceModel.MicroserviceModelPackage"
+            genModel="model/MicroserviceModel.genmodel"/>
+   </extension>
  <extension
        id="product"
        point="org.eclipse.core.runtime.products">

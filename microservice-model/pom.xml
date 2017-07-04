@@ -1,61 +1,85 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<groupId>com.laegler.microservice</groupId>
 	<artifactId>microservice-model</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
-	<packaging>jar</packaging>
 
 	<name>Microservice Model</name>
 
-	<!-- <modules>
-		<module>model</module>
-		<module>model-edit</module>
-		<module>model-editor</module>
-		<module>model-test</module>
-	</modules> -->
+	<!-- <pluginRepositories> <pluginRepository> <id>mapasuta.repo</id> <name>Mapasuta 
+		Project Download Repository</name> <url>http://mapasuta.sf.net/maven/repo</url> 
+		<releases> <enabled>true</enabled> <updatePolicy>daily</updatePolicy> <checksumPolicy>fail</checksumPolicy> 
+		</releases> <snapshots> <enabled>true</enabled> </snapshots> </pluginRepository> 
+		</pluginRepositories> -->
 
-	<pluginRepositories>
-		<pluginRepository>
-			<id>mapasuta.repo</id>
-			<name>Mapasuta Project Download Repository</name>
-			<url>http://mapasuta.sf.net/maven/repo</url>
-			<releases>
-				<enabled>true</enabled>
-				<updatePolicy>daily</updatePolicy>
-				<checksumPolicy>fail</checksumPolicy>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
+
+
+	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.eclipse.emf/org.eclipse.emf.common -->
+		<dependency>
+			<groupId>org.eclipse.emf</groupId>
+			<artifactId>org.eclipse.emf.common</artifactId>
+			<version>2.12.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.eclipse.emf/org.eclipse.emf.ecore -->
+		<dependency>
+			<groupId>org.eclipse.emf</groupId>
+			<artifactId>org.eclipse.emf.ecore</artifactId>
+			<version>2.12.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.eclipse.emf/org.eclipse.emf.edit -->
+		<dependency>
+			<groupId>org.eclipse.emf</groupId>
+			<artifactId>org.eclipse.emf.edit</artifactId>
+			<version>2.12.0</version>
+		</dependency>
+
+		<!-- Testing -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<plugins>
+			<!-- <plugin> <groupId>net.sf.mapasuta.build.maven.plugins</groupId> <artifactId>maven-emfgen-plugin</artifactId> 
+				<version>1.2</version> <configuration> <genModel>model/MicroserviceModel.genmodel</genModel> 
+				<metaModels> <metaModel>model/MicroserviceModel.ecore</metaModel> </metaModels> 
+				<outputDirectory>src</outputDirectory> <genSrc>microserviceModel</genSrc> 
+				<workspace>${project.build.directory}/emf</workspace> <packageUris> <packageUri>http://www.laegler.com/microservice/model</packageUri> 
+				</packageUris> <modelProject>${project.artifactId}</modelProject> <eclipseDir>${basedir}/resource/fake-emf-eclipse</eclipseDir> 
+				<eclipseVersion>3.3.0</eclipseVersion> </configuration> <executions> <execution> 
+				<id>genmodel</id> <phase>verify</phase> <goals> <goal>genmodel</goal> </goals> 
+				</execution> </executions> </plugin> -->
 			<plugin>
-				<groupId>net.sf.mapasuta.build.maven.plugins</groupId>
-				<artifactId>maven-emfgen-plugin</artifactId>
-				<version>1.2</version>
-				<configuration>
-					<genModel>model/MicroserviceModel.genmodel</genModel>
-					<metaModels>
-						<metaModel>model/MicroserviceModel.ecore</metaModel>
-					</metaModels>
-					<outputDirectory>src</outputDirectory>
-					<genSrc>microserviceModel</genSrc>
-					<workspace>${project.build.directory}/emf</workspace>
-					<packageUris>
-						<packageUri>http://www.laegler.com/microservice/model</packageUri>
-					</packageUris>
-					<modelProject>${project.artifactId}</modelProject>
-					<eclipseDir>${basedir}/resource/fake-emf-eclipse</eclipseDir>
-					<eclipseVersion>3.3.0</eclipseVersion>
-				</configuration>
+				<groupId>org.eclipse.xtend</groupId>
+				<artifactId>xtend-maven-plugin</artifactId>
+				<version>2.12.0</version>
 				<executions>
-					<!-- <execution> <id>genmodel</id> <phase>verify</phase> <goals> <goal>genmodel</goal> 
-						</goals> </execution> -->
+					<execution>
+						<goals>
+							<goal>compile</goal>
+							<goal>testCompile</goal>
+						</goals>
+					</execution>
 				</executions>
+				<configuration>
+					<outputDirectory>${basedir}/src/main/xtend-gen</outputDirectory>
+					<testOutputDirectory>${basedir}/src/test/xtend-gen</testOutputDirectory>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.20</version>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

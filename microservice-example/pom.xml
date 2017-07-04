@@ -19,19 +19,16 @@
 				<groupId>com.laegler.microservice</groupId>
 				<artifactId>microservice-maven-plugin</artifactId>
 				<version>${project.version}</version>
+				<configuration>
+					<activateCode2Model>true</activateCode2Model>
+					<activateModel2Code>true</activateModel2Code>
+				</configuration>
 				<executions>
 					<execution>
 						<id>generate-code</id>
 						<phase>generate-sources</phase>
 						<goals>
-							<goal>model2code</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>generate-model</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>code2model</goal>
+							<goal>generator</goal>
 						</goals>
 					</execution>
 				</executions>
