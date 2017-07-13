@@ -40,28 +40,29 @@ Workflow {
 			}
 		}
 		language = StandardLanguage {
-//			registerGeneratedEPackage = "org.eclipse.xtext.xbase.XbasePackage"
-//            registerGenModelFile = "platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel"
-//	   registerGeneratedEPackage = "simulator.ICD.ICDPackage"
-//	   registerGenModelFile = "platform:/resource/org.sengs.simulator/model/simulator.genmodel"
+		//			registerGeneratedEPackage = "org.eclipse.xtext.xbase.XbasePackage"
+		//            registerGenModelFile = "platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel"
+		//	   registerGeneratedEPackage = "simulator.ICD.ICDPackage"
+		//	   registerGenModelFile = "platform:/resource/org.sengs.simulator/model/simulator.genmodel"
 			name = "com.laegler.microservice.modeler.ArchitectureLang"
 			fileExtensions = "architecture"
-			
 			referencedResource = "platform:/resource/microservice-model/model/MicroserviceModel.genmodel"
-			
 			fragment = ecore2xtext.Ecore2XtextValueConverterServiceFragment2 auto-inject {}
-//			fragment = adapter.FragmentAdapter {}
-//fragment = ecore2xtext.FormatterFragment {}
-//			referencedResource = "platform:/resource/microservice/microservice-model/model/MicroserviceModel.ecore"
-//			referencedResource = "http://www.laegler.com/microservice/model/MicroserviceModel"
-//			referencedResource = "platform:/resource/com.laegler.microservice.model/model/MicroserviceModel.genmodel"
-//fragment = org.eclipse.xtext.generator.adapter.FragmentAdapter {}
-//				fragment = org.eclipse.xtext.generator.ecore2xtext.FormatterFragment {}
+			fragment = generator.GeneratorFragment2 auto-inject {
+				generateJavaMain = true
+			}
+			//			fragment = adapter.FragmentAdapter {}
+			//fragment = ecore2xtext.FormatterFragment {}
+			//			referencedResource = "platform:/resource/microservice/microservice-model/model/MicroserviceModel.ecore"
+			//			referencedResource = "http://www.laegler.com/microservice/model/MicroserviceModel"
+			//			referencedResource = "platform:/resource/com.laegler.microservice.model/model/MicroserviceModel.genmodel"
+			//fragment = org.eclipse.xtext.generator.adapter.FragmentAdapter {}
+			//				fragment = org.eclipse.xtext.generator.ecore2xtext.FormatterFragment {}
 			serializer = {
 				generateStub = false
 			}
 			validator = {
-				// composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
+			// composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
 			}
 		}
 	}

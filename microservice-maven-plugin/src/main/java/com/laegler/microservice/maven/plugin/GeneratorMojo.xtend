@@ -3,17 +3,15 @@ package com.laegler.microservice.maven.plugin
 import com.itemis.maven.plugins.cdi.AbstractCDIMojo
 import com.itemis.maven.plugins.cdi.annotations.MojoProduces
 import java.io.File
+import javax.inject.Named
 import org.apache.maven.plugin.descriptor.PluginDescriptor
+import org.apache.maven.plugins.annotations.Mojo
 import org.apache.maven.plugins.annotations.Parameter
 import org.apache.maven.project.MavenProject
 import org.eclipse.xtend.lib.annotations.AccessorType
 import org.eclipse.xtend.lib.annotations.Accessors
 
 import static extension org.eclipse.xtend.lib.annotations.AccessorType.*
-import org.apache.maven.plugins.annotations.LifecyclePhase
-import org.apache.maven.plugins.annotations.ResolutionScope
-import org.apache.maven.plugins.annotations.Mojo
-import javax.inject.Named
 
 @Mojo(name="generator")
 //, defaultPhase=LifecyclePhase.

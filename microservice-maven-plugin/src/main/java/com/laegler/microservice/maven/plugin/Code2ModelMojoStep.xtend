@@ -7,8 +7,8 @@ import javax.inject.Named
 import com.itemis.maven.plugins.cdi.ExecutionContext
 import org.apache.maven.plugin.MojoExecutionException
 import org.apache.maven.plugin.MojoFailureException
-import com.laegler.microservice.codegen.Code2ModelTransformator
 import org.apache.maven.project.MavenProject
+import com.laegler.microservice.code2model.Code2ModelTransformator
 
 @ProcessingStep(id='code2model', description='Generate model from code.', requiresOnline=false)
 class Code2ModelMojoStep extends AbstractMojoStep implements CDIMojoProcessingStep {

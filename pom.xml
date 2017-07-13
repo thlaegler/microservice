@@ -14,7 +14,9 @@
 
 	<modules>
 		<module>microservice-model</module>
-		<module>microservice-codegen</module>
+		<module>microservice-adapter</module>
+		<module>microservice-gen-code2model</module>
+		<module>microservice-gen-model2code</module>
 		<module>microservice-maven-plugin</module>
 		<!-- <module>microservice-modeler</module> -->
 		<!-- <module>microservice-modeler-yaml</module> -->

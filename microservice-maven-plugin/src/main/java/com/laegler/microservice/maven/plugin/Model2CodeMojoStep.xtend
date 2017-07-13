@@ -3,7 +3,7 @@ package com.laegler.microservice.maven.plugin
 import com.itemis.maven.plugins.cdi.CDIMojoProcessingStep
 import com.itemis.maven.plugins.cdi.ExecutionContext
 import com.itemis.maven.plugins.cdi.annotations.ProcessingStep
-import com.laegler.microservice.codegen.Model2CodeTransformator
+import com.laegler.microservice.model2code.Model2CodeTransformator
 import javax.inject.Inject
 import javax.inject.Named
 import org.apache.maven.plugin.MojoExecutionException

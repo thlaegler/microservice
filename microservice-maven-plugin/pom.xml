@@ -27,7 +27,17 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>microservice-codegen</artifactId>
+			<artifactId>microservice-adapter</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>microservice-gen-code2model</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>microservice-gen-model2code</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
