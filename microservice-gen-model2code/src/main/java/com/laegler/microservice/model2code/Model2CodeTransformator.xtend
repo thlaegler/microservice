@@ -16,8 +16,12 @@ import com.laegler.microservice.model2code.generator.DocuProjectGenerator
 import javax.inject.Inject
 import com.laegler.microservice.adapter.AbstractTransformator
 import com.laegler.microservice.model.microserviceModel.Artifact
+import com.laegler.microservice.model.microserviceModel.Spring
+import org.eclipse.emf.ecore.EObject
+import com.laegler.microservice.adapter.lib.architectureLang.ArchitectureLangAdapter
 
 @Named
+//@InjectWith(ArchitectureLangInjectorProvider)
 class Model2CodeTransformator extends AbstractTransformator {
 
 	private static final Logger LOG = LoggerFactory.getLogger(Model2CodeTransformator)
@@ -44,8 +48,13 @@ class Model2CodeTransformator extends AbstractTransformator {
 		return FileUtils.listFiles(directory, new WildcardFileFilter("*.architecture"), null);
 	}
 
+//	@Inject
+//	ParseHelper<Architecture> parseHelper
 	private def Architecture getArchitecture(File architectureFile) {
-		var Architecture architecture
+		var Architecture architecture = ArchitectureLangAdapter.getArchitecture(fileHelper.asString(architectureFile))
+//		var Architecture architecture = parseHelper.parse('''
+//			Hello Xtext!
+//		''')
 //		new StandaloneSetup().setPlatformUri("../")
 //		val Injector injector = new ArchitectureLangStandaloneSetup().createInjectorAndDoEMFRegistration
 //		val XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet)
@@ -53,7 +62,14 @@ class Model2CodeTransformator extends AbstractTransformator {
 //		val Resource resource = resourceSet.createResource(URI.createURI("dummy:/example.architecture"))
 //		val InputStream in = new ByteArrayInputStream("type foo type bar".bytes)
 //		resource.load(in, resourceSet.loadOptions)
-//		it = resource.getContents().get(0) as Architecture
+//		architecture = resource.getContents().get(0) as Architecture
+//new org.eclipse.emf.mwe.utils.StandaloneSetup().setPlatformUri("../");
+//Injector injector = new MyDslStandaloneSetup().createInjectorAndDoEMFRegistration();
+//XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
+//resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
+//Resource resource = resourceSet.getResource(
+//    URI.createURI("platform:/resource/org.xtext.example.mydsl/src/example.mydsl"), true);
+//		architecture = resource.getContents().get(0) as Architecture
 		architecture
 	}
 
@@ -61,23 +77,30 @@ class Model2CodeTransformator extends AbstractTransformator {
 		LOG.info('Creating Projects')
 
 		world.projects.addAll(
-			restProject.generate(a),
-			grpcProject.generate(a),
-			soapProject.generate(a),
-			docuProject.generate(a)
+//			restProject.generate(a), //
+			grpcProject.generate(a), //
+//			soapProject.generate(a), // 
+			docuProject.generate(a) //
 		)
 
 		LOG.info('Writing cached model to file')
 
 		world.projects.forEach [
-			templates.forEach[fileHelper.toFile(it)]
+			templates.forEach [
+				fileHelper.toFile(it)
+			]
 		]
 	}
 
 	def void transform(Architecture architecture) {
 		world.architecture = architecture
 		architecture.artifacts.forEach [
-			world.projects?.add(projectBuilder.name(world.name).microserviceModel(world.architecture as EObject).build)
+			world.projects?.add(
+				projectBuilder //
+				.name(world.name) //
+				.microserviceModel(world.architecture as EObject) //
+				.build //
+			)
 		]
 
 		architecture.artifacts.forEach[it.transform]
@@ -97,10 +120,9 @@ class Model2CodeTransformator extends AbstractTransformator {
 	def void transform(Spring spring) {
 	}
 
-	def public String getPlantumlGraphFileContent(Architecture model) {
-		LOG.info('Creating file: microservice architecture PlantUML')
-
-		new PlantUmlTemplate(projectBuilder.microserviceModel(model).build).content
-	}
-
+//	def public String getPlantumlGraphFileContent(Architecture model) {
+//		LOG.info('Creating file: microservice architecture PlantUML')
+//
+//		new PlantUmlTemplate(projectBuilder.microserviceModel(model).build).content
+//	}
 }

@@ -1,23 +1,28 @@
 package com.laegler.microservice.model2code.generator
 
-import gherkin.ast.GherkinDocument
-import javax.inject.Inject
-import com.laegler.microservice.model.microserviceModel.Artifact
+import com.laegler.microservice.adapter.generator.Generator
+import com.laegler.microservice.adapter.model.FileType
+import com.laegler.microservice.adapter.model.Project
+import com.laegler.microservice.adapter.model.Template
 import com.laegler.microservice.model.microserviceModel.Architecture
 import com.laegler.microservice.model.microserviceModel.Spring
 import java.util.ArrayList
 import java.util.List
-import com.laegler.microservice.adapter.generator.AbstractGenerator
+import javax.inject.Inject
 import javax.inject.Named
-import com.laegler.microservice.adapter.model.Project
-import com.laegler.microservice.adapter.model.Template
-import com.laegler.microservice.adapter.model.FileType
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import com.laegler.microservice.model2code.template.parent.PlantUml
 
 /**
  * Project Generator for JSF/Faces Project
  */
- @Named
-class DocuProjectGenerator extends AbstractGenerator {
+@Named
+class DocuProjectGenerator extends Generator {
+
+	protected static final Logger LOG = LoggerFactory.getLogger(DocuProjectGenerator)
+
+	@Inject protected PlantUml plantUml
 
 	List<Project> subProjects = new ArrayList
 	List<Template> templates = new ArrayList
@@ -44,21 +49,23 @@ class DocuProjectGenerator extends AbstractGenerator {
 	}
 
 	protected def Template generatePlantUml(Project project) {
-		new PlantUmlTemplate(project)
+		plantUml.getTemplate(project)
 	}
 
 	protected def generateGrpcDefaultClientJava(Project project, Spring s) {
 	}
 
 	protected def generateGrpcClientJava(Project project, Spring s) {
-		templateBuilder.fileName('''«s.name»GrpcClient''').fileType(FileType.XTEND).
-			relativPath('''src/main/gen/«(project.microserviceModel as Architecture).basePackage»''').content('''
+		fileHelper.toFile(
+			templateBuilder //
+			.fileName('''«s.name»GrpcClient''') //
+			.fileType(FileType.XTEND) //
+			.relativPath('''src/main/gen/«(project.microserviceModel as Architecture).basePackage»''') //
+			.content('''
 				This is the template of GrpcClient.java
-			''').build.toFile
-	}
-
-	override prepare() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+			''') //
+			.build
+		)
 	}
 
 }

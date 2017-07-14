@@ -11,7 +11,6 @@ import com.laegler.microservice.adapter.util.StringUtil
 class TemplateBuilder {
 
 	@Inject protected World world
-	@Inject protected TemplateBuilder templateBuilder
 	@Inject protected NamingStrategy namingStrategy
 	@Inject protected StringUtil stringUtil
 
@@ -113,4 +112,5 @@ class TemplateBuilder {
 		this.skipStamping = skipStamping
 		this
 	}
+
 }

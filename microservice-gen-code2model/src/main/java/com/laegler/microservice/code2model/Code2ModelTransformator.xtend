@@ -2,6 +2,7 @@ package com.laegler.microservice.code2model
 
 import com.laegler.microservice.adapter.AbstractTransformator
 import com.laegler.microservice.adapter.model.FileType
+import com.laegler.microservice.adapter.model.TemplateBuilder
 import com.laegler.microservice.model.microserviceModel.Architecture
 import com.laegler.microservice.model.microserviceModel.Artifact
 import java.nio.file.Files
@@ -38,15 +39,17 @@ class Code2ModelTransformator extends AbstractTransformator {
 			]
 		)
 
-		fileHelper.toFile(
-			templateBuilder.fileName(name + '-microservice').relativPath('/').fileType(FileType.ARCHITECTURE).
-				content('''
-					architecture: «name» {
-						«FOR Artifact a : artifacts»
-							service: «a.name»
-						«ENDFOR»
-					}
-				''').build)
+		fileHelper.toFile(new TemplateBuilder() //
+		.fileName(name + '-microservice') //
+		.relativPath('/') //
+		.fileType(FileType.ARCHITECTURE).content('''
+			architecture: «name» {
+				«FOR Artifact a : artifacts»
+					service: «a.name»
+				«ENDFOR»
+			}
+		''') //
+		.build)
 
 		world.projects?.forEach [
 			templates?.forEach[fileHelper.toFile(it)]

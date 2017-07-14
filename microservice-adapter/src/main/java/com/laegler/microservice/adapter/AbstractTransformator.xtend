@@ -37,7 +37,7 @@ abstract class AbstractTransformator {
 	@Inject protected World world
 	@Inject protected FileUtil fileHelper
 	@Inject protected ProjectBuilder projectBuilder
-	@Inject protected TemplateBuilder templateBuilder
+//	@Inject protected TemplateBuilder templateBuilder
 	@Inject protected MavenXpp3Reader mavenReader
 	@Inject protected MicroserviceModelFactory microserviceModelFactory
 

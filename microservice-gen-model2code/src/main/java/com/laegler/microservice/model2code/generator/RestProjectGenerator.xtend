@@ -2,34 +2,31 @@ package com.laegler.microservice.model2code.generator
 
 import com.laegler.microservice.model.microserviceModel.Architecture
 import com.laegler.microservice.model.microserviceModel.Spring
-import com.laegler.microservice.adapter.util.FileType
-import com.laegler.microservice.adapter.util.Project
-import com.laegler.microservice.model2code.template.base.AbstractTemplate
-import com.laegler.microservice.model2code.template.microservice.PomXmlTemplate
 import java.util.ArrayList
 import java.util.List
 import org.slf4j.LoggerFactory
 import org.slf4j.Logger
+import com.laegler.microservice.adapter.model.Template
+import com.laegler.microservice.adapter.generator.Generator
+import com.laegler.microservice.adapter.model.Project
+import com.laegler.microservice.adapter.model.FileType
 
-/**
- * Project Generator for REST Project(s)
- */
-class RestProjectGenerator extends AbstractProjectGenerator {
+class RestProjectGenerator extends Generator {
 
 	protected static Logger LOG = LoggerFactory.getLogger(RestProjectGenerator)
 
 	List<Project> subProjects = new ArrayList
-	List<AbstractTemplate> templates = new ArrayList
+	List<Template> templates = new ArrayList
 
 	override Project generate(Architecture a) {
 		LOG.info('Generating REST project(s)')
-		
+
 		project = projectBuilder.name(a.name).microserviceModel(a).build
-		model.projects.add(project)
+		world.projects.add(project)
 
 		a.artifacts.filter(Spring).forEach [ s |
 			s.name = s.name + '.grpc'
-			model.projects.addAll(
+			world.projects.addAll(
 				s.generateRestParentProject,
 				s.generateRestClientProject,
 				s.generateRestServerProject,
@@ -42,7 +39,7 @@ class RestProjectGenerator extends AbstractProjectGenerator {
 
 	protected def Project generateRestServerProject(Spring s) {
 		LOG.info('Generating REST server project')
-		
+
 		var Project it = projectBuilder.name(s.name + '.server').build
 		templates.addAll(
 			it.generateRestDefaultServerJava(s),
@@ -53,7 +50,7 @@ class RestProjectGenerator extends AbstractProjectGenerator {
 
 	protected def Project generateRestClientProject(Spring s) {
 		LOG.info('Generating REST client project')
-		
+
 		var Project it = projectBuilder.name(s.name + '.client').build
 		templates.addAll(
 			it.generateRestClientJava(s),
@@ -65,31 +62,31 @@ class RestProjectGenerator extends AbstractProjectGenerator {
 
 	protected def Project generateRestModelProject(Spring s) {
 		LOG.info('Generating REST model project')
-		
+
 		var Project it = projectBuilder.name(s.name + '.model').build
 		it
 	}
 
 	protected def Project generateRestParentProject(Spring s) {
 		LOG.info('Generating REST parent project')
-		
+
 		var Project it = projectBuilder.name(s.name).build
 		it
 	}
 
-	protected def AbstractTemplate generateRestDefaultServerJava(Project project, Spring s) {
+	protected def Template generateRestDefaultServerJava(Project project, Spring s) {
 		LOG.info('Creating file: REST default server Java')
 		// TODO
 		null
 	}
 
-	protected def AbstractTemplate generateRestServerJava(Project project, Spring s) {
+	protected def Template generateRestServerJava(Project project, Spring s) {
 		LOG.info('Creating file: REST server Java')
 		// TODO
 		null
 	}
 
-	protected def AbstractTemplate generateRestClientJava(Project project, Spring s) {
+	protected def Template generateRestClientJava(Project project, Spring s) {
 		LOG.info('Creating file: REST client Java')
 
 		templateBuilder.fileName('''«s.name»RestClient''').fileType(FileType.XTEND).
@@ -98,20 +95,15 @@ class RestProjectGenerator extends AbstractProjectGenerator {
 			''').build
 	}
 
-	protected def AbstractTemplate generateRestDefaultClientJava(Project project, Spring s) {
+	protected def Template generateRestDefaultClientJava(Project project, Spring s) {
 		LOG.info('Creating file: REST default client Java')
 		// TODO
 		null
 	}
 
-	protected def AbstractTemplate generateRestClientPomXml(Project project, Spring s) {
-		LOG.info('Creating file: REST maven POM XML')
-
-		return new PomXmlTemplate(project)
-	}
-
-	override prepare() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	protected def Template generateRestClientPomXml(Project project, Spring s) {
+//		LOG.info('Creating file: REST maven POM XML')
+//		return new PomXmlTemplate(project)
 	}
 
 //	@Inject FileHelper fileHelper

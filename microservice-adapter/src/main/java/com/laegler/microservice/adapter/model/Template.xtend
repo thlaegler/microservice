@@ -48,7 +48,12 @@ class Template {
 	 * Assemble file content with header, footer and generation-stamp.
 	 */
 	public def String getFileContent() {
-		if (!header.nullOrEmpty && !footer.nullOrEmpty) {
+		if (header.nullOrEmpty && footer.nullOrEmpty) {
+			return '''
+				«stamp»
+				«content»
+			'''
+		} else {
 			if (header.contains('xmlns') || header.startsWith('/</?xml')) {
 				return '''
 					«header»
@@ -64,11 +69,6 @@ class Template {
 					«footer»
 				'''
 			}
-		} else {
-			return '''
-				«stamp»
-				«content»
-			'''
 		}
 	}
 

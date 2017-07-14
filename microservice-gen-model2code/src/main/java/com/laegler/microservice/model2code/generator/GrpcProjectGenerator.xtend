@@ -1,29 +1,36 @@
 package com.laegler.microservice.model2code.generator
 
+import com.laegler.microservice.adapter.generator.Generator
 import com.laegler.microservice.adapter.model.FileType
 import com.laegler.microservice.adapter.model.Project
 import com.laegler.microservice.adapter.model.Template
-import com.laegler.microservice.model2code.template.microservice.PomXmlTemplate
 import com.laegler.microservice.model.microserviceModel.Architecture
 import com.laegler.microservice.model.microserviceModel.Spring
-import java.util.ArrayList
+import com.laegler.microservice.model2code.template.microservice.GrpcModelPomXml
+import com.laegler.microservice.model2code.template.microservice.gen.grpc.client.DefaultGrpcClientXtend
 import java.util.List
-import org.slf4j.LoggerFactory
+import javax.inject.Inject
 import org.slf4j.Logger
-import com.laegler.microservice.adapter.generator.Generator
+import org.slf4j.LoggerFactory
+import javax.inject.Named
 
-/**
- * Project Generator for gRPC Project(s)
- */
+@Named
 class GrpcProjectGenerator extends Generator {
 
 	protected static final Logger LOG = LoggerFactory.getLogger(GrpcProjectGenerator)
 
+	@Inject protected GrpcModelPomXml grpcModelPomXml
+	@Inject protected DefaultGrpcClientXtend defaultGrpcClientXtend
+
 	List<Project> subProjects
 	List<Template> templates
 
+	boolean isDeepDirStrategy
+
 	override Project generate(Architecture a) {
 		LOG.info('Generating gRPC project(s)')
+
+		isDeepDirStrategy = world.getOption('dirStrategy').equals('deep')
 
 		project = projectBuilder.name(a.name).microserviceModel(a).build
 		world.projects.add(project)
@@ -37,7 +44,6 @@ class GrpcProjectGenerator extends Generator {
 				s.generateGrpcModelProject
 			)
 		]
-//		projectBuilder.name(a.name).microserviceModel(a)
 		project
 	}
 
@@ -52,13 +58,25 @@ class GrpcProjectGenerator extends Generator {
 		it
 	}
 
+	protected def Project generateModelServerProject(Spring s) {
+		LOG.info('Generating gRPC server project')
+
+		var Project it = projectBuilder.name(s.name + '.server').build
+		templates.addAll(
+			it.generateGrpcDefaultServerJava(s),
+			it.generateGrpcServerJava(s),
+			grpcModelPomXml.getTemplate(project)
+		)
+		it
+	}
+
 	protected def Project generateGrpcClientProject(Spring s) {
 		LOG.info('Generating gRPC client project')
 
 		var Project it = projectBuilder.name(s.name + '.client').build
 		templates.addAll(
 			it.generateGrpcClientJava(s),
-			it.generateGrpcDefaultClientJava(s)
+			defaultGrpcClientXtend.getTemplate(it)
 		)
 
 		it
@@ -78,41 +96,31 @@ class GrpcProjectGenerator extends Generator {
 		it
 	}
 
-	protected def AbstractTemplate generateGrpcDefaultServerJava(Project project, Spring s) {
+	protected def Template generateGrpcDefaultServerJava(Project project, Spring s) {
 		LOG.info('Creating file: gRPC default server Java')
 		// TODO
-		null
-	}
-
-	protected def AbstractTemplate generateGrpcServerJava(Project project, Spring s) {
-		LOG.info('Creating file: gRPC server Java')
-		// TODO
-		null
-	}
-
-	protected def AbstractTemplate generateGrpcClientJava(Project project, Spring s) {
-		LOG.info('Creating file: gRPC client Java')
-
 		templateBuilder.fileName('''«s.name»GrpcClient''').fileType(FileType.XTEND).
 			relativPath('''src/main/gen/«s.name»''').content('''
 				This is the template of GrpcClient.java
 			''').build
 	}
 
-	protected def AbstractTemplate generateGrpcDefaultClientJava(Project project, Spring s) {
-		LOG.info('Creating file: gRPC default client  Java')
+	protected def Template generateGrpcServerJava(Project project, Spring s) {
+		LOG.info('Creating file: gRPC server Java')
 		// TODO
-		null
+		templateBuilder.fileName('''«s.name»GrpcClient''').fileType(FileType.XTEND).
+			relativPath('''src/main/gen/«s.name»''').content('''
+				This is the template of GrpcClient.java
+			''').build
 	}
 
-	protected def AbstractTemplate generateGrpcClientPomXml(Project project, Spring s) {
-		LOG.info('Creating file: gRPC maven POM XML')
+	protected def Template generateGrpcClientJava(Project project, Spring s) {
+		LOG.info('Creating file: gRPC client Java')
 
-		return new PomXmlTemplate(project)
-	}
-
-	override prepare() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		templateBuilder.fileName('''«s.name»GrpcClient''').fileType(FileType.XTEND).
+			relativPath('''src/main/gen/«s.name»''').content('''
+				This is the template of GrpcClient.java
+			''').build
 	}
 
 //	@Inject FileHelper fileHelper

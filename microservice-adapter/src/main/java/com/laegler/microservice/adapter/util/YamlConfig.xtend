@@ -1,7 +1,9 @@
 package com.laegler.microservice.adapter.util
 
 import java.util.Map
+import javax.inject.Named
 
+@Named
 class YamlConfig {
 
 	var Map<String, ServiceConfig> applications;

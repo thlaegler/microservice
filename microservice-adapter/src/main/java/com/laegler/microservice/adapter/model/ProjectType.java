@@ -1,8 +1,6 @@
 package com.laegler.microservice.adapter.model;
 
-import lombok.Getter;
 
-@Getter
 public enum ProjectType {
 
   PARENT("parent", "pom"), //

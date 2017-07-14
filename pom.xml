@@ -7,13 +7,14 @@
 	<packaging>pom</packaging>
 
 	<name>Microservice Toolbox</name>
-	
+
 	<properties>
 		<vendor>thlaegler</vendor>
 	</properties>
 
 	<modules>
-		<module>microservice-model</module>
+		<!-- <module>microservice-model</module> -->
+		<module>microservice-editor</module>
 		<module>microservice-adapter</module>
 		<module>microservice-gen-code2model</module>
 		<module>microservice-gen-model2code</module>

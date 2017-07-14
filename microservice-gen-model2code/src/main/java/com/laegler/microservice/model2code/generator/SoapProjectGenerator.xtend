@@ -1,47 +1,45 @@
 package com.laegler.microservice.model2code.generator
 
-import com.laegler.microservice.adapter.util.FileHelper
-import com.laegler.microservice.adapter.util.FileType
-import com.laegler.microservice.adapter.util.Project
-import com.laegler.microservice.model2code.template.base.AbstractTemplate
-import com.laegler.microservice.model2code.template.base.BaseTemplate
-import com.laegler.microservice.model2code.template.microservice.PomXmlTemplate
 import java.util.ArrayList
 import java.util.List
 import com.laegler.microservice.model.microserviceModel.Architecture
 import com.laegler.microservice.model.microserviceModel.Spring
-import com.laegler.microservice.model2code.adapter.NamingStrategy
-import com.laegler.microservice.model2code.adapter.DefaultNamingStrategy
 import javax.inject.Named
+import com.laegler.microservice.adapter.model.Template
+import com.laegler.microservice.adapter.generator.Generator
+import com.laegler.microservice.adapter.model.Project
+import com.laegler.microservice.adapter.model.FileType
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
-/**
- * Project Generator for SAOP Project(s)
- */
 @Named
-class SoapProjectGenerator extends AbstractProjectGenerator {
+class SoapProjectGenerator extends Generator {
+
+	protected static Logger LOG = LoggerFactory.getLogger(SoapProjectGenerator)
 
 	val List<Project> subProjects = new ArrayList
-	var List<AbstractTemplate> templates = new ArrayList
+	var List<Template> templates = new ArrayList
 
 	override Project generate(Architecture a) {
 		project = projectBuilder.name(namingStrategy.getProjectName(a.name)).microserviceModel(a).build
-		model.projects.add(project)
+		world.projects.add(project)
 
 		a.artifacts.filter(Spring).forEach [ s |
-			model.projects.addAll(
-				s.generateSoapParentProject,
-				s.generateSoapClientProject,
+			world.projects.addAll(
+				s.generateSoapProject,
+				s.generateSoapModelProject,
 				s.generateSoapServerProject,
-				s.generateSoapModelProject
+				s.generateSoapClientProject
 			)
 		]
 		project
 	}
 
 	protected def Project generateSoapServerProject(Spring s) {
-		var Project it = projectBuilder.name(namingStrategy.getProjectName(s.name, 'soap', 'server')).dir(
-			namingStrategy.getProjectDir(s.name, 'soap', 'server')).build
-
+		var Project it = projectBuilder //
+		.name(namingStrategy.getProjectName(s.name, 'soap', 'server')) //
+		.dir(namingStrategy.getAbsoluteBasePath(s.name, 'soap', 'server')) //
+		.build //
 		templates.addAll(
 			it.generateSoapDefaultServerJava(s),
 			it.generateSoapServerJava(s)
@@ -50,9 +48,10 @@ class SoapProjectGenerator extends AbstractProjectGenerator {
 	}
 
 	protected def Project generateSoapClientProject(Spring s) {
-		var Project it = projectBuilder.name(namingStrategy.getProjectName(s.name, 'soap', 'client')).dir(
-			namingStrategy.getProjectDir(s.name, 'soap', 'client')).build
-
+		var Project it = projectBuilder //
+		.name(namingStrategy.getProjectName(s.name, 'soap', 'client')) //
+		.dir(namingStrategy.getAbsoluteBasePath(s.name, 'soap', 'client')) //
+		.build //
 		templates.addAll(
 			it.generateSoapClientJava(s),
 			it.generateSoapDefaultClientJava(s)
@@ -61,9 +60,10 @@ class SoapProjectGenerator extends AbstractProjectGenerator {
 	}
 
 	protected def Project generateSoapModelProject(Spring s) {
-		var Project it = projectBuilder.name(namingStrategy.getProjectName(s.name, 'soap', 'model')).dir(
-			namingStrategy.getProjectDir(s.name, 'soap', 'model')).build
-
+		var Project it = projectBuilder //
+		.name(namingStrategy.getProjectName(s.name, 'soap', 'model')) //
+		.dir(namingStrategy.getAbsoluteBasePath(s.name, 'soap', 'model')) //
+		.build //
 		templates.addAll(
 			it.generateSoapModelPomXml(s),
 			it.generateSoapClientJava(s),
@@ -72,44 +72,41 @@ class SoapProjectGenerator extends AbstractProjectGenerator {
 		it
 	}
 
-	protected def Project generateSoapParentProject(Spring s) {
-		var Project it = projectBuilder.name(namingStrategy.getProjectName(s.name, 'soap')).dir(
-			namingStrategy.getProjectDir(s.name, 'soap')).build
-
+	protected def Project generateSoapProject(Spring s) {
+		var Project it = projectBuilder //
+		.name(namingStrategy.getProjectName(s.name, 'soap')) //
+		.dir(namingStrategy.getAbsoluteBasePath(s.name, 'soap')) //
+		.build //
 		templates.addAll(
 			it.generateParentPomXml(s)
 		)
 		it
 	}
 
-	protected def AbstractTemplate generateSoapModelPomXml(Project project, Spring s) {
+	protected def Template generateSoapModelPomXml(Project project, Spring s) {
 	}
 
-	protected def AbstractTemplate generateParentPomXml(Project project, Spring s) {
+	protected def Template generateParentPomXml(Project project, Spring s) {
 	}
 
-	protected def AbstractTemplate generateSoapDefaultServerJava(Project project, Spring s) {
+	protected def Template generateSoapDefaultServerJava(Project project, Spring s) {
 	}
 
-	protected def AbstractTemplate generateSoapServerJava(Project project, Spring s) {
+	protected def Template generateSoapServerJava(Project project, Spring s) {
 	}
 
-	protected def AbstractTemplate generateSoapClientJava(Project project, Spring s) {
+	protected def Template generateSoapClientJava(Project project, Spring s) {
 		templateBuilder.fileName('''«s.name»SoapClient''').fileType(FileType.XTEND).
 			relativPath('''src/main/gen/«s.name»''').content('''
 				This is the template of SoapClient.java
 			''').build
 	}
 
-	protected def AbstractTemplate generateSoapDefaultClientJava(Project project, Spring s) {
+	protected def Template generateSoapDefaultClientJava(Project project, Spring s) {
 	}
 
-	protected def AbstractTemplate generateSoapClientPomXml(Project project, Spring s) {
-		return new PomXmlTemplate(project)
-	}
-
-	override prepare() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	protected def Template generateSoapClientPomXml(Project project, Spring s) {
+//		return new PomXmlTemplate(project)
 	}
 
 //	@Inject FileHelper fileHelper

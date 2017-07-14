@@ -12,6 +12,10 @@ import org.eclipse.xtend.lib.annotations.AccessorType
 import org.eclipse.xtend.lib.annotations.Accessors
 
 import static extension org.eclipse.xtend.lib.annotations.AccessorType.*
+import org.apache.maven.plugin.logging.Log
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import org.slf4j.impl.StaticLoggerBinder
 
 @Mojo(name="generator")
 //, defaultPhase=LifecyclePhase.
@@ -58,4 +62,12 @@ class GeneratorMojo extends AbstractCDIMojo {
 	def PluginDescriptor getPluginDescriptor() {
 		return getPluginContext().get('pluginDescriptor') as PluginDescriptor;
 	}
+
+//	@MojoProduces
+//	def Logger getLogger() {
+//		StaticLoggerBinder.getSingleton().setMavenLog(this.log)
+//		this.log.debug('Init slf4j Logger')
+//		val logger = LoggerFactory.getLogger('com.laegler.microservice')
+//		logger
+//	}
 }

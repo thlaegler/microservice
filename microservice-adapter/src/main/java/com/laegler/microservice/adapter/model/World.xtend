@@ -15,6 +15,7 @@ class World {
 	String name
 	String basePackage
 	String version
+	String author
 
 	Architecture architecture
 	File baseFolder

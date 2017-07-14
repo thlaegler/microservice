@@ -13,12 +13,31 @@
 		<maventhree.version>3.5.0</maventhree.version>
 	</properties>
 
+	<!-- <repositories> <repository> <id>in-project-repo</id> <name>In Project 
+		Repo</name> <url>file://${basedir}/lib</url> </repository> </repositories> -->
+
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>microservice-model</artifactId>
+			<artifactId>microservice-editor</artifactId>
 			<version>${project.version}</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/com/laegler/microservice/microservice-editor/1.0.0-SNAPSHOT/microservice-editor.jar</systemPath>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>19.0</version>
+		</dependency>
+		<!-- <dependency> <groupId>${project.groupId}</groupId> <artifactId>microservice-model</artifactId> 
+			<version>${project.version}</version> </dependency> -->
 
 		<dependency>
 			<groupId>org.eclipse.xtend</groupId>
@@ -51,16 +70,11 @@
 			<artifactId>slf4j-simple</artifactId>
 			<version>1.6.3</version>
 		</dependency>
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>19.0-rc3</version>
-		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.googlecode.guava-osgi</groupId>
 			<artifactId>guava-osgi</artifactId>
 			<version>11.0.1</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>io.swagger</groupId>
 			<artifactId>swagger-parser</artifactId>

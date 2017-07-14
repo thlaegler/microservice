@@ -13,11 +13,11 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
+		<!-- <dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>microservice-model</artifactId>
+			<artifactId>microservice-editor</artifactId>
 			<version>${project.version}</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>microservice-adapter</artifactId>

@@ -1,8 +1,5 @@
 package com.laegler.microservice.adapter.model;
 
-import lombok.Getter;
-
-@Getter
 public enum OverwritePolicy {
 
   KEEP(""), //
@@ -13,6 +10,10 @@ public enum OverwritePolicy {
 
   OverwritePolicy(String description) {
     this.description = description;
+  }
+
+  public String getDescription() {
+    return description;
   }
 
 }
