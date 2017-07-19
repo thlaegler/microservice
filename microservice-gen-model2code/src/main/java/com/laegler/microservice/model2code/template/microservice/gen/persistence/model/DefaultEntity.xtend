@@ -1,13 +1,14 @@
 package com.laegler.microservice.model2code.template.microservice.gen.persistence.model
 
-import com.laegler.microservice.model.microserviceModel.Entity
-import com.laegler.microservice.model.microserviceModel.Attribute
+import com.laegler.microservice.model.Entity
 import com.laegler.microservice.adapter.model.Template
 import com.laegler.microservice.adapter.model.Project
 import com.laegler.microservice.adapter.model.FileType
 import org.slf4j.LoggerFactory
 import com.laegler.microservice.adapter.model.Xtend
 import org.slf4j.Logger
+import java.util.Map
+import java.util.Map.Entry
 
 class DefaultEntity extends Xtend {
 
@@ -51,30 +52,29 @@ class DefaultEntity extends Xtend {
 			//@ApiModel
 			@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 			interface «entity?.name?.toFirstUpper» implements Serializable {
-			
-				«FOR Attribute attribute : entity?.attributes»
-					
+			«FOR Map<String, String> field : entity.fields»
+				«FOR Entry<String, String> e : field.entrySet»
 					/**
-					 * «attribute?.documentation»
+					 * «e.key»
 					 */
-					«IF attribute.primaryKey»
-						@Id
-						@GeneratedValue(strategy = GenerationType.AUTO)
-					«ENDIF»
-					@Column(name='«attribute.name»')
+«««					«IF attribute.primaryKey»
+«««						@Id
+«««						@GeneratedValue(strategy = GenerationType.AUTO)
+«««					«ENDIF»
+					@Column(name='«e.key»')
 					//@Since(«world.getOption('version')»)
 					@Until(0.0)
-					//@JsonProperty('«attribute?.name?.toFirstLower»')
+					//@JsonProperty('«e.key.toFirstLower»')
 					@XmlElement
 					@Expose(serialize=true, deserialize=true)
 					@Accessors(PUBLIC_GETTER, PUBLIC_SETTER)
 					private 
 	«««				«IF attribute?.javaType != null»«attribute?.javaType?.qualifiedName»«ELSE»
-					«attribute?.type?.name»
+					«e.value»
 	«««				«ENDIF»
-					 «attribute?.name?.toFirstLower»
+					 «e.key.toFirstLower»
 				«ENDFOR»
-			
+			«ENDFOR»
 			}
 		''')//
 		.build

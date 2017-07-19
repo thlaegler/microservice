@@ -6,10 +6,7 @@ import com.laegler.microservice.adapter.model.TemplateBuilder
 import com.laegler.microservice.adapter.model.World
 import com.laegler.microservice.adapter.util.FileUtil
 import com.laegler.microservice.adapter.util.YamlConfig
-import com.laegler.microservice.model.microserviceModel.GrpcConsume
-import com.laegler.microservice.model.microserviceModel.MicroserviceModelFactory
-import com.laegler.microservice.model.microserviceModel.RestConsume
-import com.laegler.microservice.model.microserviceModel.Spring
+import com.laegler.microservice.model.Artifact
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
@@ -37,9 +34,8 @@ abstract class AbstractTransformator {
 	@Inject protected World world
 	@Inject protected FileUtil fileHelper
 	@Inject protected ProjectBuilder projectBuilder
-//	@Inject protected TemplateBuilder templateBuilder
+	@Inject protected TemplateBuilder templateBuilder
 	@Inject protected MavenXpp3Reader mavenReader
-	@Inject protected MicroserviceModelFactory microserviceModelFactory
 
 	protected def Set<Class<?>> getValidClasses(String basePackage, Class<? extends Annotation> clazz) {
 		val Set<Class<?>> classes = new LinkedHashSet<Class<?>>
@@ -110,18 +106,10 @@ abstract class AbstractTransformator {
 //		writeFile(m.kubeFileContent, m.getFilePath('''«m.name»-kube.yml'''))
 	}
 
-	protected def String getSubsetContent(Spring spring) '''
+	protected def String getSubsetContent(Artifact spring) '''
 		«spring?.name»
 		«FOR consume : spring?.consumes»
-			«IF consume instanceof RestConsume»
-				«consume?.target?.name»
-			«ENDIF»
-			«IF consume instanceof GrpcConsume»
-				«consume?.target?.name»
-			«ENDIF»
-		«ENDFOR»
-		«FOR use : spring?.dependencies»
-			«use?.target?.name»
+			«consume.endpoint»
 		«ENDFOR»
 	'''
 

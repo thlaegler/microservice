@@ -2,7 +2,7 @@
 //
 //import com.laegler.microservice.adapter.util.Project
 //import com.laegler.microservice.model2code.template.base.AbstractXtendTemplate
-//import com.laegler.microservice.model.microserviceModel.Entity
+//import com.laegler.microservice.model.Entity
 //
 ///**
 // * File Generator for Spring REST controller for managing entity

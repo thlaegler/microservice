@@ -21,7 +21,7 @@ class ProjectBuilder {
 	var String directory
 
 	var Model pom
-	var EObject microserviceModel
+	var Object microserviceModel
 	
 	var List<Project> subProjects
 	var List<Template> templates
@@ -39,8 +39,8 @@ class ProjectBuilder {
 		Optional.ofNullable(version).orElse('0.0.1-SNAPSHOT')
 		Optional.ofNullable(canonicalName).orElse('Undefined project')
 		Optional.ofNullable(documentation).orElse('This is an undefined project (Generator is not implemented yet)')
-Optional.ofNullable(subProjects).orElse(new ArrayList)
-Optional.ofNullable(templates).orElse(new ArrayList)
+		Optional.ofNullable(subProjects).orElse(new ArrayList)
+		Optional.ofNullable(templates).orElse(new ArrayList)
 
 		val project = new Project(name, projectType, basePackage, version, canonicalName, documentation, directory, pom,
 			microserviceModel)
@@ -74,7 +74,7 @@ Optional.ofNullable(templates).orElse(new ArrayList)
 		this
 	}
 
-	def microserviceModel(EObject microserviceModel) {
+	def microserviceModel(Object microserviceModel) {
 		this.microserviceModel = microserviceModel
 		this
 	}

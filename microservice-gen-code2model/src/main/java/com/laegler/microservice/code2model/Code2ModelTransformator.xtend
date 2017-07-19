@@ -3,8 +3,8 @@ package com.laegler.microservice.code2model
 import com.laegler.microservice.adapter.AbstractTransformator
 import com.laegler.microservice.adapter.model.FileType
 import com.laegler.microservice.adapter.model.TemplateBuilder
-import com.laegler.microservice.model.microserviceModel.Architecture
-import com.laegler.microservice.model.microserviceModel.Artifact
+import com.laegler.microservice.model.Architecture
+import com.laegler.microservice.model.Artifact
 import java.nio.file.Files
 import java.util.ArrayList
 import java.util.List
@@ -14,45 +14,39 @@ import javax.inject.Named
 import org.apache.maven.model.Model
 import org.apache.maven.project.MavenProject
 import org.eclipse.emf.ecore.EObject
+import javax.inject.Inject
+import com.laegler.microservice.code2model.generator.ArchitectureYamlProjectGenerator
 
 @Named
 class Code2ModelTransformator extends AbstractTransformator {
+
+	@Inject protected ArchitectureYamlProjectGenerator architectureYamlProject
 
 	public def void generate(MavenProject mavenProject) {
 		mavenProject?.generate(mavenProject?.artifactId, mavenProject?.groupId)
 	}
 
-	public def void generate(MavenProject mavenProject, String name, String basePackage) {
-		world.mavenProject = mavenProject
-
-		val List<Artifact> artifacts = new ArrayList => [
-			mavenProject?.model.transformMavenDependencies(basePackage)
-			mavenProject?.model.transformPom
-			mavenProject.transformFileStructure(basePackage)
-
-			mavenProject?.transformSpring
-		]
-
-		val parentProject = projectBuilder.name(name).basePackage(basePackage).microserviceModel(
-			microserviceModelFactory.createArchitecture => [
-				artifacts.addAll(artifacts)
+	public def void generate(MavenProject mvnProject, String nam, String basPackage) {
+		world => [ it |
+			it.name = nam
+			basePackage = basPackage
+			it.mavenProject = mvnProject
+			architecture = new Architecture => [
+				artifacts.addAll(new ArrayList => [
+					mvnProject?.model.transformMavenDependencies(basPackage)
+					mvnProject?.model.transformPom
+					mvnProject.transformFileStructure(basPackage)
+					mvnProject?.transformSpring
+				])
 			]
-		)
-
-		fileHelper.toFile(new TemplateBuilder() //
-		.fileName(name + '-microservice') //
-		.relativPath('/') //
-		.fileType(FileType.ARCHITECTURE).content('''
-			architecture: «name» {
-				«FOR Artifact a : artifacts»
-					service: «a.name»
-				«ENDFOR»
-			}
-		''') //
-		.build)
-
-		world.projects?.forEach [
-			templates?.forEach[fileHelper.toFile(it)]
+			projects.addAll(
+				architectureYamlProject.generate(architecture)
+			)
+			projects.forEach [
+				templates.forEach [
+					fileHelper.toFile(it)
+				]
+			]
 		]
 	}
 
@@ -94,7 +88,7 @@ class Code2ModelTransformator extends AbstractTransformator {
 		// relate all methods to one base request mapping if multiple controllers exist for that mapping
 		// get all methods from each controller & find their request mapping
 		// create map - resource string (after first slash) as key, new SpringResource as value
-		val Architecture architecture = microserviceModelFactory.createArchitecture
+		val Architecture architecture = new Architecture
 //		val Map<String, SpringResource> resourceMap = getResourceMap(classes);
 //		for (String str : resourceMap.keySet()) {
 //			val SpringResource resource = resourceMap.get(str);
@@ -189,7 +183,7 @@ class Code2ModelTransformator extends AbstractTransformator {
 				projectBuilder.name(pom.artifactId).microserviceModel(world as EObject).build
 			)
 			artifacts.add(
-				microserviceModelFactory.createArtifact => [
+				new Artifact => [
 					name = mo
 				]
 			)
@@ -204,7 +198,7 @@ class Code2ModelTransformator extends AbstractTransformator {
 				projectBuilder.name(pom.artifactId).microserviceModel(world as EObject).build
 			)
 			artifacts.add(
-				microserviceModelFactory.createArtifact => [
+				new Artifact => [
 					name = dep.artifactId
 				]
 			)
@@ -223,7 +217,7 @@ class Code2ModelTransformator extends AbstractTransformator {
 		LOG.info('''Trying to transform file structure to Model: «mavenProject.artifactId»''')
 		if (Files.isDirectory(parentPath)) {
 			Files.walk(parentPath).collect(Collectors.toList()).filter[Files.isDirectory(it)].forEach [ f |
-				artifacts.add(microserviceModelFactory.createArtifact => [
+				artifacts.add(new Artifact => [
 					name = f.fileName.toString
 				])
 			]

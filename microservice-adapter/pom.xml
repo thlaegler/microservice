@@ -17,32 +17,34 @@
 		Repo</name> <url>file://${basedir}/lib</url> </repository> </repositories> -->
 
 	<dependencies>
+		<!-- <dependency> <groupId>${project.groupId}.editor</groupId> <artifactId>${project.groupId}.editor</artifactId> 
+			<version>${project.version}</version> <scope>system</scope> <systemPath>${basedir}/lib/com/laegler/microservice/microservice-editor/1.0.0-SNAPSHOT/microservice-editor.jar</systemPath> 
+			<exclusions> <exclusion> <groupId>com.google.guava</groupId> <artifactId>guava</artifactId> 
+			</exclusion> </exclusions> </dependency> -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>microservice-editor</artifactId>
+			<artifactId>microservice-model</artifactId>
 			<version>${project.version}</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/lib/com/laegler/microservice/microservice-editor/1.0.0-SNAPSHOT/microservice-editor.jar</systemPath>
-			<exclusions>
-				<exclusion>
-					<groupId>com.google.guava</groupId>
-					<artifactId>guava</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
+		<!-- Xtend -->
+		<dependency>
+			<groupId>org.eclipse.xtend</groupId>
+			<artifactId>org.eclipse.xtend.lib</artifactId>
+			<version>2.12.0</version>
+		</dependency>
+
+		<!-- Infrastructure -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>19.0</version>
 		</dependency>
-		<!-- <dependency> <groupId>${project.groupId}</groupId> <artifactId>microservice-model</artifactId> 
-			<version>${project.version}</version> </dependency> -->
-
 		<dependency>
-			<groupId>org.eclipse.xtend</groupId>
-			<artifactId>org.eclipse.xtend.lib</artifactId>
-			<version>2.12.0</version>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>4.1.0</version>
+			<classifier>no_aop</classifier>
 		</dependency>
 		<dependency>
 			<groupId>javax.inject</groupId>
@@ -50,10 +52,14 @@
 			<version>1</version>
 		</dependency>
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.16.16</version>
-			<!-- <scope>provided</scope> -->
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.2.12</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.1</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -61,20 +67,43 @@
 			<version>2.5</version>
 		</dependency>
 		<dependency>
-			<groupId>org.yaml</groupId>
-			<artifactId>snakeyaml</artifactId>
-			<version>1.18</version>
-		</dependency>
-		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
 			<version>1.6.3</version>
 		</dependency>
-		<!-- <dependency>
-			<groupId>com.googlecode.guava-osgi</groupId>
-			<artifactId>guava-osgi</artifactId>
-			<version>11.0.1</version>
-		</dependency> -->
+
+		<!-- Eclipse Xtext / EMF -->
+		<dependency>
+			<groupId>org.eclipse.xtext</groupId>
+			<artifactId>org.eclipse.xtext</artifactId>
+			<version>2.12.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.emf</groupId>
+			<artifactId>org.eclipse.emf.ecore</artifactId>
+			<version>2.12.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.emf</groupId>
+			<artifactId>org.eclipse.emf.common</artifactId>
+			<version>2.12.0</version>
+		</dependency>
+
+		<!-- YAML -->
+		<dependency>
+			<groupId>org.yaml</groupId>
+			<artifactId>snakeyaml</artifactId>
+			<version>1.18</version>
+		</dependency>
+
+		<!-- Graphviz -->
+		<dependency>
+			<groupId>guru.nidi</groupId>
+			<artifactId>graphviz-java</artifactId>
+			<version>0.2.1</version>
+		</dependency>
+
+		<!-- Swagger -->
 		<dependency>
 			<groupId>io.swagger</groupId>
 			<artifactId>swagger-parser</artifactId>
@@ -104,22 +133,22 @@
 			<groupId>io.swagger</groupId>
 			<artifactId>swagger-jaxrs</artifactId>
 			<version>1.5.9</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
+
+		<!-- Cucumber -->
 		<dependency>
 			<groupId>io.cucumber</groupId>
 			<artifactId>gherkin</artifactId>
 			<version>4.0.0</version>
 		</dependency>
-		<dependency>
-			<groupId>javax.xml.bind</groupId>
-			<artifactId>jaxb-api</artifactId>
-			<version>2.2.12</version>
-		</dependency>
-		<dependency>
-			<groupId>guru.nidi</groupId>
-			<artifactId>graphviz-java</artifactId>
-			<version>0.2.1</version>
-		</dependency>
+
+		<!-- Maven -->
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-model</artifactId>
@@ -129,16 +158,16 @@
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-core</artifactId>
 			<version>${maventhree.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.emf</groupId>
-			<artifactId>org.eclipse.emf.ecore</artifactId>
-			<version>2.12.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.emf</groupId>
-			<artifactId>org.eclipse.emf.common</artifactId>
-			<version>2.12.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.inject</groupId>
+					<artifactId>guice</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- Testing -->

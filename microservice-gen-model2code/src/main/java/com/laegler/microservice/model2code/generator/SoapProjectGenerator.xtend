@@ -2,8 +2,8 @@ package com.laegler.microservice.model2code.generator
 
 import java.util.ArrayList
 import java.util.List
-import com.laegler.microservice.model.microserviceModel.Architecture
-import com.laegler.microservice.model.microserviceModel.Spring
+import com.laegler.microservice.model.Architecture
+import com.laegler.microservice.model.Artifact
 import javax.inject.Named
 import com.laegler.microservice.adapter.model.Template
 import com.laegler.microservice.adapter.generator.Generator
@@ -21,10 +21,10 @@ class SoapProjectGenerator extends Generator {
 	var List<Template> templates = new ArrayList
 
 	override Project generate(Architecture a) {
-		project = projectBuilder.name(namingStrategy.getProjectName(a.name)).microserviceModel(a).build
+		val project = projectBuilder.name(namingStrategy.getProjectName(a.name)).microserviceModel(a).build
 		world.projects.add(project)
 
-		a.artifacts.filter(Spring).forEach [ s |
+		a.artifacts.filter(Artifact).forEach [ s |
 			world.projects.addAll(
 				s.generateSoapProject,
 				s.generateSoapModelProject,
@@ -35,7 +35,7 @@ class SoapProjectGenerator extends Generator {
 		project
 	}
 
-	protected def Project generateSoapServerProject(Spring s) {
+	protected def Project generateSoapServerProject(Artifact s) {
 		var Project it = projectBuilder //
 		.name(namingStrategy.getProjectName(s.name, 'soap', 'server')) //
 		.dir(namingStrategy.getAbsoluteBasePath(s.name, 'soap', 'server')) //
@@ -47,7 +47,7 @@ class SoapProjectGenerator extends Generator {
 		it
 	}
 
-	protected def Project generateSoapClientProject(Spring s) {
+	protected def Project generateSoapClientProject(Artifact s) {
 		var Project it = projectBuilder //
 		.name(namingStrategy.getProjectName(s.name, 'soap', 'client')) //
 		.dir(namingStrategy.getAbsoluteBasePath(s.name, 'soap', 'client')) //
@@ -59,7 +59,7 @@ class SoapProjectGenerator extends Generator {
 		it
 	}
 
-	protected def Project generateSoapModelProject(Spring s) {
+	protected def Project generateSoapModelProject(Artifact s) {
 		var Project it = projectBuilder //
 		.name(namingStrategy.getProjectName(s.name, 'soap', 'model')) //
 		.dir(namingStrategy.getAbsoluteBasePath(s.name, 'soap', 'model')) //
@@ -72,7 +72,7 @@ class SoapProjectGenerator extends Generator {
 		it
 	}
 
-	protected def Project generateSoapProject(Spring s) {
+	protected def Project generateSoapProject(Artifact s) {
 		var Project it = projectBuilder //
 		.name(namingStrategy.getProjectName(s.name, 'soap')) //
 		.dir(namingStrategy.getAbsoluteBasePath(s.name, 'soap')) //
@@ -83,29 +83,29 @@ class SoapProjectGenerator extends Generator {
 		it
 	}
 
-	protected def Template generateSoapModelPomXml(Project project, Spring s) {
+	protected def Template generateSoapModelPomXml(Project project, Artifact s) {
 	}
 
-	protected def Template generateParentPomXml(Project project, Spring s) {
+	protected def Template generateParentPomXml(Project project, Artifact s) {
 	}
 
-	protected def Template generateSoapDefaultServerJava(Project project, Spring s) {
+	protected def Template generateSoapDefaultServerJava(Project project, Artifact s) {
 	}
 
-	protected def Template generateSoapServerJava(Project project, Spring s) {
+	protected def Template generateSoapServerJava(Project project, Artifact s) {
 	}
 
-	protected def Template generateSoapClientJava(Project project, Spring s) {
+	protected def Template generateSoapClientJava(Project project, Artifact s) {
 		templateBuilder.fileName('''«s.name»SoapClient''').fileType(FileType.XTEND).
 			relativPath('''src/main/gen/«s.name»''').content('''
 				This is the template of SoapClient.java
 			''').build
 	}
 
-	protected def Template generateSoapDefaultClientJava(Project project, Spring s) {
+	protected def Template generateSoapDefaultClientJava(Project project, Artifact s) {
 	}
 
-	protected def Template generateSoapClientPomXml(Project project, Spring s) {
+	protected def Template generateSoapClientPomXml(Project project, Artifact s) {
 //		return new PomXmlTemplate(project)
 	}
 
@@ -150,8 +150,8 @@ class SoapProjectGenerator extends Generator {
 //			// Project-specific singular templates
 //			new PomXmlTemplate(stubbr, project),
 //			new DotProjectTemplate(stubbr, project),
-//			new SpringAppXtendTemplate(stubbr, project),
-//			new SpringWebXmlXtendTemplate(stubbr, project),
+//			new ArtifactAppXtendTemplate(stubbr, project),
+//			new ArtifactWebXmlXtendTemplate(stubbr, project),
 //			new WebXmlTemplateBase(stubbr, project),
 //			new FacesConfigXmlTemplateBase(stubbr, project),
 //			new IndexDesktopXhtmlTemplate(stubbr, project),

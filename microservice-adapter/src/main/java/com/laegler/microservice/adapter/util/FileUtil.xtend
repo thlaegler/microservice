@@ -1,17 +1,16 @@
 package com.laegler.microservice.adapter.util;
 
 import com.laegler.microservice.adapter.model.OverwritePolicy
+import com.laegler.microservice.adapter.model.Template
 import java.io.File
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.util.Collection
+import javax.inject.Named
 import org.apache.commons.io.FileUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import com.laegler.microservice.adapter.model.Template
-import javax.inject.Named
 
 /**
  * File helpers with convenience methods.
@@ -47,7 +46,7 @@ public class FileUtil {
 	}
 
 	public def boolean isNullOrEmpty2(Object object) {
-		if (object instanceof Collection) {
+		if (object instanceof Iterable<?>) {
 			return object !== null && !object.empty
 		}
 		if (object instanceof String) {
@@ -66,20 +65,17 @@ public class FileUtil {
 
 		// Don't overwrite existing files if defined in template
 		if (template.overwritePolicy != OverwritePolicy.OVERWRITE) {
-
 			val File file = findFile(template.fullPathWithName)
 			if (file !== null) {
-
 				// Check if there are file changes
 				if (asString(file).equalsIgnoreCase(template.fileContent)) {
 					LOG.
 						info('''No changes in file so we skip generation and keep the old version for file «template.fullPathWithName»''')
 					return false
 				}
-
 				// Compare versions
 				val String fileVersion = getFileVersion(file)
-				val int versionCompare = versionCompare(fileVersion, template.version)
+				val int versionCompare = compareVersion(fileVersion, template.version)
 				if (versionCompare > 0) {
 					LOG.info('''Version is older than the existing version for file «template.fullPathWithName»''')
 					return false
@@ -137,9 +133,9 @@ public class FileUtil {
 	 *         The result is a positive integer if str1 is _numerically_ greater than str2. 
 	 *         The result is zero if the strings are _numerically_ equal.
 	 */
-	public def int versionCompare(String str1, String str2) {
-		val String[] vals1 = str1.split("\\.")
-		val String[] vals2 = str2.split("\\.")
+	public def int compareVersion(String v1, String v2) {
+		val String[] vals1 = v1.split("\\.")
+		val String[] vals2 = v2.split("\\.")
 		var int i = 0
 
 		// set index to first non-equal ordinal or length of shortest version string

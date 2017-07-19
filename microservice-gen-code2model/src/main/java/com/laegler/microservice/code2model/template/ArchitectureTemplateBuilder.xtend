@@ -1,6 +1,6 @@
 package com.laegler.microservice.code2model.template
 
-import com.laegler.microservice.model.microserviceModel.Architecture
+import com.laegler.microservice.model.Architecture
 import com.laegler.microservice.adapter.model.TemplateBuilder
 import javax.inject.Named
 import com.laegler.microservice.adapter.model.Template

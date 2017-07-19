@@ -8,6 +8,12 @@
 
 	<name>Microservice Example Architecture</name>
 
+	<modules>
+		<module>app-parent</module>
+		<!-- <module>grpc-parent</module> <module>soap-parent</module> <module>users</module> 
+			<module>products</module> -->
+	</modules>
+
 	<dependencies>
 		<!-- <dependency> <groupId>com.laegler.microservice.modeler</groupId> <artifactId>com.laegler.microservice.modeler</artifactId> 
 			<version>1.0.0-SNAPSHOT</version> </dependency> -->

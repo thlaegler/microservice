@@ -4,15 +4,15 @@ import com.laegler.microservice.adapter.generator.Generator
 import com.laegler.microservice.adapter.model.FileType
 import com.laegler.microservice.adapter.model.Project
 import com.laegler.microservice.adapter.model.Template
-import com.laegler.microservice.model.microserviceModel.Architecture
-import com.laegler.microservice.model.microserviceModel.Spring
+import com.laegler.microservice.model.Architecture
+import com.laegler.microservice.model.Artifact
 import java.util.ArrayList
 import java.util.List
 import javax.inject.Inject
 import javax.inject.Named
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import com.laegler.microservice.model2code.template.parent.PlantUml
+import com.laegler.microservice.adapter.model.template.PlantUml
 
 /**
  * Project Generator for JSF/Faces Project
@@ -28,10 +28,10 @@ class DocuProjectGenerator extends Generator {
 	List<Template> templates = new ArrayList
 
 	override Project generate(Architecture a) {
-		project = projectBuilder.name(a.name).microserviceModel(a).build
+		val project = projectBuilder.name(a.name).microserviceModel(a).build
 		world.projects.add(project)
 
-		a.artifacts.filter(Spring).forEach [ s |
+		a.artifacts.filter(Artifact).forEach [ s |
 			s.name = s.name + '.docu'
 			subProjects.addAll(
 				s.generateDocuProject
@@ -40,7 +40,7 @@ class DocuProjectGenerator extends Generator {
 		project
 	}
 
-	protected def Project generateDocuProject(Spring s) {
+	protected def Project generateDocuProject(Artifact s) {
 		var Project it = projectBuilder.name(s.name + '.docu').build
 		templates.addAll(
 			it.generatePlantUml
@@ -52,10 +52,10 @@ class DocuProjectGenerator extends Generator {
 		plantUml.getTemplate(project)
 	}
 
-	protected def generateGrpcDefaultClientJava(Project project, Spring s) {
+	protected def generateGrpcDefaultClientJava(Project project, Artifact s) {
 	}
 
-	protected def generateGrpcClientJava(Project project, Spring s) {
+	protected def generateGrpcClientJava(Project project, Artifact s) {
 		fileHelper.toFile(
 			templateBuilder //
 			.fileName('''«s.name»GrpcClient''') //

@@ -5,14 +5,9 @@ import javax.enterprise.inject.Produces
 import io.swagger.codegen.config.CodegenConfigurator
 import io.swagger.codegen.DefaultGenerator
 import io.swagger.parser.SwaggerParser
-import com.laegler.microservice.model.microserviceModel.MicroserviceModelFactory
 
 class InjectionProducer {
 
-	@Produces
-	def public MicroserviceModelFactory getMicroserviceModelFactory() {
-		MicroserviceModelFactory.eINSTANCE
-	}
 	
 	@Produces
 	def public MavenXpp3Reader getMavenXpp3Reader() {

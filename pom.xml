@@ -13,8 +13,8 @@
 	</properties>
 
 	<modules>
-		<!-- <module>microservice-model</module> -->
-		<module>microservice-editor</module>
+		<module>microservice-model</module>
+		<!-- <module>microservice-editor/${project.groupId}.editor</module> -->
 		<module>microservice-adapter</module>
 		<module>microservice-gen-code2model</module>
 		<module>microservice-gen-model2code</module>

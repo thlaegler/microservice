@@ -27,7 +27,7 @@ class Project {
 	val String directory
 
 	val Model pom
-	val EObject microserviceModel
+	val Object microserviceModel
 
 	List<Template> templates
 	List<Project> subProjects

@@ -1,9 +1,9 @@
 //package com.laegler.microservice.model2code.template.microservice.src.soap.server
 //
-//import com.laegler.microservice.model.microserviceModel.Entity
+//import com.laegler.microservice.model.Entity
 //import com.laegler.microservice.model2code.template.base.AbstractXtendTemplate
 //import com.laegler.microservice.adapter.util.Project
-//import com.laegler.microservice.model.microserviceModel.Attribute
+//import com.laegler.microservice.model.Attribute
 //
 ///**
 // * File template for SOAP endpoint implementation.

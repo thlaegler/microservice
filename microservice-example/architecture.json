@@ -1,0 +1,63 @@
+{
+  "architecture": {
+    "name": "ExampleProject",
+    "options": [
+      {
+        "basePackage": "org.example.test"
+      }
+    ],
+    "services": [
+      {
+        "name": "user",
+        "exposes": {
+          "soap": [
+            {
+              "name": "UsersSoap",
+              "port": 6081
+            },
+            {
+              "name": "AuthSoap",
+              "port": 6082
+            }
+          ],
+          "grpc": [
+            {
+              "name": "UsersGrpc",
+              "port": 7070
+            }
+          ],
+          "rest": [
+            {
+              "name": "UsersRest",
+              "port": 8081
+            }
+          ]
+        }
+      },
+      {
+        "name": "product",
+        "exposes": [
+          {
+            "grpc": {
+              "name": "ProductsGrpc",
+              "port": 7071
+            }
+          },
+          {
+            "rest": {
+              "name": "ProductsRest",
+              "port": 8081
+            }
+          }
+        ],
+        "consumes": [
+          {
+            "grpc": {
+              "endpoint": "UsersGrpc"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

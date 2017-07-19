@@ -1,7 +1,7 @@
 package com.laegler.microservice.model2code.generator
 
-import com.laegler.microservice.model.microserviceModel.Architecture
-import com.laegler.microservice.model.microserviceModel.Spring
+import com.laegler.microservice.model.Architecture
+import com.laegler.microservice.model.Artifact
 import java.util.ArrayList
 import java.util.List
 import org.slf4j.LoggerFactory
@@ -21,10 +21,10 @@ class RestProjectGenerator extends Generator {
 	override Project generate(Architecture a) {
 		LOG.info('Generating REST project(s)')
 
-		project = projectBuilder.name(a.name).microserviceModel(a).build
+		val project = projectBuilder.name(a.name).microserviceModel(a).build
 		world.projects.add(project)
 
-		a.artifacts.filter(Spring).forEach [ s |
+		a.artifacts.filter(Artifact).forEach [ s |
 			s.name = s.name + '.grpc'
 			world.projects.addAll(
 				s.generateRestParentProject,
@@ -37,7 +37,7 @@ class RestProjectGenerator extends Generator {
 		project
 	}
 
-	protected def Project generateRestServerProject(Spring s) {
+	protected def Project generateRestServerProject(Artifact s) {
 		LOG.info('Generating REST server project')
 
 		var Project it = projectBuilder.name(s.name + '.server').build
@@ -48,7 +48,7 @@ class RestProjectGenerator extends Generator {
 		it
 	}
 
-	protected def Project generateRestClientProject(Spring s) {
+	protected def Project generateRestClientProject(Artifact s) {
 		LOG.info('Generating REST client project')
 
 		var Project it = projectBuilder.name(s.name + '.client').build
@@ -60,33 +60,33 @@ class RestProjectGenerator extends Generator {
 		it
 	}
 
-	protected def Project generateRestModelProject(Spring s) {
+	protected def Project generateRestModelProject(Artifact s) {
 		LOG.info('Generating REST model project')
 
 		var Project it = projectBuilder.name(s.name + '.model').build
 		it
 	}
 
-	protected def Project generateRestParentProject(Spring s) {
+	protected def Project generateRestParentProject(Artifact s) {
 		LOG.info('Generating REST parent project')
 
 		var Project it = projectBuilder.name(s.name).build
 		it
 	}
 
-	protected def Template generateRestDefaultServerJava(Project project, Spring s) {
+	protected def Template generateRestDefaultServerJava(Project project, Artifact s) {
 		LOG.info('Creating file: REST default server Java')
 		// TODO
 		null
 	}
 
-	protected def Template generateRestServerJava(Project project, Spring s) {
+	protected def Template generateRestServerJava(Project project, Artifact s) {
 		LOG.info('Creating file: REST server Java')
 		// TODO
 		null
 	}
 
-	protected def Template generateRestClientJava(Project project, Spring s) {
+	protected def Template generateRestClientJava(Project project, Artifact s) {
 		LOG.info('Creating file: REST client Java')
 
 		templateBuilder.fileName('''«s.name»RestClient''').fileType(FileType.XTEND).
@@ -95,13 +95,13 @@ class RestProjectGenerator extends Generator {
 			''').build
 	}
 
-	protected def Template generateRestDefaultClientJava(Project project, Spring s) {
+	protected def Template generateRestDefaultClientJava(Project project, Artifact s) {
 		LOG.info('Creating file: REST default client Java')
 		// TODO
 		null
 	}
 
-	protected def Template generateRestClientPomXml(Project project, Spring s) {
+	protected def Template generateRestClientPomXml(Project project, Artifact s) {
 //		LOG.info('Creating file: REST maven POM XML')
 //		return new PomXmlTemplate(project)
 	}
@@ -147,8 +147,8 @@ class RestProjectGenerator extends Generator {
 //			// Project-specific singular templates
 //			new PomXmlTemplate(stubbr, project),
 //			new DotProjectTemplate(stubbr, project),
-//			new SpringAppXtendTemplate(stubbr, project),
-//			new SpringWebXmlXtendTemplate(stubbr, project),
+//			new ArtifactAppXtendTemplate(stubbr, project),
+//			new ArtifactWebXmlXtendTemplate(stubbr, project),
 //			new WebXmlTemplateBase(stubbr, project),
 //			new FacesConfigXmlTemplateBase(stubbr, project),
 //			new IndexDesktopXhtmlTemplate(stubbr, project),

@@ -1,7 +1,7 @@
 //package com.laegler.microservice.model2code.template.parent
 //
 //import com.laegler.microservice.model2code.template.base.AbstractPomXmlTemplate
-//import com.laegler.microservice.model.microserviceModel.Architecture
+//import com.laegler.microservice.model.Architecture
 //
 ///**
 // * File Generator for Maven project object model (pom.xml)

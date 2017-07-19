@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.laegler.microservice</groupId>
+	<artifactId>example-products-soap-server</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>Example Products Soap Client</name>
+
+	<parent>
+		<groupId>com.laegler.microservice</groupId>
+		<artifactId>example-soap-parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../../soap-parent</relativePath>
+	<parent>
+
+	<dependencies>
+		<!-- <dependency> <groupId>com.laegler.microservice.modeler</groupId> <artifactId>com.laegler.microservice.modeler</artifactId> 
+			<version>1.0.0-SNAPSHOT</version> </dependency> -->
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.laegler.microservice</groupId>
+				<artifactId>microservice-maven-plugin</artifactId>
+				<version>${project.version}</version>
+				<configuration>
+					<activateCode2Model>true</activateCode2Model>
+					<activateModel2Code>true</activateModel2Code>
+				</configuration>
+				<executions>
+					<execution>
+						<id>generate-code</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generator</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

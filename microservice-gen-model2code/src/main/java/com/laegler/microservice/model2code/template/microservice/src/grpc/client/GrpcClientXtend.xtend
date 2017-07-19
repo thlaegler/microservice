@@ -1,6 +1,6 @@
 package com.laegler.microservice.model2code.template.microservice.src.grpc.client
 
-import com.laegler.microservice.model.microserviceModel.Entity
+import com.laegler.microservice.model.Entity
 import com.laegler.microservice.adapter.model.Project
 import com.laegler.microservice.adapter.model.Template
 import com.laegler.microservice.adapter.model.FileType

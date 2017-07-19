@@ -20,11 +20,9 @@
 	</properties>
 
 	<dependencies>
-		<!-- <dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>microservice-editor</artifactId>
-			<version>${project.version}</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>${project.groupId}.editor</groupId> <artifactId>${project.groupId}.editor</artifactId> 
+			<version>${project.version}</version> <exclusions> <exclusion> <groupId>com.google.guava</groupId> 
+			<artifactId>guava</artifactId> </exclusion> </exclusions> </dependency> -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>microservice-adapter</artifactId>
@@ -41,15 +39,29 @@
 			<version>${project.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>com.jcabi</groupId>
-			<artifactId>jcabi-maven-slf4j</artifactId>
-			<version>0.8</version>
-		</dependency>
+		<!-- Xtend -->
 		<dependency>
 			<groupId>org.eclipse.xtend</groupId>
 			<artifactId>org.eclipse.xtend.lib</artifactId>
 			<version>2.12.0</version>
+		</dependency>
+
+		<!-- Infrastructure -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>19.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>4.1.0</version>
+			<classifier>no_aop</classifier>
+		</dependency>
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -57,25 +69,17 @@
 			<version>2.5</version>
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.emf</groupId>
-			<artifactId>org.eclipse.emf.common</artifactId>
-			<version>2.12.0</version>
+			<groupId>com.googlecode.slf4j-maven-plugin-log</groupId>
+			<artifactId>slf4j-maven-plugin-log</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
-			<groupId>guru.nidi</groupId>
-			<artifactId>graphviz-java</artifactId>
-			<version>0.2.1</version>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.6.3</version>
 		</dependency>
-		<dependency>
-			<groupId>com.itemis.maven.plugins</groupId>
-			<artifactId>cdi-plugin-utils</artifactId>
-			<version>3.3.1</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.inject</groupId>
-			<artifactId>javax.inject</artifactId>
-			<version>1</version>
-		</dependency>
+
+		<!-- Maven -->
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-plugin-api</artifactId>
@@ -91,14 +95,11 @@
 			<artifactId>maven-project</artifactId>
 			<version>${maven.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.maven/maven-model -->
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-model</artifactId>
 			<version>${maventhree.version}</version>
 		</dependency>
-		<!-- <dependency> <groupId>org.apache.maven</groupId> <artifactId>maven-model</artifactId> 
-			<version>${maven.version}</version> </dependency> -->
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-core</artifactId>
@@ -111,9 +112,22 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>19.0</version>
+			<groupId>com.jcabi</groupId>
+			<artifactId>jcabi-maven-slf4j</artifactId>
+			<version>0.8</version>
+		</dependency>
+		<dependency>
+			<groupId>com.itemis.maven.plugins</groupId>
+			<artifactId>cdi-plugin-utils</artifactId>
+			<version>3.3.1</version>
+		</dependency>
+
+		<!-- Testing -->
+		<dependency>
+			<groupId>org.apache.maven.plugin-testing</groupId>
+			<artifactId>maven-plugin-testing-harness</artifactId>
+			<version>3.3.0</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

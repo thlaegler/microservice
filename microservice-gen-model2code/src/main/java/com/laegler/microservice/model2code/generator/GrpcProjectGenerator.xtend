@@ -4,8 +4,8 @@ import com.laegler.microservice.adapter.generator.Generator
 import com.laegler.microservice.adapter.model.FileType
 import com.laegler.microservice.adapter.model.Project
 import com.laegler.microservice.adapter.model.Template
-import com.laegler.microservice.model.microserviceModel.Architecture
-import com.laegler.microservice.model.microserviceModel.Spring
+import com.laegler.microservice.model.Architecture
+import com.laegler.microservice.model.Artifact
 import com.laegler.microservice.model2code.template.microservice.GrpcModelPomXml
 import com.laegler.microservice.model2code.template.microservice.gen.grpc.client.DefaultGrpcClientXtend
 import java.util.List
@@ -32,10 +32,10 @@ class GrpcProjectGenerator extends Generator {
 
 		isDeepDirStrategy = world.getOption('dirStrategy').equals('deep')
 
-		project = projectBuilder.name(a.name).microserviceModel(a).build
+		val project = projectBuilder.name(a.name).microserviceModel(a).build
 		world.projects.add(project)
 
-		a.artifacts.filter(Spring).forEach [ s |
+		a.artifacts.filter(Artifact).forEach [ s |
 			s.name = s.name + '.grpc'
 			subProjects.addAll(
 				s.generateGrpcParentProject,
@@ -47,7 +47,7 @@ class GrpcProjectGenerator extends Generator {
 		project
 	}
 
-	protected def Project generateGrpcServerProject(Spring s) {
+	protected def Project generateGrpcServerProject(Artifact s) {
 		LOG.info('Generating gRPC server project')
 
 		var Project it = projectBuilder.name(s.name + '.server').build
@@ -58,19 +58,19 @@ class GrpcProjectGenerator extends Generator {
 		it
 	}
 
-	protected def Project generateModelServerProject(Spring s) {
+	protected def Project generateModelServerProject(Artifact s) {
 		LOG.info('Generating gRPC server project')
 
 		var Project it = projectBuilder.name(s.name + '.server').build
 		templates.addAll(
 			it.generateGrpcDefaultServerJava(s),
 			it.generateGrpcServerJava(s),
-			grpcModelPomXml.getTemplate(project)
+			grpcModelPomXml.getTemplate(it)
 		)
 		it
 	}
 
-	protected def Project generateGrpcClientProject(Spring s) {
+	protected def Project generateGrpcClientProject(Artifact s) {
 		LOG.info('Generating gRPC client project')
 
 		var Project it = projectBuilder.name(s.name + '.client').build
@@ -82,21 +82,21 @@ class GrpcProjectGenerator extends Generator {
 		it
 	}
 
-	protected def Project generateGrpcModelProject(Spring s) {
+	protected def Project generateGrpcModelProject(Artifact s) {
 		LOG.info('Generating gRPC model project')
 
 		var Project it = projectBuilder.name(s.name + '.model').build
 		it
 	}
 
-	protected def Project generateGrpcParentProject(Spring s) {
+	protected def Project generateGrpcParentProject(Artifact s) {
 		LOG.info('Generating gRPC parent project')
 
 		var Project it = projectBuilder.name(s.name).build
 		it
 	}
 
-	protected def Template generateGrpcDefaultServerJava(Project project, Spring s) {
+	protected def Template generateGrpcDefaultServerJava(Project project, Artifact s) {
 		LOG.info('Creating file: gRPC default server Java')
 		// TODO
 		templateBuilder.fileName('''«s.name»GrpcClient''').fileType(FileType.XTEND).
@@ -105,7 +105,7 @@ class GrpcProjectGenerator extends Generator {
 			''').build
 	}
 
-	protected def Template generateGrpcServerJava(Project project, Spring s) {
+	protected def Template generateGrpcServerJava(Project project, Artifact s) {
 		LOG.info('Creating file: gRPC server Java')
 		// TODO
 		templateBuilder.fileName('''«s.name»GrpcClient''').fileType(FileType.XTEND).
@@ -114,7 +114,7 @@ class GrpcProjectGenerator extends Generator {
 			''').build
 	}
 
-	protected def Template generateGrpcClientJava(Project project, Spring s) {
+	protected def Template generateGrpcClientJava(Project project, Artifact s) {
 		LOG.info('Creating file: gRPC client Java')
 
 		templateBuilder.fileName('''«s.name»GrpcClient''').fileType(FileType.XTEND).

@@ -13,36 +13,27 @@
 	</properties>
 
 	<dependencies>
-		<!-- <dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>microservice-editor</artifactId>
-			<version>${project.version}</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>${project.groupId}</groupId> <artifactId>microservice-editor</artifactId> 
+			<version>${project.version}</version> </dependency> -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>microservice-adapter</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>javax.inject</groupId>
-			<artifactId>javax.inject</artifactId>
-			<version>1</version>
-		</dependency>
-
+		<!-- Xtend -->
 		<dependency>
 			<groupId>org.eclipse.xtend</groupId>
 			<artifactId>org.eclipse.xtend.lib</artifactId>
 			<version>2.12.0</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.eclipse.xtext/org.eclipse.xtext -->
-		<!-- <dependency> <groupId>org.eclipse.xtext</groupId> <artifactId>org.eclipse.xtext</artifactId> 
-			<version>2.12.0</version> </dependency> -->
-		<!-- https://mvnrepository.com/artifact/org.eclipse.emf/org.eclipse.emf.mwe.utils -->
-		<!-- <dependency> <groupId>org.eclipse.emf</groupId> <artifactId>org.eclipse.emf.mwe.utils</artifactId> 
-			<version>1.3.21.201705291010</version> </dependency> -->
 
-		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+		<!-- Infrastructure -->
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
+		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
@@ -53,33 +44,7 @@
 			<artifactId>slf4j-simple</artifactId>
 			<version>1.6.3</version>
 		</dependency>
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>19.0-rc3</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.apache.maven/maven-model -->
-		<dependency>
-			<groupId>org.apache.maven</groupId>
-			<artifactId>maven-model</artifactId>
-			<version>${maven3.version}</version>
-		</dependency>
-		<!-- <dependency> <groupId>org.apache.maven</groupId> <artifactId>maven-model</artifactId> 
-			<version>${maven.version}</version> </dependency> -->
-		<dependency>
-			<groupId>org.apache.maven</groupId>
-			<artifactId>maven-core</artifactId>
-			<version>${maven3.version}</version>
-		</dependency>
-
-		<!-- <dependency> <groupId>com.laegler.microservice.modeler</groupId> <artifactId>com.laegler.microservice.modeler</artifactId> 
-			<version>1.0.0-SNAPSHOT</version> </dependency> -->
-		<dependency>
-			<groupId>org.eclipse.emf</groupId>
-			<artifactId>org.eclipse.emf.ecore</artifactId>
-			<version>2.12.0</version>
-		</dependency>
+		
 	</dependencies>
 
 	<build>

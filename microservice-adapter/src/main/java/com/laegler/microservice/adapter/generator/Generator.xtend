@@ -1,10 +1,9 @@
 package com.laegler.microservice.adapter.generator
 
-import com.laegler.microservice.model.microserviceModel.Architecture
+import com.laegler.microservice.model.Architecture
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
-import com.laegler.microservice.model.microserviceModel.MicroserviceModelFactory
 import java.util.GregorianCalendar
 import java.io.StringWriter
 import javax.xml.bind.JAXBContext
@@ -24,11 +23,8 @@ abstract class Generator {
 	@Inject protected World world
 	@Inject protected FileUtil fileHelper
 	@Inject protected NamingStrategy namingStrategy
-	@Inject protected MicroserviceModelFactory microserviceModelFactory
 	@Inject protected ProjectBuilder projectBuilder
 	@Inject protected TemplateBuilder templateBuilder
-
-	protected Project project
 
 	abstract public def Project generate(Architecture a)
 

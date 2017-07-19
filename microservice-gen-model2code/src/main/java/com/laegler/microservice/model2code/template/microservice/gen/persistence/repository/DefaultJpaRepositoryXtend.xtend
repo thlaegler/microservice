@@ -1,6 +1,6 @@
 package com.laegler.microservice.model2code.template.microservice.gen.persistence.repository
 
-import com.laegler.microservice.model.microserviceModel.Entity
+import com.laegler.microservice.model.Entity
 import com.laegler.microservice.adapter.model.FileType
 import com.laegler.microservice.adapter.model.Project
 import com.laegler.microservice.adapter.model.Template

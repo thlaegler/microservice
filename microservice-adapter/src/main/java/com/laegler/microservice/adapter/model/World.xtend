@@ -1,12 +1,11 @@
 package com.laegler.microservice.adapter.model
 
-import org.eclipse.xtend.lib.annotations.Accessors
-import com.laegler.microservice.model.microserviceModel.Architecture
+import com.laegler.microservice.model.Architecture
 import java.io.File
-import org.apache.maven.project.MavenProject
 import java.util.List
-import com.laegler.microservice.model.microserviceModel.Option
 import javax.inject.Named
+import org.apache.maven.project.MavenProject
+import org.eclipse.xtend.lib.annotations.Accessors
 
 @Named
 @Accessors
@@ -22,9 +21,10 @@ class World {
 	MavenProject mavenProject
 
 	List<Project> projects
-//	List<Template> templates
 
 	public def String getOption(String key) {
-		architecture.artifacts.filter(Option).findFirst[name.equals(key)]?.value
+		architecture.options.findFirst[containsKey(key)].get(key)
 	}
+	
+	
 }
