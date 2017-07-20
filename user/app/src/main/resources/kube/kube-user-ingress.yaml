@@ -1,0 +1,13 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: user
+  namespace: example
+  labels:
+    name: example
+    app: example
+spec:
+  backend:
+    serviceName: user
+    servicePort: 8080

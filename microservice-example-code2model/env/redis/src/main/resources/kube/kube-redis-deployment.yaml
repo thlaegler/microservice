@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: code2model-001
+  labels:
+    app: redis
+    provider: john.doe
+    group: com.laegler.microservice.example.code2model
+    project: redis
+    version: 0.0.1-SNAPSHOT
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: redis
+        image: redis:0.0.1-SNAPSHOT
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: api
+          containerPort: 6379
+        volumeMounts:
+        - name: redis-persistent-storage
+          mountPath: /data
+      volumes:
+      - name: redis-persistent-storage
+        persistentVolumeClaim:
+          claimName: redis-volume-claim
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30

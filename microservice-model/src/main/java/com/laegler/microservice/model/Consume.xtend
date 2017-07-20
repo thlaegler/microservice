@@ -1,10 +1,9 @@
 package com.laegler.microservice.model
 
-import org.eclipse.xtend.lib.annotations.Accessors
-import lombok.NoArgsConstructor
 import lombok.AllArgsConstructor
 import lombok.Builder
-import java.util.List
+import lombok.NoArgsConstructor
+import org.eclipse.xtend.lib.annotations.Accessors
 
 @Builder
 @AllArgsConstructor

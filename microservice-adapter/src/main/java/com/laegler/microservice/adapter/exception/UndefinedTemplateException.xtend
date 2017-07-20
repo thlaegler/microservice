@@ -1,5 +1,9 @@
 package com.laegler.microservice.adapter.exception
 
-class UndefinedTemplateException extends GeneratorExeption {
+class UndefinedTemplateException extends GeneratorException {
+	
+	new(String message) {
+		super(message)
+	}
 	
 }

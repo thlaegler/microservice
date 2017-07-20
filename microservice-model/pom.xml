@@ -2,11 +2,16 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.laegler.microservice</groupId>
 	<artifactId>microservice-model</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
-
 	<name>Microservice Model</name>
+	<description>This projects holds the microservice architecture meta model.</description>
+
+	<parent>
+		<groupId>com.laegler.microservice</groupId>
+		<artifactId>microservice-parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../microservice-parent</relativePath>
+	</parent>
 
 	<!-- <pluginRepositories> <pluginRepository> <id>mapasuta.repo</id> <name>Mapasuta 
 		Project Download Repository</name> <url>http://mapasuta.sf.net/maven/repo</url> 
@@ -30,23 +35,6 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- Eclipse EMF -->
-		<dependency>
-			<groupId>org.eclipse.emf</groupId>
-			<artifactId>org.eclipse.emf.common</artifactId>
-			<version>2.12.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.emf</groupId>
-			<artifactId>org.eclipse.emf.ecore</artifactId>
-			<version>2.12.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.emf</groupId>
-			<artifactId>org.eclipse.emf.edit</artifactId>
-			<version>2.12.0</version>
-		</dependency>
-
 		<!-- Testing -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -58,15 +46,6 @@
 
 	<build>
 		<plugins>
-			<!-- <plugin> <groupId>net.sf.mapasuta.build.maven.plugins</groupId> <artifactId>maven-emfgen-plugin</artifactId> 
-				<version>1.2</version> <configuration> <genModel>model/MicroserviceModel.genmodel</genModel> 
-				<metaModels> <metaModel>model/MicroserviceModel.ecore</metaModel> </metaModels> 
-				<outputDirectory>src</outputDirectory> <genSrc>microserviceModel</genSrc> 
-				<workspace>${project.build.directory}/emf</workspace> <packageUris> <packageUri>http://www.laegler.com/microservice/model</packageUri> 
-				</packageUris> <modelProject>${project.artifactId}</modelProject> <eclipseDir>${basedir}/resource/fake-emf-eclipse</eclipseDir> 
-				<eclipseVersion>3.3.0</eclipseVersion> </configuration> <executions> <execution> 
-				<id>genmodel</id> <phase>verify</phase> <goals> <goal>genmodel</goal> </goals> 
-				</execution> </executions> </plugin> -->
 			<plugin>
 				<groupId>org.eclipse.xtend</groupId>
 				<artifactId>xtend-maven-plugin</artifactId>

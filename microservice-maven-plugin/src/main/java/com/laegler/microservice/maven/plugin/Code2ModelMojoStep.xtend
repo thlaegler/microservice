@@ -1,28 +1,30 @@
 package com.laegler.microservice.maven.plugin
 
-import com.itemis.maven.plugins.cdi.annotations.ProcessingStep
 import com.itemis.maven.plugins.cdi.CDIMojoProcessingStep
-import javax.inject.Inject
-import javax.inject.Named
 import com.itemis.maven.plugins.cdi.ExecutionContext
+import com.itemis.maven.plugins.cdi.annotations.ProcessingStep
+import com.laegler.microservice.code2model.Code2ModelTransformator
+import javax.inject.Inject
 import org.apache.maven.plugin.MojoExecutionException
 import org.apache.maven.plugin.MojoFailureException
-import org.apache.maven.project.MavenProject
-import com.laegler.microservice.code2model.Code2ModelTransformator
+import org.slf4j.Logger
 
 @ProcessingStep(id='code2model', description='Generate model from code.', requiresOnline=false)
 class Code2ModelMojoStep extends AbstractMojoStep implements CDIMojoProcessingStep {
 
-	@Inject Code2ModelTransformator transformator
+	@Inject
+	Logger LOG
 
-	@Inject @Named('project') MavenProject project
-	@Inject @Named('name') String name
-	@Inject @Named('basePackage') String basePackage
-	@Inject @Named('activateCode2Model') boolean activateCode2Model
+	@Inject
+	Code2ModelTransformator transformator
 
 	override void execute(ExecutionContext context) throws MojoExecutionException, MojoFailureException {
-		if (activateCode2Model) {
-			LOG.info('Code Generation is not activated: set <activateCode2Model>true<activateCode2Model>.')
+		LOG.debug('Starting code2model mojo step of microservice maven plugin ...')
+
+		init()
+
+		if (!activateCode2Model) {
+			LOG.debug('Model Generation is not activated: set <activateCode2Model>true<activateCode2Model>.')
 			return
 		}
 

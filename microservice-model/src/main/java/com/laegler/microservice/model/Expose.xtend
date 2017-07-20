@@ -15,6 +15,9 @@ class Expose {
 	boolean isDraft
 	String type
 	int port
+	String openApiFile
+	String protoFile
+	String wsdlFile
 	
 	public def EndpointType getEndpointType() {
 		EndpointType.valueOf(type)
@@ -23,4 +26,5 @@ class Expose {
 	public def setEndpointType(EndpointType type) {
 		this.type = type.name
 	}
+	
 }

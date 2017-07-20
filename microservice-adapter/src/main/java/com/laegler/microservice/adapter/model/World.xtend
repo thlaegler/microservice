@@ -2,12 +2,11 @@ package com.laegler.microservice.adapter.model
 
 import com.laegler.microservice.model.Architecture
 import java.io.File
-import java.util.List
-import javax.inject.Named
+import javax.inject.Singleton
 import org.apache.maven.project.MavenProject
 import org.eclipse.xtend.lib.annotations.Accessors
 
-@Named
+@Singleton
 @Accessors
 class World {
 
@@ -17,14 +16,13 @@ class World {
 	String author
 
 	Architecture architecture
-	File baseFolder
+	File rootFolder
 	MavenProject mavenProject
 
-	List<Project> projects
+	Project rootProject
 
 	public def String getOption(String key) {
-		architecture.options.findFirst[containsKey(key)].get(key)
+		architecture?.options?.get(key)
 	}
-	
-	
+
 }

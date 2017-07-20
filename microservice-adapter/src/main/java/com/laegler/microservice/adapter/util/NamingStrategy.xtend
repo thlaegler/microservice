@@ -1,15 +1,32 @@
 package com.laegler.microservice.adapter.util
 
 import javax.inject.Named
+import com.laegler.microservice.adapter.model.Project
 
 @Named
 interface NamingStrategy {
 
-	def String getProjectName(String name, String... parts)
+	def String getSrcPathWithPackage(Project p)
 
-	def String getAbsoluteBasePath(String name, String... parts)
+	def String getSrcGenPathWithPackage(Project p)
 
-	def String getAbsoluteBasePath(String name)
+	def String getSrcPath()
+
+	def String getSrcGenPath()
+
+	def String getSrcTestPath()
+
+	def String getResPath()
+
+	def String getResTestPath()
+
+	def String getPackagePath(Project p)
+
+	def String getProjectName(String... parts)
+
+	def String getProjectPath(String name)
+
+	def String getProjectPath(String... parts)
 
 	def String getAbsoluteSourcePath(String name)
 
@@ -20,6 +37,8 @@ interface NamingStrategy {
 	def String getAbsoluteGeneratedTestSourcePath(String name)
 
 	def String getAbsoluteBasePackagePath(String name)
+
+	def String getAbsoluteBasePackagePath(Project project)
 
 	def String getRelativeSourcePath()
 
@@ -32,5 +51,13 @@ interface NamingStrategy {
 	def String getRelativeBasePackagePath(String name)
 
 	def String getDirStrategy()
+
+	def String getPath(Project project, String subDir)
+
+	def String getPath(Project project, String subDir, boolean isResource)
+
+	def String getPath(Project project, String subDir, boolean isResource, boolean isGenerated)
+
+	def String getPath(Project project, String subDir, boolean isResource, boolean isGenerated, boolean isTest)
 
 }

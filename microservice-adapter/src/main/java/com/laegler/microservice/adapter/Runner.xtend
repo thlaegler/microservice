@@ -28,7 +28,7 @@ class Runner {
 		fileUtil = new FileUtil
 		val modelRoot = yamlAdapter.deserialize(fileUtil.asString(file))
 		modelRoot.architecture.artifacts.forEach [
-			LOG.info('''Reading artifact: «it.name»''')
+			LOG.debug('''Reading artifact: «it.name»''')
 		]
 		modelRoot
 	}

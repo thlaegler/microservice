@@ -1,31 +1,47 @@
 package com.laegler.microservice.adapter.util
 
-import org.apache.maven.model.io.xpp3.MavenXpp3Reader
-import javax.enterprise.inject.Produces
-import io.swagger.codegen.config.CodegenConfigurator
 import io.swagger.codegen.DefaultGenerator
+import io.swagger.codegen.config.CodegenConfigurator
 import io.swagger.parser.SwaggerParser
+import javax.enterprise.inject.Produces
+import javax.enterprise.inject.spi.InjectionPoint
+import javax.inject.Singleton
+import org.apache.maven.model.io.xpp3.MavenXpp3Reader
+import org.apache.maven.model.io.xpp3.MavenXpp3Writer
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
+@Singleton
 class InjectionProducer {
 
-	
 	@Produces
-	def public MavenXpp3Reader getMavenXpp3Reader() {
+	public def MavenXpp3Reader getMavenXpp3Reader() {
 		new MavenXpp3Reader
 	}
 
 	@Produces
-	def public SwaggerParser getSwaggerParser() {
+	public def MavenXpp3Writer getMavenXpp3Writer() {
+		new MavenXpp3Writer
+	}
+
+	@Produces
+	public def SwaggerParser getSwaggerParser() {
 		new SwaggerParser
 	}
 
 	@Produces
-	def public CodegenConfigurator getSwaggerCodegenConfigurator() {
+	public def CodegenConfigurator getSwaggerCodegenConfigurator() {
 		new CodegenConfigurator
 	}
 
 	@Produces
-	def public DefaultGenerator getSwaggerDefaultGenerator() {
+	public def DefaultGenerator getSwaggerDefaultGenerator() {
 		new DefaultGenerator
 	}
+
+	@Produces
+	public def Logger createLogger(InjectionPoint ip) {
+		return LoggerFactory.getLogger(ip.getMember().getDeclaringClass());
+	}
+
 }

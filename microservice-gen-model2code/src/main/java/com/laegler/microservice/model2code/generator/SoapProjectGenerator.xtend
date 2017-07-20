@@ -17,89 +17,97 @@ class SoapProjectGenerator extends Generator {
 
 	protected static Logger LOG = LoggerFactory.getLogger(SoapProjectGenerator)
 
-	val List<Project> subProjects = new ArrayList
-	var List<Template> templates = new ArrayList
+	override List<Project> generate(Architecture a) {
+		LOG.debug('Generating SOAP project(s) for {}', a.name)
 
-	override Project generate(Architecture a) {
-		val project = projectBuilder.name(namingStrategy.getProjectName(a.name)).microserviceModel(a).build
-		world.projects.add(project)
+		val List<Project> projects = new ArrayList
+		a.artifacts?.filter(Artifact).forEach [ art |
+			projects.add(art.generateSoapProject)
+		]
+		projects
+	}
 
-		a.artifacts.filter(Artifact).forEach [ s |
-			world.projects.addAll(
-				s.generateSoapProject,
-				s.generateSoapModelProject,
-				s.generateSoapServerProject,
-				s.generateSoapClientProject
+	protected def Project generateSoapProject(Artifact a) {
+		LOG.debug('Generating gRPC project')
+
+		projectBuilder //
+		.name(namingStrategy.getProjectName(a.name, 'soap')) //
+		.basePackage(world.basePackage) //
+		.dir(namingStrategy.getProjectPath(a.name, 'soap')) //
+		.build => [ p |
+			p.subProjects.addAll(
+				a.generateSoapModelProject,
+				a.generateSoapServerProject,
+				a.generateSoapClientProject
+			)
+//			p.templates?.addAll(
+//				generateGrpcDefaultServerJava(p, a),
+//				generateGrpcServerJava(p, a),
+//				grpcModelPomXml.getTemplate(p)
+//			)
+		]
+	}
+
+	protected def Project generateSoapServerProject(Artifact a) {
+		projectBuilder //
+		.name(namingStrategy.getProjectName(a.name, 'soap', 'server')) //
+		.basePackage(world.basePackage) //
+		.dir(namingStrategy.getProjectPath(a.name, 'soap', 'server')) //
+		.build => [ p |
+			p.templates.addAll(
+				p.generateSoapDefaultServerJava(a),
+				p.generateSoapServerJava(a)
 			)
 		]
-		project
 	}
 
-	protected def Project generateSoapServerProject(Artifact s) {
-		var Project it = projectBuilder //
-		.name(namingStrategy.getProjectName(s.name, 'soap', 'server')) //
-		.dir(namingStrategy.getAbsoluteBasePath(s.name, 'soap', 'server')) //
-		.build //
-		templates.addAll(
-			it.generateSoapDefaultServerJava(s),
-			it.generateSoapServerJava(s)
-		)
-		it
+	protected def Project generateSoapClientProject(Artifact a) {
+		projectBuilder //
+		.name(namingStrategy.getProjectName(a.name, 'soap', 'client')) //
+		.basePackage(world.basePackage) //
+		.dir(namingStrategy.getProjectPath(a.name, 'soap', 'client')) //
+		.build => [ p |
+			p.templates.addAll(
+				p.generateSoapClientJava(a),
+				p.generateSoapDefaultClientJava(a)
+			)
+		]
 	}
 
-	protected def Project generateSoapClientProject(Artifact s) {
-		var Project it = projectBuilder //
-		.name(namingStrategy.getProjectName(s.name, 'soap', 'client')) //
-		.dir(namingStrategy.getAbsoluteBasePath(s.name, 'soap', 'client')) //
-		.build //
-		templates.addAll(
-			it.generateSoapClientJava(s),
-			it.generateSoapDefaultClientJava(s)
-		)
-		it
+	protected def Project generateSoapModelProject(Artifact a) {
+		projectBuilder //
+		.name(namingStrategy.getProjectName(a.name, 'soap', 'model')) //
+		.basePackage(world.basePackage) //
+		.dir(namingStrategy.getProjectPath(a.name, 'soap', 'model')) //
+		.build => [ p |
+			p.templates.addAll(
+				p.generateSoapModelPomXml(a),
+				p.generateSoapClientJava(a),
+				p.generateSoapDefaultClientJava(a)
+			)
+		]
 	}
 
-	protected def Project generateSoapModelProject(Artifact s) {
-		var Project it = projectBuilder //
-		.name(namingStrategy.getProjectName(s.name, 'soap', 'model')) //
-		.dir(namingStrategy.getAbsoluteBasePath(s.name, 'soap', 'model')) //
-		.build //
-		templates.addAll(
-			it.generateSoapModelPomXml(s),
-			it.generateSoapClientJava(s),
-			it.generateSoapDefaultClientJava(s)
-		)
-		it
+	protected def Template generateSoapModelPomXml(Project p, Artifact a) {
 	}
 
-	protected def Project generateSoapProject(Artifact s) {
-		var Project it = projectBuilder //
-		.name(namingStrategy.getProjectName(s.name, 'soap')) //
-		.dir(namingStrategy.getAbsoluteBasePath(s.name, 'soap')) //
-		.build //
-		templates.addAll(
-			it.generateParentPomXml(s)
-		)
-		it
+	protected def Template generateParentPomXml(Project p, Artifact a) {
 	}
 
-	protected def Template generateSoapModelPomXml(Project project, Artifact s) {
+	protected def Template generateSoapDefaultServerJava(Project p, Artifact a) {
 	}
 
-	protected def Template generateParentPomXml(Project project, Artifact s) {
+	protected def Template generateSoapServerJava(Project p, Artifact a) {
 	}
 
-	protected def Template generateSoapDefaultServerJava(Project project, Artifact s) {
-	}
-
-	protected def Template generateSoapServerJava(Project project, Artifact s) {
-	}
-
-	protected def Template generateSoapClientJava(Project project, Artifact s) {
-		templateBuilder.fileName('''«s.name»SoapClient''').fileType(FileType.XTEND).
-			relativPath('''src/main/gen/«s.name»''').content('''
-				This is the template of SoapClient.java
-			''').build
+	protected def Template generateSoapClientJava(Project p, Artifact a) {
+		templateBuilder //
+		.fileName(a.name + 'SoapClient') //
+		.fileType(FileType.XTEND) //
+		.relativPath(namingStrategy.getSrcPathWithPackage(p)) //
+		.content('''
+			This is the template of SoapClient.java
+		''').build
 	}
 
 	protected def Template generateSoapDefaultClientJava(Project project, Artifact s) {

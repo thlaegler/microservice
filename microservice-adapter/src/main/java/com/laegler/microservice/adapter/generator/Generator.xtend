@@ -15,6 +15,7 @@ import com.laegler.microservice.adapter.model.World
 import com.laegler.microservice.adapter.model.ProjectBuilder
 import com.laegler.microservice.adapter.util.FileUtil
 import com.laegler.microservice.adapter.model.TemplateBuilder
+import java.util.List
 
 abstract class Generator {
 
@@ -26,7 +27,7 @@ abstract class Generator {
 	@Inject protected ProjectBuilder projectBuilder
 	@Inject protected TemplateBuilder templateBuilder
 
-	abstract public def Project generate(Architecture a)
+	abstract public def List<Project> generate(Architecture a)
 
 	protected def getParentDir() '''../'''
 

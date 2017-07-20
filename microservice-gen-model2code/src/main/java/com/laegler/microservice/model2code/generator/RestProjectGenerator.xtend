@@ -15,94 +15,135 @@ class RestProjectGenerator extends Generator {
 
 	protected static Logger LOG = LoggerFactory.getLogger(RestProjectGenerator)
 
-	List<Project> subProjects = new ArrayList
-	List<Template> templates = new ArrayList
+	override List<Project> generate(Architecture a) {
+		LOG.debug('Generating REST project(s) for {}', a.name)
 
-	override Project generate(Architecture a) {
-		LOG.info('Generating REST project(s)')
+		val List<Project> projects = new ArrayList
+		a.artifacts?.filter(Artifact).forEach [ art |
+			projects.add(art.generateRestProject)
+		]
+		projects
+	}
 
-		val project = projectBuilder.name(a.name).microserviceModel(a).build
-		world.projects.add(project)
+	protected def Project generateRestProject(Artifact a) {
+		LOG.debug('Generating REST project(s) for {}', a.name)
 
-		a.artifacts.filter(Artifact).forEach [ s |
-			s.name = s.name + '.grpc'
-			world.projects.addAll(
-				s.generateRestParentProject,
-				s.generateRestClientProject,
-				s.generateRestServerProject,
-				s.generateRestModelProject
+		projectBuilder //
+		.name(namingStrategy.getProjectName(a.name, 'rest')) //
+		.basePackage(world.basePackage) //
+		.dir(namingStrategy.getProjectPath(a.name, 'rest')) //
+		.build => [ p |
+			p.subProjects.addAll(
+				a.generateRestParentProject,
+				a.generateRestModelProject,
+				a.generateRestServerProject,
+				a.generateRestClientProject
+			)
+//			p.templates?.addAll(
+//				generateGrpcDefaultServerJava(p, a),
+//				generateGrpcServerJava(p, a),
+//				grpcModelPomXml.getTemplate(p)
+//			)
+		]
+	}
+
+	protected def Project generateRestParentProject(Artifact a) {
+		LOG.debug('Generating REST parent project for {}', a.name)
+
+		projectBuilder //
+		.name(namingStrategy.getProjectName(a.name, 'rest', 'parent')) //
+		.basePackage(world.basePackage) //
+		.dir(namingStrategy.getProjectPath(a.name, 'rest', 'parent')) //
+		.build => [p|
+//			p.templates.addAll(
+//				p.generateRestDefaultServerJava(a),
+//				p.generateRestServerJava(a)
+//			)
+		]
+	}
+
+	protected def Project generateRestServerProject(Artifact a) {
+		LOG.debug('Generating REST server project for {}', a.name)
+
+		projectBuilder //
+		.name(namingStrategy.getProjectName(a.name, 'rest', 'server')) //
+		.basePackage(world.basePackage) //
+		.dir(namingStrategy.getProjectPath(a.name, 'rest', 'server')) //
+		.build => [ p |
+			p.templates.addAll(
+				p.generateRestDefaultServerJava(a),
+				p.generateRestServerJava(a)
 			)
 		]
-
-		project
 	}
 
-	protected def Project generateRestServerProject(Artifact s) {
-		LOG.info('Generating REST server project')
+	protected def Project generateRestClientProject(Artifact a) {
+		LOG.debug('Generating REST client project for {}', a.name)
 
-		var Project it = projectBuilder.name(s.name + '.server').build
-		templates.addAll(
-			it.generateRestDefaultServerJava(s),
-			it.generateRestServerJava(s)
-		)
-		it
+		projectBuilder //
+		.name(namingStrategy.getProjectName(a.name, 'rest', 'client')) //
+		.basePackage(world.basePackage) //
+		.dir(namingStrategy.getProjectPath(a.name, 'rest', 'client')) //
+		.build => [ p |
+			p.templates.addAll(
+				p.generateRestClientJava(a),
+				p.generateRestDefaultClientJava(a)
+			)
+		]
 	}
 
-	protected def Project generateRestClientProject(Artifact s) {
-		LOG.info('Generating REST client project')
+	protected def Project generateRestModelProject(Artifact a) {
+		LOG.debug('Generating REST model project for {}', a.name)
 
-		var Project it = projectBuilder.name(s.name + '.client').build
-		templates.addAll(
-			it.generateRestClientJava(s),
-			it.generateRestDefaultClientJava(s)
-		)
-
-		it
+		projectBuilder //
+		.name(namingStrategy.getProjectName(a.name, 'rest', 'model')) //
+		.basePackage(world.basePackage) //
+		.dir(namingStrategy.getProjectPath(a.name, 'rest', 'model')) //
+		.build => [ p |
+			p.templates.addAll(
+				p.generateRestDtoXtend(a)
+			)
+		]
 	}
 
-	protected def Project generateRestModelProject(Artifact s) {
-		LOG.info('Generating REST model project')
-
-		var Project it = projectBuilder.name(s.name + '.model').build
-		it
-	}
-
-	protected def Project generateRestParentProject(Artifact s) {
-		LOG.info('Generating REST parent project')
-
-		var Project it = projectBuilder.name(s.name).build
-		it
-	}
-
-	protected def Template generateRestDefaultServerJava(Project project, Artifact s) {
-		LOG.info('Creating file: REST default server Java')
+	protected def Template generateRestDtoXtend(Project p, Artifact s) {
+		LOG.debug('Generating file: REST DTOs Xtend')
 		// TODO
 		null
 	}
 
-	protected def Template generateRestServerJava(Project project, Artifact s) {
-		LOG.info('Creating file: REST server Java')
+	protected def Template generateRestDefaultServerJava(Project p, Artifact s) {
+		LOG.debug('Generating file: REST default server Java')
 		// TODO
 		null
 	}
 
-	protected def Template generateRestClientJava(Project project, Artifact s) {
-		LOG.info('Creating file: REST client Java')
-
-		templateBuilder.fileName('''«s.name»RestClient''').fileType(FileType.XTEND).
-			relativPath('''src/main/gen/«s.name»''').content('''
-				This is the template of RestClient.java
-			''').build
-	}
-
-	protected def Template generateRestDefaultClientJava(Project project, Artifact s) {
-		LOG.info('Creating file: REST default client Java')
+	protected def Template generateRestServerJava(Project p, Artifact s) {
+		LOG.debug('Generating file: REST server Java')
 		// TODO
 		null
 	}
 
-	protected def Template generateRestClientPomXml(Project project, Artifact s) {
-//		LOG.info('Creating file: REST maven POM XML')
+	protected def Template generateRestClientJava(Project p, Artifact s) {
+		LOG.debug('Creating file: REST client Java')
+
+		templateBuilder //
+		.fileName(s.name + 'RestClient') //
+		.fileType(FileType.XTEND) //
+		.relativPath(namingStrategy.getSrcPathWithPackage(p)) //
+		.content('''
+			This is the template of RestClient.java
+		''').build
+	}
+
+	protected def Template generateRestDefaultClientJava(Project p, Artifact s) {
+		LOG.debug('Creating file: REST default client Java')
+		// TODO
+		null
+	}
+
+	protected def Template generateRestClientPomXml(Project p, Artifact s) {
+//		LOG.debug('Creating file: REST maven POM XML')
 //		return new PomXmlTemplate(project)
 	}
 

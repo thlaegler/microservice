@@ -27,7 +27,7 @@ class WebXml {
 		.project(project) //
 		.fileName('web') //
 		.fileType(FileType.XML) //
-		.relativPath(namingStrategy.getAbsoluteBasePath(project.name) + '/src/main/webapp/META-INF/') //
+		.relativPath('src/main/webapp/META-INF') //
 		.documentation('Eclipse classpath') //
 		.skipStamping(true).header('''
 			<?xml version="1.0" encoding="UTF-8"?>

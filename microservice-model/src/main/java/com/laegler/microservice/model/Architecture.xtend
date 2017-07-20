@@ -6,6 +6,8 @@ import lombok.Builder
 import lombok.NoArgsConstructor
 import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.Map
+import java.util.ArrayList
+import java.util.HashMap
 
 @Builder
 @AllArgsConstructor
@@ -15,7 +17,23 @@ class Architecture {
 
 	String name
 	String basePackage
-	List<Map<String, String>> options
-	List<Artifact> artifacts
+	String version
+	String author
+	String dirStrategy
+
+	Map<String, String> options = new HashMap
+	List<Artifact> artifacts = new ArrayList
+
+	public def DirStrategy getDirStrategyType() {
+		if (dirStrategy.isNullOrEmpty) {
+			return DirStrategy.DEEP
+		} else {
+			return DirStrategy.valueOf(dirStrategy)
+		}
+	}
+
+	public def setDirStrategyType(DirStrategy dirStrategyType) {
+		this.dirStrategy = dirStrategyType.name
+	}
 
 }

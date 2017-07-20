@@ -1,11 +1,11 @@
 package com.laegler.microservice.model
 
-import java.util.List
+import java.util.Map
 import lombok.AllArgsConstructor
 import lombok.Builder
 import lombok.NoArgsConstructor
 import org.eclipse.xtend.lib.annotations.Accessors
-import java.util.Map
+import java.util.HashMap
 
 @Builder
 @AllArgsConstructor
@@ -16,6 +16,6 @@ class Entity {
 	String name
 
 	// <Name, JvmType>
-	List<Map<String, String>> fields
+	Map<String, String> fields = new HashMap
 
 }

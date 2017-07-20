@@ -38,10 +38,10 @@ abstract class PomXml {
 	 */
 	protected def String getParentSection() '''
 		<parent>
-			<groupId>«world.basePackage.toLowerCase»</groupId>
-			<artifactId>«world.name?.toLowerCase»-parent</artifactId>
-			<version>«world.version»</version>
-			«IF world.getOption('dirStrategy').equals(namingStrategy.dirStrategy)»
+			<groupId>«world.basePackage?.toLowerCase»</groupId>
+			<artifactId>«world?.name?.toLowerCase»-parent</artifactId>
+			<version>«world?.version»</version>
+			«IF world?.architecture?.dirStrategy === namingStrategy.dirStrategy»
 				<relativePath>../«world.name?.toLowerCase»-parent/</relativePath>
 			«ENDIF»
 		</parent>

@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.laegler.microservice.example.code2model</groupId>
+	<artifactId>parent.rest</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<packaging>pom</packaging>
+
+	<name>Microservice Example REST parent</name>
+	<description>todo.</description>
+
+	<properties>
+		<!-- Basics: encoding and Java version -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<compiler.source.version>1.8</compiler.source.version>
+		<compiler.target.version>1.8</compiler.target.version>
+		<java.version>1.8</java.version>
+
+		<!-- Dependency versions -->
+		<spring.version>4.3.8.RELEASE</spring.version>
+		<spring.autorestdocs.version>1.0.6</spring.autorestdocs.version>
+		<springfox.version>2.6.0</springfox.version>
+		<hibernate.verion>5.2.10.Final</hibernate.verion>
+		<swagger.version>1.5.13</swagger.version>
+		<apache.commons.lang.version>3.6</apache.commons.lang.version>
+		<lombok.version>1.16.16</lombok.version>
+		<gson.version>2.8.1</gson.version>
+		<grpc.version>1.4.0</grpc.version>
+		<restassured.version>3.0.3</restassured.version>
+		<cucumber.version>1.2.5</cucumber.version>
+		<gherkin.version>2.12.2</gherkin.version>
+		<hikari-cp.version>2.6.2</hikari-cp.version>
+
+		<!-- Plugin versions -->
+		<protobuf-maven-plugin.version>0.5.0</protobuf-maven-plugin.version>
+		<os-maven-plugin.version>1.4.1.Final</os-maven-plugin.version>
+		<docker-maven-plugin.version>0.4.13</docker-maven-plugin.version>
+		<dockerfile-maven-plugin.version>1.2.2</dockerfile-maven-plugin.version>
+		<fabric8-maven-plugin.version>3.3.5</fabric8-maven-plugin.version>
+		<swagger-maven-plugin.version>3.1.5</swagger-maven-plugin.version>
+
+		<!-- POM properties -->
+		<example.dir.src.gen>src/main/gen</example.dir.src.gen>
+		<example.dir.templates>${basedir}/src/main/templates/</example.dir.templates>
+		<example.dir.generated>${project.build.directory}/generated</example.dir.generated>
+		<example.api.package>${project.groupId}</example.api.package>
+		<example.log.file.path>/tmp/${project.artifactId}.log</example.log.file.path>
+
+		<!-- Spring App -->
+		<example.grpc.default.port>7070</example.grpc.default.port>
+		<example.spring.default.port>8080</example.spring.default.port>
+		<example.spring.config.port>8888</example.spring.config.port>
+		<example.spring.config.uri>http://config-daemon:${example.spring.config.port}</example.spring.config.uri>
+		<example.spring.jvm.args>-Dspring.profiles.active=local</example.spring.jvm.args>
+
+		<!-- Docker -->
+		<example.docker.registry>gcr.io/platform-166700</example.docker.registry>
+		<example.docker.prefix>gcr.io/platform-166700/</example.docker.prefix>
+		<example.docker.from>${example.docker.registry}/base-jessey-java:latest</example.docker.from>
+		<example.docker.version>${project.version}</example.docker.version>
+		<example.docker.maintainer>ecommerce-platform@xmdevelopments.com</example.docker.maintainer>
+
+		<!-- Kubernetes -->
+		<example.kube.provider>fabric8</example.kube.provider>
+		<example.kube.namespace>services</example.kube.namespace>
+
+		<!-- Fabric8 specific; this is neccessary to make a custom manifest folder 
+			working -->
+		<fabric8.kubernetesManifest>${example.dir.generated}/kube/kubernetes.yml</fabric8.kubernetesManifest>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>1.5.4</version>
+        </dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>4.3.8.RELEASE</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>4.3.8.RELEASE</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.inject</groupId>
+				<artifactId>javax.inject</artifactId>
+				<version>1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>1.7.25</version>
+			</dependency>
+
+			<!-- SpringFox Swagger documentation -->
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger2</artifactId>
+				<version>${springfox.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger-ui</artifactId>
+				<version>${springfox.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-core</artifactId>
+				<version>1.5.13</version>
+			</dependency>
+
+			<!-- Apache Commons lang3 -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${apache.commons.lang.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>${gson.version}</version>
+			</dependency>
+
+			<!-- TESTING -->
+			<!-- Rest-assured -->
+			<dependency>
+				<groupId>io.rest-assured</groupId>
+				<artifactId>rest-assured</artifactId>
+				<version>${restassured.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>io.rest-assured</groupId>
+				<artifactId>spring-mock-mvc</artifactId>
+				<version>${restassured.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<!-- Cucumber und Gherkin -->
+			<!-- <dependency> <groupId>info.cukes</groupId> <artifactId>cucumber-jvm</artifactId> 
+				<version>${cucumber.version}</version> <scope>test</scope> </dependency> -->
+			<dependency>
+				<groupId>info.cukes</groupId>
+				<artifactId>cucumber-core</artifactId>
+				<version>${cucumber.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>info.cukes</groupId>
+				<artifactId>cucumber-java</artifactId>
+				<version>${cucumber.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>info.cukes</groupId>
+				<artifactId>cucumber-junit</artifactId>
+				<version>${cucumber.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>info.cukes</groupId>
+				<artifactId>gherkin</artifactId>
+				<version>${gherkin.version}</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+
+		<pluginManagement>
+			<plugins>
+				<!-- Filter and copy resources -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>copy-resources</id>
+							<phase>validate</phase>
+							<goals>
+								<goal>copy-resources</goal>
+							</goals>
+							<configuration>
+								<outputDirectory>${basedir}</outputDirectory>
+								<resources>
+									<resource>
+										<directory>${example.dir.templates}/docker</directory>
+										<filtering>true</filtering>
+										<targetPath>${project.build.directory}</targetPath>
+									</resource>
+									<resource>
+										<directory>${example.dir.templates}/docker</directory>
+										<filtering>true</filtering>
+										<targetPath>${example.dir.generated}/docker</targetPath>
+									</resource>
+									<resource>
+										<directory>${example.dir.templates}/api</directory>
+										<filtering>true</filtering>
+										<targetPath>${example.dir.generated}/api</targetPath>
+									</resource>
+									<resource>
+										<directory>${example.dir.templates}/kube</directory>
+										<filtering>true</filtering>
+										<targetPath>${example.dir.generated}/kube/temp</targetPath>
+									</resource>
+								</resources>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>3.0.0</version>
+					<configuration>
+						<filesets>
+							<fileset>
+								<directory>${example.dir.generated}</directory>
+							</fileset>
+							<fileset>
+								<directory>${example.dir.src.gen}</directory>
+							</fileset>
+						</filesets>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>com.github.kongchen</groupId>
+					<artifactId>swagger-maven-plugin</artifactId>
+					<version>${swagger-maven-plugin.version}</version>
+					<configuration>
+						<apiSources>
+							<apiSource>
+								<springmvc>true</springmvc>
+								<locations>${example.api.package}</locations>
+								<schemes>http,https</schemes>
+								<host>localhost:8080</host>
+								<basePath>/api</basePath>
+								<outputFormats>json,yaml</outputFormats>
+								<jsonExampleValues>true</jsonExampleValues>
+								<swaggerDirectory>${example.dir.generated}/api</swaggerDirectory>
+								<info>
+									<title>${project.name} REST API</title>
+									<version>${project.version}</version>
+									<description>${project.description}</description>
+								</info>
+							</apiSource>
+						</apiSources>
+					</configuration>
+					<executions>
+						<execution>
+							<id>generate-swagger</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>generate</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<!-- Testing plugins -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.20</version>
+					<configuration>
+						<includes>
+							<include>**/*Test.java</include>
+						</includes>
+						<testFailureIgnore>true</testFailureIgnore>
+						<reuseForks>false</reuseForks>
+						<forkCount>1</forkCount>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-failsafe-plugin</artifactId>
+					<version>2.20</version>
+					<configuration>
+						<includes>
+							<include>**/*IT.java</include>
+						</includes>
+						<skip>true</skip>
+					</configuration>
+					<executions>
+						<execution>
+							<phase>integration-test</phase>
+							<goals>
+								<goal>integration-test</goal>
+								<goal>verify</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+			<plugin>
+				<groupId>io.fabric8</groupId>
+				<artifactId>fabric8-maven-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<organization>
+		<name>example</name>
+		<url>http://www.example.com</url>
+	</organization>
+	<inceptionYear>2017</inceptionYear>
+	<developers>
+		<developer>
+			<id>doe</id>
+			<organization>example</organization>
+			<organizationUrl>http://www.example.com</organizationUrl>
+			<email>john.doe@example.com</email>
+		</developer>
+	</developers>
+	<issueManagement>
+		<url>https://example.atlassian.net/secure/RapidBoard.jspa</url>
+		<system>Jira - example</system>
+	</issueManagement>
+	<scm>
+		<url>https://bitbucket.org/example</url>
+		<connection>scm:git:git://bitbucket.org/example</connection>
+		<developerConnection>scm:git:git@bitbucket.org:example/example.git</developerConnection>
+	</scm>
+</project>

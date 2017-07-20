@@ -30,7 +30,7 @@ class SwaggerAdapter extends Adapter<Swagger> {
 	 * Parse a Swagger YAML file to Swagger model
 	 */
 	override parse(String fileLocation) {
-		LOG.info('''Parsing Swagger YAML file.''')
+		LOG.debug('''Parsing Swagger YAML file.''')
 		val File file = fileHelper.findFile(fileLocation)
 		return parser.read(file.path)
 	}
@@ -55,7 +55,7 @@ class SwaggerAdapter extends Adapter<Swagger> {
 //		params.get('language') as RestLanguage
 		val String outputLocation = params.get('outputLocation') as String
 
-//		LOG.info('''Generate Swagger files for «language».''')
+//		LOG.debug('''Generate Swagger files for «language».''')
 		// Not needed anymore
 		// val Swagger swaggerModel = parse(fileLocation)
 		val File file = fileHelper.findFile(fileLocation)
@@ -81,7 +81,7 @@ class SwaggerAdapter extends Adapter<Swagger> {
 		Thread.currentThread.contextClassLoader = ClassLoader.systemClassLoader
 		val StringBuilder generatedFiles = new StringBuilder
 		generator.opts(configurator.toClientOptInput).generate.forEach [ generatedFile |
-			LOG.info('''Swagger Codegen generated file: «generatedFile.absolutePath»''')
+			LOG.debug('''Swagger Codegen generated file: «generatedFile.absolutePath»''')
 			generatedFiles.append(generatedFile.absolutePath)
 		]
 		return generatedFiles.toString

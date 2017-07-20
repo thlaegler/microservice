@@ -37,7 +37,7 @@ class Template {
 	}
 
 	public def String getFullPathWithName() {
-		'''«relativPath»/«fileName».«fileType.extension»'''
+		'''«relativPath»«fileName».«fileType.extension»'''
 	}
 
 	public def String getTemplateName() {

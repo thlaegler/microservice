@@ -2,9 +2,9 @@ package com.laegler.microservice.adapter.util
 
 import com.google.common.base.CaseFormat
 import java.io.File
-import javax.inject.Named
+import javax.inject.Singleton
 
-@Named
+@Singleton
 class StringUtil {
 
 	/**

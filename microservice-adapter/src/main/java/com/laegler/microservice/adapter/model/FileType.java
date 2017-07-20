@@ -2,7 +2,7 @@ package com.laegler.microservice.adapter.model;
 
 public enum FileType {
 
-  UNDEFINED("undefined", "// ", "/* ", " */"), //
+  UNDEFINED("", "// ", "/* ", " */"), //
   XML("xml", null, "<!--", "-->"), //
   JAVA("java", "// ", "/* ", " */"), //
   XTEND("xtend", "// ", "/* ", " */"), //
@@ -21,7 +21,7 @@ public enum FileType {
   PROTO("proto", "# ", null, null), //
   YAML("yaml", "// ", null, null), //
   JSON("json", "// ", null, null), //
-  ARCHITECTURE("architecture", "// ", "/* ", " */");
+  DOT("dot", "", null, null), ARCHITECTURE("architecture", "// ", "/* ", " */");
 
   private String extension;
   private String lineComment;

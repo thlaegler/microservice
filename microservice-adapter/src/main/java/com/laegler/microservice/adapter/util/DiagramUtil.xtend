@@ -1,9 +1,9 @@
 package com.laegler.microservice.adapter.util
 
+import javax.inject.Singleton
 import org.eclipse.xtend.lib.annotations.Accessors
-import javax.inject.Named
 
-@Named
+@Singleton
 @Accessors
 class DiagramUtil {
 

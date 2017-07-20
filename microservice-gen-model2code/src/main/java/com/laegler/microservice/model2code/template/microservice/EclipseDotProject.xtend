@@ -25,7 +25,7 @@ class EclipseDotProject {
 		.project(project) //
 		.fileName('') //
 		.fileType(FileType.ECLIPSE_PROJECT) //
-		.relativPath(namingStrategy.getAbsoluteBasePath(project.name)) //
+		.relativPath('/') //
 		.documentation('Eclipse project file') //
 		.skipStamping(true) //
 		.header('''

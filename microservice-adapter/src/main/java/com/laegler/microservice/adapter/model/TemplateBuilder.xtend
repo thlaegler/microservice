@@ -1,13 +1,13 @@
 package com.laegler.microservice.adapter.model
 
+import com.laegler.microservice.adapter.util.NamingStrategy
+import com.laegler.microservice.adapter.util.StringUtil
 import java.util.HashMap
 import java.util.UUID
-import javax.inject.Named
-import com.laegler.microservice.adapter.util.NamingStrategy
 import javax.inject.Inject
-import com.laegler.microservice.adapter.util.StringUtil
+import javax.inject.Singleton
 
-@Named
+@Singleton
 class TemplateBuilder {
 
 	@Inject protected World world
@@ -50,12 +50,32 @@ class TemplateBuilder {
 		if (parameters === null) {
 			parameters = new HashMap
 		}
-		if (version === null) {
+		if (version.nullOrEmpty) {
 			version = '0.0.1-SNAPSHOT'
 		}
+		if (relativPath !== null && !relativPath.endsWith('/')) {
+			relativPath = relativPath + '/'
+		}
 		val template = new Template(id, fileName, fileType, relativPath, project, header, footer, documentation,
-			version, parameters, overwritePolicy, false)
+			version, parameters, overwritePolicy, true) => [t|t.content = content]
+		clear()
 		template
+	}
+
+	def clear() {
+		id = null
+		fileName = null
+		fileType = null
+		relativPath = null
+		project = null
+		header = null
+		content = null
+		footer = null
+		parameters = null
+		overwritePolicy = null
+		documentation = null
+		version = null
+		skipStamping = false
 	}
 
 	def id(UUID uuid) {

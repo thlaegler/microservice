@@ -21,7 +21,6 @@ abstract class Xtend {
 	@PostConstruct
 	public def void prepareTemplateBuilder() {
 		templateBuilder//
-		.fileName('pom') //
 		.fileType(FileType.XTEND) //
 		.documentation('Xtend file') //
 		.skipStamping(false) //
@@ -38,7 +37,7 @@ abstract class Xtend {
 		/**
 		 * «project.documentation»
 		 * 
-		 * @author «world.author.replaceAll('"','')» {@literal <«world.author»[at]«world.name»>}
+		 * @author «world.author?.replaceAll('"','')» {@literal <«world.author»[at]«world.name»>}
 		 * @since «project.version»
 		 * @version «project.version»
 		 * @generated «currentDate»
@@ -55,7 +54,7 @@ abstract class Xtend {
 		/**
 		 * «project.documentation»
 		 * 
-		 * @author «world.author.replaceAll('"','')» {@literal <«world.author»[at]«world.name»>}
+		 * @author «world.author?.replaceAll('"','')» {@literal <«world.author»[at]«world.name»>}
 		 * @since «project.version»
 		 * @version «project.version»
 		 * @generated «currentDate»

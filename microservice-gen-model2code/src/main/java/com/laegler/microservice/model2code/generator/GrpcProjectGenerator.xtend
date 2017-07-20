@@ -6,221 +6,171 @@ import com.laegler.microservice.adapter.model.Project
 import com.laegler.microservice.adapter.model.Template
 import com.laegler.microservice.model.Architecture
 import com.laegler.microservice.model.Artifact
-import com.laegler.microservice.model2code.template.microservice.GrpcModelPomXml
-import com.laegler.microservice.model2code.template.microservice.gen.grpc.client.DefaultGrpcClientXtend
+import com.laegler.microservice.model2code.template.microservice.grpc.GrpcPomXml
+import com.laegler.microservice.model2code.template.microservice.grpc.gen.client.DefaultGrpcClientXtend
+import com.laegler.microservice.model2code.template.microservice.grpc.res.GrpcProto
+import java.util.ArrayList
 import java.util.List
 import javax.inject.Inject
+import javax.inject.Named
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import javax.inject.Named
 
 @Named
 class GrpcProjectGenerator extends Generator {
 
-	protected static final Logger LOG = LoggerFactory.getLogger(GrpcProjectGenerator)
+	protected static Logger log = LoggerFactory.getLogger(GrpcProjectGenerator)
 
-	@Inject protected GrpcModelPomXml grpcModelPomXml
-	@Inject protected DefaultGrpcClientXtend defaultGrpcClientXtend
+	@Inject GrpcPomXml grpcPomXml
+	@Inject GrpcProto grpcProto
+	@Inject DefaultGrpcClientXtend defaultGrpcClientXtend
 
-	List<Project> subProjects
-	List<Template> templates
+	override List<Project> generate(Architecture a) {
+		log.debug('Generating gRPC project(s) for {}', a.name)
 
-	boolean isDeepDirStrategy
+		val List<Project> projects = new ArrayList
+		a.artifacts?.filter(Artifact).forEach [ art |
+			projects.add(art.generateGrpcProject)
+		]
+		projects
+	}
 
-	override Project generate(Architecture a) {
-		LOG.info('Generating gRPC project(s)')
+	protected def Project generateGrpcProject(Artifact a) {
+		log.debug('Generating gRPC project for artifact {}', a.name)
 
-		isDeepDirStrategy = world.getOption('dirStrategy').equals('deep')
+		projectBuilder //
+		.name(namingStrategy.getProjectName(a.name, 'grpc')) //
+		.basePackage(world.architecture?.basePackage) //
+		.dir(namingStrategy.getProjectPath(a.name+'/grpc')) //
+		.microserviceModel(a)//
+		.build => [ p |
+			p.subProjects?.addAll(
+				generateGrpcParentProject(p,a),
+				generateGrpcModelProject(p,a),
+				generateGrpcServerProject(p,a),
+				generateGrpcClientProject(p,a)
+			)
+			p.templates?.add(grpcPomXml.getTemplate(p))
+		]
+	}
 
-		val project = projectBuilder.name(a.name).microserviceModel(a).build
-		world.projects.add(project)
+	protected def Project generateGrpcParentProject(Project parent, Artifact a) {
+		log.debug('Generating gRPC parent project for artifact {}', a.name)
 
-		a.artifacts.filter(Artifact).forEach [ s |
-			s.name = s.name + '.grpc'
-			subProjects.addAll(
-				s.generateGrpcParentProject,
-				s.generateGrpcClientProject,
-				s.generateGrpcServerProject,
-				s.generateGrpcModelProject
+		projectBuilder //
+		.name(namingStrategy.getProjectName(parent.name, 'parent')) //
+		.basePackage(world.architecture?.basePackage) //
+		.dir(namingStrategy.getProjectPath(parent.name+'/parent')) //
+		.microserviceModel(a)//
+		.build => [ p |
+//			p.templates?.addAll(
+//				grpcModelPomXml.getTemplate(p)
+//			)
+		]
+	}
+
+	protected def Project generateGrpcModelProject(Project parent, Artifact a) {
+		log.debug('Generating gRPC model project for artifact {}', a.name)
+
+		projectBuilder //
+		.name(namingStrategy.getProjectName(parent.name, 'model')) //
+		.basePackage(world.architecture?.basePackage) //
+		.dir(namingStrategy.getProjectPath(parent.name+'/model')) //
+		.microserviceModel(a)//
+		.build => [ p |
+			p.templates?.addAll(
+				grpcProto.getTemplate(p, a),
+				p.generateGrpcModelXtend(a)
 			)
 		]
-		project
 	}
 
-	protected def Project generateGrpcServerProject(Artifact s) {
-		LOG.info('Generating gRPC server project')
+	protected def Project generateGrpcServerProject(Project parent, Artifact a) {
+		log.debug('Generating gRPC server project for artifact {}', a.name)
 
-		var Project it = projectBuilder.name(s.name + '.server').build
-		templates.addAll(
-			it.generateGrpcDefaultServerJava(s),
-			it.generateGrpcServerJava(s)
-		)
-		it
+		projectBuilder //
+		.name(namingStrategy.getProjectName(parent.name, 'server')) //
+		.basePackage(world.architecture?.basePackage) //
+		.dir(namingStrategy.getProjectPath(parent.name+'/server')) //
+		.microserviceModel(a)//
+		.build => [ p |
+			p.templates?.addAll(
+				p.generateGrpcDefaultServerXtend(a),
+				p.generateGrpcServerXtend(a)
+			)
+		]
 	}
 
-	protected def Project generateModelServerProject(Artifact s) {
-		LOG.info('Generating gRPC server project')
+	protected def Project generateGrpcClientProject(Project parent, Artifact a) {
+		log.debug('Generating gRPC client project for artifact {}', a.name)
 
-		var Project it = projectBuilder.name(s.name + '.server').build
-		templates.addAll(
-			it.generateGrpcDefaultServerJava(s),
-			it.generateGrpcServerJava(s),
-			grpcModelPomXml.getTemplate(it)
-		)
-		it
+		projectBuilder //
+		.name(namingStrategy.getProjectName(parent.name, 'client')) //
+		.basePackage(world.architecture?.basePackage) //
+		.dir(namingStrategy.getProjectPath(parent.name+'/client')) //
+		.microserviceModel(a)//
+		.build => [ p |
+			p.templates?.addAll(
+				p.generateGrpcClientXtend(a),
+				defaultGrpcClientXtend.getTemplate(p)
+			)
+		]
 	}
 
-	protected def Project generateGrpcClientProject(Artifact s) {
-		LOG.info('Generating gRPC client project')
+	protected def Template generateGrpcModelXtend(Project p, Artifact a) {
+		log.debug('  Generating template: gRPC model xtend')
 
-		var Project it = projectBuilder.name(s.name + '.client').build
-		templates.addAll(
-			it.generateGrpcClientJava(s),
-			defaultGrpcClientXtend.getTemplate(it)
-		)
-
-		it
+		templateBuilder //
+		.project(p) //
+		.fileName(a.name.toFirstUpper + 'GrpcModel') //
+		.fileType(FileType.XTEND) //
+		.relativPath(namingStrategy.getSrcPathWithPackage(p) + '/model') //
+		.content('''
+			This is the template of GrpcModel.java
+		''') //
+		.build
 	}
 
-	protected def Project generateGrpcModelProject(Artifact s) {
-		LOG.info('Generating gRPC model project')
+	protected def Template generateGrpcDefaultServerXtend(Project p, Artifact a) {
+		log.debug('  Generating template: gRPC default server xtend')
 
-		var Project it = projectBuilder.name(s.name + '.model').build
-		it
+		templateBuilder //
+		.project(p) //
+		.fileName('Default' + p.name.replaceAll('.', '').toFirstUpper + 'GrpcServer') //
+		.fileType(FileType.XTEND) //
+		.relativPath(namingStrategy.getSrcGenPathWithPackage(p) + '/server') //
+		.content('''
+			This is the template of DefaultGrpcServer.java
+		''') //
+		.build
 	}
 
-	protected def Project generateGrpcParentProject(Artifact s) {
-		LOG.info('Generating gRPC parent project')
+	protected def Template generateGrpcServerXtend(Project p, Artifact a) {
+		log.debug('  Generating template: gRPC server xtend')
 
-		var Project it = projectBuilder.name(s.name).build
-		it
+		templateBuilder //
+		.project(p) //
+		.fileName(a.name.replaceAll('.', '').toFirstUpper + 'GrpcServer') //
+		.fileType(FileType.XTEND) //
+		.relativPath(namingStrategy.getSrcPathWithPackage(p) + '/server') //
+		.content('''
+			This is the template of GrpcServer.java
+		''') //
+		.build
 	}
 
-	protected def Template generateGrpcDefaultServerJava(Project project, Artifact s) {
-		LOG.info('Creating file: gRPC default server Java')
-		// TODO
-		templateBuilder.fileName('''«s.name»GrpcClient''').fileType(FileType.XTEND).
-			relativPath('''src/main/gen/«s.name»''').content('''
-				This is the template of GrpcClient.java
-			''').build
+	protected def Template generateGrpcClientXtend(Project p, Artifact a) {
+		log.debug('  Generating template: gRPC client xtend')
+
+		templateBuilder //
+		.project(p) //
+		.fileName(a.name.replaceAll('.', '').toFirstUpper + 'GrpcClient') //
+		.fileType(FileType.XTEND) //
+		.relativPath(namingStrategy.getSrcPathWithPackage(p) + '/client') //
+		.content('''
+			This is the template of GrpcClient.java
+		''') //
+		.build
 	}
 
-	protected def Template generateGrpcServerJava(Project project, Artifact s) {
-		LOG.info('Creating file: gRPC server Java')
-		// TODO
-		templateBuilder.fileName('''«s.name»GrpcClient''').fileType(FileType.XTEND).
-			relativPath('''src/main/gen/«s.name»''').content('''
-				This is the template of GrpcClient.java
-			''').build
-	}
-
-	protected def Template generateGrpcClientJava(Project project, Artifact s) {
-		LOG.info('Creating file: gRPC client Java')
-
-		templateBuilder.fileName('''«s.name»GrpcClient''').fileType(FileType.XTEND).
-			relativPath('''src/main/gen/«s.name»''').content('''
-				This is the template of GrpcClient.java
-			''').build
-	}
-
-//	@Inject FileHelper fileHelper
-//
-////	@Inject GherkinAdapter 
-//	private def void initProject() {
-//		if (active) {
-//			project = new Project(stubbr)
-//			project.name = '''«stubbr?.stubb?.name?.toLowerCase»-faces'''
-//			project.basePackage = '''«stubbr?.stubb?.packageName?.toLowerCase».faces'''
-//			project.projectType = ProjectType.FACES
-//			project.relativePath = '''/«project?.name»/'''
-//			project.canonicalName = 'JSF/Faces project'
-//			project.documentation = 'This project provides JSF/Faces UI layer'
-//			log.info('''Generating Project: «project?.name»''')
-//		}
-//	}
-//
-//	/**
-//	 * Generate persistence project	
-//	 */
-//	override public def prepare() {
-//		initProject
-//
-//		project?.files?.addAll(#[
-//			// General templates
-//			new ReadmeMdTemplateBase(stubbr, project),
-//			new IntellijProjectImlFileBase(stubbr, project),
-//			new DotGitignoreTemplateBase(stubbr, project),
-//			new EclipseDotClasspathTemplateBase(stubbr, project),
-//			new EclipseDotProjectTemplateBase(stubbr, project),
-//			new ManifestMfTemplateBase(stubbr, project),
-//			new EjbJarXmlTemplateBase(stubbr, project),
-//			new PersistenceXmlTemplateBase(stubbr, project),
-//			// Eclipse templates
-//			new EclipseCoreResourcesPrefsTemplateBase(stubbr, project),
-//			new EclipseJdtCorePrefsTemplateBase(stubbr, project),
-//			new EclipseM2eCorePrefsTemplateBase(stubbr, project),
-//			new EclipseWstProjectFacetCorePrefsTemplateBase(stubbr, project),
-//			new EclipseWstProjectFacetCoreXmlTemplateBase(stubbr, project),
-//			// Project-specific singular templates
-//			new PomXmlTemplate(stubbr, project),
-//			new DotProjectTemplate(stubbr, project),
-//			new SpringAppXtendTemplate(stubbr, project),
-//			new SpringWebXmlXtendTemplate(stubbr, project),
-//			new WebXmlTemplateBase(stubbr, project),
-//			new FacesConfigXmlTemplateBase(stubbr, project),
-//			new IndexDesktopXhtmlTemplate(stubbr, project),
-//			new IndexMobileXhtmlTemplate(stubbr, project),
-//			new IndexHtmlTemplate(stubbr, project),
-//			new IndexXhtmlTemplate(stubbr, project)
-//		])
-//
-//		// Entity-specific templates
-//		stubbr?.stubb?.persistence?.entityModel?.entities?.forEach [ entity |
-//			project?.files?.addAll(#[
-//				new EntityPresenterXtendTemplate(stubbr, project, entity),
-//				new EntityListDesktopXhtmlTemplate(stubbr, project, entity),
-//				new EntityDetailsDesktopXhtmlTemplate(stubbr, project, entity),
-//				new EntityListMobileXhtmlTemplate(stubbr, project, entity),
-//				new EntityDetailsMobileXhtmlTemplate(stubbr, project, entity)
-//			])
-//		]
-//
-//		stubbr?.stubb?.presentation?.views?.forEach [ view |
-//			project?.files?.addAll(#[
-//				new ViewPresenterXtendTemplate(stubbr, project, view)
-////				new ViewListDesktopXhtmlTemplate(stubbr, project, view),
-////				new ViewDetailsDesktopXhtmlTemplate(stubbr, project, view),
-////				new ViewListMobileXhtmlTemplate(stubbr, project, view),
-////				new ViewDetailsMobileXhtmlTemplate(stubbr, project, view)
-//			])
-//		]
-//
-//		stubbr?.stubb?.behavior?.features?.forEach [ feature |
-//			project?.files?.add(new BehaviorFeatureTemplate(stubbr, project, feature))
-//			project?.files?.add(new BehaviorFeatureStepsXtendTemplate(stubbr, project, feature))
-//		]
-//
-//		stubbr?.stubb?.behavior?.specifications?.forEach [ specification |
-//			val GherkinDocument gherkinModel = gherkinAdapter.parse(specification)
-//			val Feature feature = StubbrLangFactoryImpl.eINSTANCE.createFeature => [
-//				name = gherkinModel?.feature?.name
-//				label = gherkinModel?.feature?.description
-//			]
-//
-//			project?.files?.add(new BehaviorFeatureTemplate(stubbr, project, feature) => [
-//				content = fileHelper.getFileContent(fileHelper.findFile(specification))
-//			])
-//
-//			project?.files?.add(new BehaviorFeatureStepsXtendTemplate(stubbr, project, feature) => [
-//				content = gherkinAdapter.generate(project, specification)
-//			])
-//		]
-//
-//		project
-//	}
-//
-//	private def boolean isActive() {
-////		stubbr?.stubb?.presentation?.uiFramework == UiFramework.JSF
-//		true
-//	}
 }

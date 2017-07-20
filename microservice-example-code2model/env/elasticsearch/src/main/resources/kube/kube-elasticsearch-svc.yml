@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: elasticsearch
+  namespace: code2model-001
+  labels:
+    app: elasticsearch
+    provider: john.doe
+    group: com.laegler.microservice.example.code2model
+    project: elasticsearch
+    version: 0.0.1-SNAPSHOT
+spec:
+  selector:
+    project: elasticsearch
+  ports:
+  - name: api
+    port: 9200
+  - name: transport
+    port: 9300

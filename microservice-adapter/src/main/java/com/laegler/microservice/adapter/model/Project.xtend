@@ -3,7 +3,6 @@ package com.laegler.microservice.adapter.model
 import java.util.List
 import javax.inject.Named
 import org.apache.maven.model.Model
-import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.eclipse.xtend.lib.annotations.FinalFieldsConstructor
 
@@ -33,7 +32,7 @@ class Project {
 	List<Project> subProjects
 
 	def String getPackaging() {
-		projectType.packaging
+		projectType?.packaging
 	}
 
 }

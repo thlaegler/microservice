@@ -20,7 +20,6 @@ import javax.inject.Inject
 import org.apache.maven.model.Dependency
 import org.apache.maven.model.Model
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader
-import org.eclipse.emf.ecore.resource.Resource
 import org.reflections.Reflections
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -61,23 +60,15 @@ abstract class AbstractTransformator {
 //			}
 //		} catch (NoClassDefFoundError e) {
 //			LOG.error(e.getMessage());
-//			LOG.info(aClass.getName());
+//			LOG.debug(aClass.getName());
 //		// exception occurs when a method type or annotation is not recognized by the plugin
 //		}
 //	}
 //		resourceMap
 //	}
 
-	protected def void transform(Resource resource) {
-//		model.architecture = resource.allContents.filter(Architecture).findFirst[]
-//		model.architecture = (resource?.contents?.head as Architecture)
-		world.architecture?.artifacts?.forEach [
-//			templateProvider.generateFile(template)
-		]
-	}
-
 	protected def void transform(File rootDir) {
-		world.baseFolder = rootDir
+		world.rootFolder = rootDir
 		rootDir?.listFiles?.filter [
 			it?.listFiles !== null
 		].forEach[transform(it, it.name)]
@@ -91,10 +82,10 @@ abstract class AbstractTransformator {
 
 //			if (!model.artifactId?.equals(pomXmlFile?.name)) {}
 		if (pom !== null) {
-			world.projects?.add(projectBuilder.name(pom?.artifactId).pom(pom).build)
+			world.rootProject.subProjects?.add(projectBuilder.name(pom?.artifactId).pom(pom).build)
 		}
 //		writeFile(model.projects.dotGraphFileContent2, projectDir.getFilePath('architecture.component.plantuml'))
-		world.projects?.transform
+		world.rootProject.subProjects?.transform
 	}
 
 	protected def void transform(List<Project> projects) {
@@ -137,7 +128,9 @@ abstract class AbstractTransformator {
 			e.printStackTrace
 		}
 		val YamlConfig data = yaml.loadAs(input, YamlConfig)
-		''
+		if (data !== null) {
+			data.toString
+		}
 	}
 
 	protected def String getFormatted(String description) {

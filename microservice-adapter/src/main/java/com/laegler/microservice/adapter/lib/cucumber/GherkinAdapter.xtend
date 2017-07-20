@@ -1,23 +1,22 @@
 package com.laegler.microservice.adapter.lib.cucumber
 
-import java.io.File
-import java.util.HashMap
-import java.util.Map
-import javax.inject.Inject
-import java.util.ArrayList
-import java.util.List
-import gherkin.TokenMatcher
+import com.laegler.microservice.adapter.model.Project
+import com.laegler.microservice.adapter.util.Adapter
 import gherkin.AstBuilder
 import gherkin.Parser
 import gherkin.ParserException
+import gherkin.TokenMatcher
+import gherkin.ast.GherkinDocument
 import gherkin.ast.ScenarioDefinition
 import gherkin.ast.Step
-import org.slf4j.LoggerFactory
-import org.slf4j.Logger
-import gherkin.ast.GherkinDocument
-import com.laegler.microservice.adapter.model.Project
+import java.io.File
+import java.util.ArrayList
+import java.util.HashMap
+import java.util.List
+import java.util.Map
 import javax.inject.Named
-import com.laegler.microservice.adapter.util.Adapter
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  * Reads, parses and generates Cucumber/Gherkin files.
@@ -28,10 +27,16 @@ class GherkinAdapter extends Adapter<GherkinDocument> {
 	private static Logger LOG = LoggerFactory.getLogger(GherkinAdapter)
 
 	public override GherkinDocument parse(String fileLocation) {
-		LOG.info('''Parsing Swagger YAML file.''')
+		LOG.debug('Parsing gherkin file: {}', fileLocation)
 		val File file = fileHelper.findFile(fileLocation)
+		
+		if(file === null) {
+			LOG.debug('No file found at: {}. Aborting gherkin parsing.',fileLocation)
+			return null
+		}
 
 		val String gherkinFileContent = fileHelper.asString(file)
+		LOG.debug('Gherkin file content: {}', gherkinFileContent)
 
 		val TokenMatcher matcher = new TokenMatcher => []
 		val AstBuilder builder = new AstBuilder => []
@@ -41,10 +46,11 @@ class GherkinAdapter extends Adapter<GherkinDocument> {
 
 		try {
 			val GherkinDocument featureModel = parser.parse(gherkinFileContent, matcher)
-			LOG.info('Gherkin feature file successfully parsed')
+			LOG.debug('Gherkin feature file successfully parsed: {}', featureModel.toString)
 			return featureModel
 		} catch (ParserException e) {
-			LOG.warn('''Failed to parse gherkin feature «file»''')
+			LOG.error('Failed to parse gherkin feature {{} - {}', fileLocation, file.toString)
+			LOG.error(e.message)
 		}
 		null
 	}
@@ -54,7 +60,7 @@ class GherkinAdapter extends Adapter<GherkinDocument> {
 	}
 
 	override generate(Project project, String fileLocation, Map<String, Object> params) {
-		LOG.info('''Generate Cucumber snippets/stubs for feature «fileLocation».''')
+		LOG.debug('''Generate Cucumber snippets/stubs for feature «fileLocation».''')
 		val GherkinDocument featureModel = parse(fileLocation)
 
 		val Snippet snippet = new XtendSnippet

@@ -8,20 +8,17 @@
 
 	<name>Microservice Toolbox</name>
 
-	<properties>
-		<vendor>thlaegler</vendor>
-	</properties>
-
 	<modules>
 		<module>microservice-model</module>
-		<!-- <module>microservice-editor/${project.groupId}.editor</module> -->
 		<module>microservice-adapter</module>
-		<module>microservice-gen-code2model</module>
+
 		<module>microservice-gen-model2code</module>
+		<module>microservice-gen-code2model</module>
+
 		<module>microservice-maven-plugin</module>
-		<!-- <module>microservice-modeler</module> -->
-		<!-- <module>microservice-modeler-yaml</module> -->
-		<module>microservice-example</module>
+
+		<module>example</module>
+		<!-- <module>microservice-example-code2model</module> -->
 	</modules>
 
 </project>

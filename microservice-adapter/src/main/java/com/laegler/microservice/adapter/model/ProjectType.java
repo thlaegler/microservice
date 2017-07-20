@@ -3,6 +3,7 @@ package com.laegler.microservice.adapter.model;
 
 public enum ProjectType {
 
+  DEFAULT("default", "jar"), //
   PARENT("parent", "pom"), //
 
   COMMON("common", "jar"), //

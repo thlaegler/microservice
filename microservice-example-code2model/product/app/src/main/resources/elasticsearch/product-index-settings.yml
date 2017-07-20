@@ -1,0 +1,25 @@
+index:
+  mapping:
+    nested_fields:
+      limit: 128
+  number_of_shards: 1
+  number_of_replicas: 1
+  analysis:
+    analyzer:
+      string_analyzer:
+        type: custom
+        tokenizer: whitespace
+        filter:
+        - lowercase
+        - locale_stemmer
+      phrase_analyzer:
+        type: custom
+        tokenizer: whitespace
+        filter:
+        - lowercase
+      synonym_analyzer:
+        type: custom
+        tokenizer: standard
+        filter:
+        - lowercase
+        - synonym_filter

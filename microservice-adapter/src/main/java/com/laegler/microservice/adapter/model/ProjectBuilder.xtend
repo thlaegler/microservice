@@ -3,14 +3,14 @@ package com.laegler.microservice.adapter.model
 import java.io.File
 import java.util.ArrayList
 import java.util.List
-import java.util.Optional
-import javax.inject.Named
+import java.util.UUID
+import javax.inject.Singleton
 import org.apache.maven.model.Model
-import org.eclipse.emf.ecore.EObject
 
-@Named
+@Singleton
 class ProjectBuilder {
 
+	var UUID id
 	var String name
 	var ProjectType projectType
 	var String basePackage
@@ -22,7 +22,7 @@ class ProjectBuilder {
 
 	var Model pom
 	var Object microserviceModel
-	
+
 	var List<Project> subProjects
 	var List<Template> templates
 
@@ -30,23 +30,56 @@ class ProjectBuilder {
 	}
 
 	def Project build() {
-		Optional.ofNullable(name).orElse('undefined-project')
-		Optional.ofNullable(projectType).orElse(ProjectType.UNDEFINED)
-		Optional.ofNullable(basePackage).orElse('org.example.undefined')
-		Optional.ofNullable(pom).orElse(new Model)
-		Optional.ofNullable(microserviceModel)
-		Optional.ofNullable(directory).orElse('undefined/' + name)
-		Optional.ofNullable(version).orElse('0.0.1-SNAPSHOT')
-		Optional.ofNullable(canonicalName).orElse('Undefined project')
-		Optional.ofNullable(documentation).orElse('This is an undefined project (Generator is not implemented yet)')
-		Optional.ofNullable(subProjects).orElse(new ArrayList)
-		Optional.ofNullable(templates).orElse(new ArrayList)
-
+		if (id === null) {
+			id = UUID.randomUUID
+		}
+		if (name.nullOrEmpty) {
+			name = 'undefind-project'
+		}
+		if (projectType === projectType) {
+			projectType = ProjectType.UNDEFINED
+		}
+		if (name === basePackage) {
+			basePackage = 'org.example.undefined'
+		}
+		if (name.nullOrEmpty) {
+			pom = new Model
+		}
+		if (name.nullOrEmpty) {
+			microserviceModel = microserviceModel
+		}
+		if (name.nullOrEmpty) {
+			directory = 'undefined/' + name
+		}
+		if (name.nullOrEmpty) {
+			version = '0.0.1-SNAPSHOT'
+		}
+		if (name.nullOrEmpty) {
+			canonicalName = 'Undefined project'
+		}
+		if (name.nullOrEmpty) {
+			documentation = 'This is an undefined project (Generator is not implemented yet)'
+		}
 		val project = new Project(name, projectType, basePackage, version, canonicalName, documentation, directory, pom,
 			microserviceModel)
+		clear()
 		project.subProjects = new ArrayList
 		project.templates = new ArrayList
 		project
+	}
+
+	def clear() {
+		name = null
+		projectType = null
+		basePackage = null
+		version = null
+		canonicalName = null
+		documentation = null
+		directory = null
+		pom = null
+		microserviceModel = null
+		subProjects = null
+		templates = null
 	}
 
 	def name(String name) {

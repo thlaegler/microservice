@@ -3,6 +3,7 @@ package com.laegler.microservice.adapter.model;
 public enum OverwritePolicy {
 
   KEEP(""), //
+  GEN(""), //
   OVERWRITE_IF_OLD_VERSION(""), //
   OVERWRITE("");
 
