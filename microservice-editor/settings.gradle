@@ -1,3 +1,0 @@
-include 'com.laegler.microservice.editor'
-include 'com.laegler.microservice.editor.ide'
-include 'com.laegler.microservice.editor.idea'

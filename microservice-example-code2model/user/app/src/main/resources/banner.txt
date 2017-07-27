@@ -1,7 +1,0 @@
-
-=============================================================
-  Application:	${spring.application.name}
-  Version:	${xmd.version}
-  Description:	${xmd.description}
-  Spring:		${spring-boot.version}
-=============================================================
