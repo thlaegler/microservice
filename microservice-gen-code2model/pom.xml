@@ -1,0 +1,82 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>microservice-gen-code2model</artifactId>
+	<name>Microservice Code to Model Generator</name>
+	<description>This projects holds the microservice model to java code generator.</description>
+
+	<parent>
+		<groupId>com.laegler.microservice</groupId>
+		<artifactId>microservice-parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../microservice-parent</relativePath>
+	</parent>
+
+	<dependencies>
+		<!-- <dependency> <groupId>${project.groupId}</groupId> <artifactId>microservice-editor</artifactId> 
+			<version>${project.version}</version> </dependency> -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>microservice-adapter</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!-- Xtend -->
+		<dependency>
+			<groupId>org.eclipse.xtend</groupId>
+			<artifactId>org.eclipse.xtend.lib</artifactId>
+			<version>2.12.0</version>
+		</dependency>
+
+		<!-- Infrastructure -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>19.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>4.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.25</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.xtend</groupId>
+				<artifactId>xtend-maven-plugin</artifactId>
+				<version>2.12.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+							<goal>testCompile</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<outputDirectory>${basedir}/src/main/xtend-gen</outputDirectory>
+					<testOutputDirectory>${basedir}/src/test/xtend-gen</testOutputDirectory>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

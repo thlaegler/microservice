@@ -1,0 +1,76 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>microservice-model</artifactId>
+	<name>Microservice Model</name>
+	<description>This projects holds the microservice architecture meta model.</description>
+
+	<parent>
+		<groupId>com.laegler.microservice</groupId>
+		<artifactId>microservice-parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../microservice-parent</relativePath>
+	</parent>
+
+	<!-- <pluginRepositories> <pluginRepository> <id>mapasuta.repo</id> <name>Mapasuta 
+		Project Download Repository</name> <url>http://mapasuta.sf.net/maven/repo</url> 
+		<releases> <enabled>true</enabled> <updatePolicy>daily</updatePolicy> <checksumPolicy>fail</checksumPolicy> 
+		</releases> <snapshots> <enabled>true</enabled> </snapshots> </pluginRepository> 
+		</pluginRepositories> -->
+
+	<dependencies>
+
+		<!-- Xtend -->
+		<dependency>
+			<groupId>org.eclipse.xtend</groupId>
+			<artifactId>org.eclipse.xtend.lib</artifactId>
+			<version>2.12.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.18</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Testing -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.xtend</groupId>
+				<artifactId>xtend-maven-plugin</artifactId>
+				<version>2.12.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+							<goal>testCompile</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<outputDirectory>${basedir}/src/main/xtend-gen</outputDirectory>
+					<testOutputDirectory>${basedir}/src/test/xtend-gen</testOutputDirectory>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.20</version>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -1,5 +1,10 @@
 .class
 
+#Ecore projects
+microservice-model.edit/
+microservice-model.editor/
+microservice-model.tests/
+
 target/
 src-gen/
 xtend-gen/

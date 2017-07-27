@@ -1,3 +1,0 @@
-include 'com.laegler.microservice.modeler'
-include 'com.laegler.microservice.modeler.ide'
-include 'com.laegler.microservice.modeler.idea'

@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.laegler</groupId>
+	<groupId>com.laegler.microservice</groupId>
 	<artifactId>microservice-maven-plugin</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>maven-plugin</packaging>
 
-	<name>Microservice Modeler Code Generator Maven Plugin</name>
+	<name>Microservice Maven Plugin</name>
 
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
@@ -16,64 +16,103 @@
 
 	<properties>
 		<maven.version>2.2.1</maven.version>
-		<maven3.version>3.5.0</maven3.version>
+		<maventhree.version>3.5.0</maventhree.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 
 	<dependencies>
-		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+		<!-- <dependency> <groupId>${project.groupId}.editor</groupId> <artifactId>${project.groupId}.editor</artifactId> 
+			<version>${project.version}</version> <exclusions> <exclusion> <groupId>com.google.guava</groupId> 
+			<artifactId>guava</artifactId> </exclusion> </exclusions> </dependency> -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>microservice-adapter</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>microservice-gen-code2model</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>microservice-gen-model2code</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!-- Xtend -->
+		<dependency>
+			<groupId>org.eclipse.xtend</groupId>
+			<artifactId>org.eclipse.xtend.lib</artifactId>
+			<version>2.12.0</version>
+		</dependency>
+
+		<!-- Infrastructure -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>19.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>4.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
+		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.5</version>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<!-- <dependency> <groupId>org.apache.logging.log4j</groupId> <artifactId>log4j-core</artifactId> 
+			<version>2.8.2</version> </dependency> -->
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.16.16</version>
-			<scope>provided</scope>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.slf4j-maven-plugin-log</groupId>
+			<artifactId>slf4j-maven-plugin-log</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.25</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/guru.nidi/graphviz-java -->
-		<dependency>
-			<groupId>guru.nidi</groupId>
-			<artifactId>graphviz-java</artifactId>
-			<version>0.2.1</version>
-		</dependency>
-
+		<!-- Maven -->
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-plugin-api</artifactId>
-			<version>${maven3.version}</version>
+			<version>${maventhree.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-artifact</artifactId>
-			<version>${maven3.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.maven</groupId>
-			<artifactId>maven-plugin-api</artifactId>
-			<version>${maven3.version}</version>
+			<version>${maventhree.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-project</artifactId>
 			<version>${maven.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.maven/maven-model -->
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-model</artifactId>
-			<version>${maven3.version}</version>
+			<version>${maventhree.version}</version>
 		</dependency>
-		<!-- <dependency> <groupId>org.apache.maven</groupId> <artifactId>maven-model</artifactId> 
-			<version>${maven.version}</version> </dependency> -->
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-core</artifactId>
-			<version>${maven3.version}</version>
+			<version>${maventhree.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.maven.plugin-tools</groupId>
@@ -81,5 +120,70 @@
 			<version>3.4</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.jcabi</groupId>
+			<artifactId>jcabi-maven-slf4j</artifactId>
+			<version>0.8</version>
+		</dependency>
+		<dependency>
+			<groupId>com.itemis.maven.plugins</groupId>
+			<artifactId>cdi-plugin-utils</artifactId>
+			<version>3.3.1</version>
+		</dependency>
+
+		<!-- Testing -->
+		<dependency>
+			<groupId>org.apache.maven.plugin-testing</groupId>
+			<artifactId>maven-plugin-testing-harness</artifactId>
+			<version>3.3.0</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.xtend</groupId>
+				<artifactId>xtend-maven-plugin</artifactId>
+				<version>2.12.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+							<goal>testCompile</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<outputDirectory>${basedir}/src/main/xtend-gen</outputDirectory>
+					<testOutputDirectory>${basedir}/src/test/xtend-gen</testOutputDirectory>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-plugin-plugin</artifactId>
+				<version>3.5</version>
+				<executions>
+					<execution>
+						<id>default-descriptor</id>
+						<goals>
+							<goal>descriptor</goal>
+						</goals>
+						<phase>process-classes</phase>
+					</execution>
+					<execution>
+						<id>help-descriptor</id>
+						<goals>
+							<goal>helpmojo</goal>
+						</goals>
+						<phase>process-classes</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- <plugin> <groupId>org.eclipse.sisu</groupId> <artifactId>sisu-maven-plugin</artifactId> 
+				<version>0.3.3</version> <executions> <execution> <id>generate-index</id> 
+				<phase>package</phase> <goals> <goal>main-index</goal> <goal>test-index</goal> 
+				<goal>index</goal> </goals> </execution> </executions> </plugin> -->
+		</plugins>
+	</build>
 </project>

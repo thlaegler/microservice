@@ -1,0 +1,70 @@
+version: '3'
+services:
+  user:
+    image: user:
+    container_name: user
+    hostname: user
+    command: java -Dspring.active.profiles=test -Dit.test.host=http://user:8080 -jar app.jar
+    ports:
+    - 8080:8080
+    - 7070:7070
+    environment:
+    - TEST_HOST="http://user:8080"
+    links:
+    - example-mysql
+    - example-redis
+    - example-elasticsearch
+    networks:
+    - example
+  product:
+    image: product:
+    container_name: product
+    hostname: product
+    command: java -Dspring.active.profiles=test -Dit.test.host=http://product:8080 -jar app.jar
+    ports:
+    - 8080:8080
+    - 7070:7070
+    environment:
+    - TEST_HOST="http://product:8080"
+    links:
+    - example-mysql
+    - example-redis
+    - example-elasticsearch
+    networks:
+    - example
+  mysql:
+    image: example-mysql:
+    container_name: example-mysql
+    hostname: example-mysql
+    ports:
+    - 3306:3306
+    networks:
+    -  example
+  redis:
+    image: example-redis:
+    container_name: example-redis
+    hostname: example-redis
+    ports:
+    - 6379:6379
+    networks:
+    -  example
+  elasticsearch:
+    image: example-elasticsearch:0.0.1-SNAPSHOT
+    container_name: example-elasticsearch
+    hostname: example-elasticsearch
+    ports:
+    - 9200:9200
+    - 9300:9300
+    environment:
+    - cluster.name=example-cluster
+    - bootstrap.memory_lock=true
+    - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    volumes:
+    - esdata:/usr/share/elasticsearch/data
+    networks:
+    -  example
+volumes:
+  esdata:
+    driver: local
+networks:
+  microservice: null

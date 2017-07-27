@@ -1,0 +1,37 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: elasticsearch
+  namespace: code2model-001
+  labels:
+    app: elasticsearch
+    provider: john.doe
+    group: com.laegler.microservice.example.code2model
+    project: elasticsearch
+    version: 0.0.1-SNAPSHOT
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: elasticsearch
+        image: elasticsearch:0.0.1-SNAPSHOT
+#        image: docker.elastic.co/elasticsearch/elasticsearch:2.4.5
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: CLUSTER_NAME
+          value: elasticsearch-cluster
+        ports:
+        - name: api
+          containerPort: 9200
+        - name: transport
+          containerPort: 9300
+        volumeMounts:
+        - name: es-persistent-storage
+          mountPath: /var/lib/es
+      volumes:
+      - name: es-persistent-storage
+        persistentVolumeClaim:
+          claimName: es-volume-claim
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
