@@ -3,7 +3,7 @@ package com.laegler.microservice.model2code.template.microservice.app.test
 import com.laegler.microservice.adapter.model.FileType
 import com.laegler.microservice.adapter.model.Project
 import com.laegler.microservice.adapter.model.Template
-import com.laegler.microservice.adapter.model.TemplateBuilder
+
 import com.laegler.microservice.adapter.model.World
 import com.laegler.microservice.adapter.util.NamingStrategy
 import gherkin.ast.GherkinDocument
@@ -19,7 +19,7 @@ class CucumberFeature {
 	protected static final Logger LOG = LoggerFactory.getLogger(CucumberFeature)
 
 	@Inject protected World world
-	@Inject protected TemplateBuilder templateBuilder
+	
 	@Inject protected NamingStrategy namingStrategy
 
 	public def Template getTemplate(Project p, GherkinDocument gherkin) {
@@ -31,7 +31,7 @@ class CucumberFeature {
 		}
 		val feature = gherkin.feature
 
-		templateBuilder //
+		Template::builder //
 		.project(p) //
 		.fileName(feature?.name?.toLowerCase.replaceAll(' ', '')) //
 		.fileType(FileType.FEATURE) //

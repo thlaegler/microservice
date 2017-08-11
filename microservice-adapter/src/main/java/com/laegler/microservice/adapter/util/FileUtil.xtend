@@ -65,6 +65,7 @@ public class FileUtil {
 	}
 
 	public def void toFile(Template template) {
+		LOG.debug('Writing template to file: {}', template.fullPathWithName)
 		if (template.canOverwrite) {
 			FileUtils.writeStringToFile(
 				new File(template.fullPathWithName),
@@ -75,6 +76,7 @@ public class FileUtil {
 	}
 
 	public def void toFile(Template template, Project p) {
+		LOG.debug('Writing template to file: {}', template.fullPathWithName)
 		if (template.canOverwrite) {
 			FileUtils.writeStringToFile(
 				new File(p.directory + '/' + template.fullPathWithName),

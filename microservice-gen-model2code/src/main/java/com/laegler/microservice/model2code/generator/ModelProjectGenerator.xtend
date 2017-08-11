@@ -36,18 +36,16 @@ class ModelProjectGenerator extends Generator {
 	protected def Project generateModelProject(Artifact a) {
 		log.debug('Generating Model project for artifact {}', a.name)
 
-		projectBuilder //
+		Project::builder //
 		.name(namingStrategy.getProjectName(a.name, 'model')) //
 		.basePackage(world.architecture?.basePackage) //
-		.dir(namingStrategy.getProjectPath(a.name, 'model')) //
+		.directory(namingStrategy.getProjectPath(a.name, 'model')) //
 		.microserviceModel(a) //
 		.build => [ p |
-			p.templates => [
-				add(modelPomXml.getTemplate(p))
-				a.entities?.forEach [ e |
-					add(entityXtend.getTemplate(p, e))
-					add(jpaRepoXtend.getTemplate(p, e))
-				]
+			p.templates.add(modelPomXml.getTemplate(p))
+			a.entities?.forEach [ e |
+				p.templates.add(entityXtend.getTemplate(p, e))
+				p.templates.add(jpaRepoXtend.getTemplate(p, e))
 			]
 		]
 	}

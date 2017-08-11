@@ -55,10 +55,10 @@ class AppProjectGenerator extends Generator {
 	protected def Project generateAppProject(Artifact a) {
 		log.debug('Generating Spring App project for artifact {}', a.name)
 
-		projectBuilder //
+		Project::builder //
 		.name(namingStrategy.getProjectName(a.name, 'app')) //
 		.basePackage(world.architecture?.basePackage) //
-		.dir(namingStrategy.getProjectPath(a.name, 'app')) //
+		.directory(namingStrategy.getProjectPath(a.name, 'app')) //
 		.microserviceModel(a) //
 		.build => [ p |
 			p.templates => [
@@ -83,7 +83,7 @@ class AppProjectGenerator extends Generator {
 	protected def Template generateKubeNamespaceYaml(Project p, Artifact a) {
 		LOG.debug('  Generating template: Kubernetes Namespace manifest yaml')
 
-		templateBuilder //
+		Template::builder //
 		.project(p) //
 		.fileName('kube-' + a.name.toLowerCase + '-ns') //
 		.fileType(FileType.YAML) //
@@ -104,7 +104,7 @@ class AppProjectGenerator extends Generator {
 	protected def Template generateKubeServiceYaml(Project p, Artifact a) {
 		LOG.debug('  Generating template: Kubernetes Service manifest yaml')
 
-		templateBuilder //
+		Template::builder //
 		.project(p) //
 		.fileName('kube-' + a.name.toLowerCase + '-svc') //
 		.fileType(FileType.YAML) //
@@ -134,7 +134,7 @@ class AppProjectGenerator extends Generator {
 	protected def Template generateKubeReplicaSetYaml(Project p, Artifact a) {
 		LOG.debug('  Generating template: Kubernetes ReplicaSet manifest yaml')
 
-		templateBuilder //
+		Template::builder //
 		.project(p) //
 		.fileName('kube-' + a.name.toLowerCase + '-rs') //
 		.fileType(FileType.YAML) //
@@ -195,7 +195,7 @@ class AppProjectGenerator extends Generator {
 	protected def Template generateKubeIngressYaml(Project p, Artifact a) {
 		LOG.debug('  Generating template: Kubernetes Ingress manifest yaml')
 
-		templateBuilder //
+		Template::builder //
 		.project(p) //
 		.fileName('kube-' + a.name.toLowerCase + '-ingress') //
 		.fileType(FileType.YAML) //

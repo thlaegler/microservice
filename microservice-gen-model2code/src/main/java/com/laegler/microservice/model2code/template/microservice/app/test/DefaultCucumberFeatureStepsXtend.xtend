@@ -22,7 +22,7 @@ class DefaultCucumberFeatureStepsXtend extends Xtend {
 		}
 		val feature = gherkin.feature
 		
-		templateBuilder//
+		Template::builder//
 		.project(p) //
 		.fileName(feature.name?.toLowerCase.replaceAll(' ', '').toFirstUpper + 'StepDefinitions') //
 		.fileType(FileType.XTEND) //

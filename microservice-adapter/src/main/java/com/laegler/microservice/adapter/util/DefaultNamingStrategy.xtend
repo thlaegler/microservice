@@ -129,24 +129,30 @@ class DefaultNamingStrategy implements NamingStrategy {
 		path
 	}
 
+@Deprecated
 	override getAbsoluteBasePackagePath(Project p) {
 		val path = getProjectPath(p.name) + getRelativeBasePackagePath(p.basePackage)
 		log.trace('getAbsoluteBasePackagePath({}) returns: {}', p, path)
 		path
 	}
 
+@Deprecated
 	override getRelativeSourcePath() '''«DIR»src«DIR»main«DIR»java'''
 
+@Deprecated
 	override getRelativeGeneratedSourcePath() '''«DIR»src«DIR»main«DIR»gen'''
 
+@Deprecated
 	override getRelativeTestSourcePath() '''«DIR»src«DIR»test«DIR»java'''
 
+@Deprecated
 	override getRelativeGeneratedTestSourcePath() {
 		val path = DIR + 'src' + DIR + 'test' + DIR + 'gen'
 		log.trace('getRelativeGeneratedTestSourcePath() returns: {}', path)
 		path
 	}
 
+	@Deprecated
 	override getRelativeBasePackagePath(String basePackage) {
 		val path = DIR + basePackage?.split(Pattern.quote(PKG))?.join(DIR).toLowerCase
 		log.trace('getRelativeBasePackagePath({}) returns: {}', basePackage, path)
@@ -155,6 +161,14 @@ class DefaultNamingStrategy implements NamingStrategy {
 
 	override getDirStrategy() '''deep'''
 
+	override getPath() {
+		getPath(null, '')
+	}
+	
+	override getPath(Project p) {
+		getPath(p, '')
+	}
+	
 	override getPath(Project p, String subDir) {
 		getPath(p, subDir, false)
 	}
@@ -168,10 +182,20 @@ class DefaultNamingStrategy implements NamingStrategy {
 	}
 
 	override getPath(Project p, String subDir, boolean isResource, boolean isGenerated, boolean isTest) {
-//		var StringBuilder path = new StringBuilder
-//		path.append('src')
-//		if(isResource) {path.append('src/main/resources')}
-		getAbsoluteGeneratedSourcePath(p.name) + getRelativeBasePackagePath(p.name)
+		var StringBuilder path = new StringBuilder
+//		path.append(p.name.projectPath)
+		if(isResource) {
+			path.append('src/main/resources')
+		} else {
+			path.append(srcPath)
+		}
+		if(isGenerated) {path.append('src/main/resources')}
+			path.append(srcGenPath)
+		if(isTest) (
+			path.append(srcTestPath)
+		)
+		path.toString
+//		getAbsoluteGeneratedSourcePath(p.name) + getRelativeBasePackagePath(p.name)
 	}
 
 }

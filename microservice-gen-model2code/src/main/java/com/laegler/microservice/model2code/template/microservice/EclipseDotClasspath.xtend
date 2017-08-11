@@ -3,7 +3,7 @@ package com.laegler.microservice.model2code.template.microservice
 import javax.inject.Named
 import com.laegler.microservice.adapter.model.Template
 import com.laegler.microservice.adapter.model.Project
-import com.laegler.microservice.adapter.model.TemplateBuilder
+
 import com.laegler.microservice.adapter.model.FileType
 import javax.inject.Inject
 import com.laegler.microservice.adapter.model.World
@@ -17,13 +17,13 @@ class EclipseDotClasspath {
 	protected static final Logger LOG = LoggerFactory.getLogger(EclipseDotClasspath)
 
 	@Inject protected World world
-	@Inject protected TemplateBuilder templateBuilder
+	
 	@Inject protected NamingStrategy namingStrategy
 
 	public def Template getTemplate(Project project) {
 		LOG.debug('Generate template EclipseDotClasspath')
 
-		templateBuilder //
+		Template::builder //
 		.project(project) //
 		.fileName('') //
 		.fileType(FileType.ECLIPSE_CLASSPATH) //

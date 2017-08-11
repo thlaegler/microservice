@@ -28,7 +28,7 @@ class ModelPomXml extends PomXml {
 	public def Template getTemplate(Project p) {
 		log.debug('  Generate template {}/model/pom.yml', p.name)
 
-		templateBuilder //
+		Template::builder //
 		.project(p) //
 		.fileName('pom') //
 		.fileType(FileType.XML) //

@@ -23,7 +23,7 @@ class ServiceXtend extends Xtend {
 
 		this.entity = entity
 
-		templateBuilder //
+		Template::builder //
 		.project(p) //
 		.fileName(entity?.name?.toFirstUpper + 'Service') //
 		.fileType(FileType.XTEND) //

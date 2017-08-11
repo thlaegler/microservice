@@ -12,9 +12,7 @@ import javax.xml.bind.JAXBElement
 import com.laegler.microservice.adapter.model.Project
 import com.laegler.microservice.adapter.util.NamingStrategy
 import com.laegler.microservice.adapter.model.World
-import com.laegler.microservice.adapter.model.ProjectBuilder
 import com.laegler.microservice.adapter.util.FileUtil
-import com.laegler.microservice.adapter.model.TemplateBuilder
 import java.util.List
 
 abstract class Generator {
@@ -24,8 +22,6 @@ abstract class Generator {
 	@Inject protected World world
 	@Inject protected FileUtil fileHelper
 	@Inject protected NamingStrategy namingStrategy
-	@Inject protected ProjectBuilder projectBuilder
-	@Inject protected TemplateBuilder templateBuilder
 
 	abstract public def List<Project> generate(Architecture a)
 

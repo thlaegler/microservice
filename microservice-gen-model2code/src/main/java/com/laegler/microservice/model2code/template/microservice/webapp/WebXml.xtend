@@ -1,6 +1,6 @@
 package com.laegler.microservice.model2code.template.microservice.webapp
 
-import com.laegler.microservice.adapter.model.TemplateBuilder
+
 import com.laegler.microservice.adapter.model.Project
 import com.laegler.microservice.adapter.model.Template
 import javax.inject.Named
@@ -17,13 +17,13 @@ class WebXml {
 	protected static final Logger LOG = LoggerFactory.getLogger(WebXml)
 
 	@Inject protected World world
-	@Inject protected TemplateBuilder templateBuilder
+	
 	@Inject protected NamingStrategy namingStrategy
 
 	public def Template getTemplate(Project project) {
 		LOG.debug('Generate template GrpcModelPomXml')
 
-		templateBuilder //
+		Template::builder //
 		.project(project) //
 		.fileName('web') //
 		.fileType(FileType.XML) //

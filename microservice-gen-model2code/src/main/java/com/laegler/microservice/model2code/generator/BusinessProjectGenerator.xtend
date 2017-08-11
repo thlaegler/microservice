@@ -34,10 +34,10 @@ class BusinessProjectGenerator extends Generator {
 	protected def Project generateBusinessProject(Artifact a) {
 		log.debug('Generating Business project for artifact {}', a.name)
 
-		projectBuilder //
+		Project::builder //
 		.name(namingStrategy.getProjectName(a.name, 'business')) //
 		.basePackage(world.architecture?.basePackage) //
-		.dir(namingStrategy.getProjectPath(a.name, 'business')) //
+		.directory(namingStrategy.getProjectPath(a.name, 'business')) //
 		.microserviceModel(a)//
 		.build => [ p |
 			p.templates => [

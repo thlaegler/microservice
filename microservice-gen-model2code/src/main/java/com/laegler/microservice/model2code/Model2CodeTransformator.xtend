@@ -44,6 +44,11 @@ class Model2CodeTransformator extends AbstractTransformator {
 		world.basePackage = basePackage
 		world.mavenProject = mavenProject
 		world.rootFolder = mavenProject?.basedir
+		
+		// TODO: get values from maven properties
+		world.author = 'johnDoe'
+		world.vendor = 'myCompanyName'
+		world.vendorPrefix = 'it'
 
 		log.debug('Searching for architecture.yml file ...')
 		val File architectureFile = FileUtils.listFiles(mavenProject.basedir,
@@ -110,7 +115,7 @@ class Model2CodeTransformator extends AbstractTransformator {
 		world.architecture = a
 		a.artifacts.forEach [
 			world.rootProject.subProjects?.add(
-				projectBuilder //
+				Project::builder //
 				.name(world.name) //
 				.basePackage(a.basePackage) //
 				.microserviceModel(a) //

@@ -3,7 +3,7 @@ package com.laegler.microservice.model2code.template
 import com.laegler.microservice.adapter.model.FileType
 import com.laegler.microservice.adapter.model.Project
 import com.laegler.microservice.adapter.model.Template
-import com.laegler.microservice.adapter.model.TemplateBuilder
+
 import com.laegler.microservice.model.Architecture
 import javax.inject.Inject
 import javax.inject.Named
@@ -17,12 +17,11 @@ class DockerComposeYaml {
 	protected static final Logger log = LoggerFactory.getLogger(RootPomXml)
 
 	@Inject World world
-	@Inject TemplateBuilder templateBuilder
 
 	public def Template getTemplate(Project p) {
 		log.debug('  Generating template pom.xml')
 
-		templateBuilder //
+		Template::builder //
 		.project(p) //
 		.fileName('docker-compose') //
 		.fileType(FileType.YAML) //

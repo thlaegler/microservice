@@ -14,6 +14,8 @@ class World {
 	String basePackage
 	String version
 	String author
+	String vendor
+	String vendorPrefix
 
 	Architecture architecture
 	File rootFolder

@@ -3,7 +3,6 @@ package com.laegler.microservice.code2model.template
 import com.laegler.microservice.adapter.model.FileType
 import com.laegler.microservice.adapter.model.Project
 import com.laegler.microservice.adapter.model.Template
-import com.laegler.microservice.adapter.model.TemplateBuilder
 import com.laegler.microservice.adapter.util.NamingStrategy
 import javax.inject.Inject
 import javax.inject.Named
@@ -15,13 +14,12 @@ class WsdlXml {
 
 	protected static Logger LOG = LoggerFactory.getLogger(WsdlXml)
 
-	@Inject TemplateBuilder templateBuilder
 	@Inject NamingStrategy namingStrategy
 
 	public def Template getTemplate(Project project) {
 		LOG.debug('Generate template WsdlXml')
 
-		templateBuilder //
+		Template::builder //
 		.project(project) //
 		.fileName('wsdl') //
 		.fileType(FileType.XML) //

@@ -22,7 +22,7 @@ class JpaRepoXtend extends Xtend {
 
 		this.entity = entity
 
-		templateBuilder //
+		Template::builder //
 		.project(project) //
 		.fileName(entity?.name?.toFirstUpper + 'JpaRepository') //
 		.fileType(FileType.XTEND) //

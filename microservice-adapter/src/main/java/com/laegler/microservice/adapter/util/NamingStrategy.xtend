@@ -52,6 +52,10 @@ interface NamingStrategy {
 
 	def String getDirStrategy()
 
+	def String getPath();
+
+	def String getPath(Project p);
+
 	def String getPath(Project project, String subDir)
 
 	def String getPath(Project project, String subDir, boolean isResource)

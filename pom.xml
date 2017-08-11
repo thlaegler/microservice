@@ -9,16 +9,14 @@
 	<name>Microservice Toolbox</name>
 
 	<modules>
+		<module>microservice-parent</module>
 		<module>microservice-model</module>
 		<module>microservice-adapter</module>
-
 		<module>microservice-gen-model2code</module>
 		<module>microservice-gen-code2model</module>
-
 		<module>microservice-maven-plugin</module>
 
 		<module>example</module>
-		<!-- <module>microservice-example-code2model</module> -->
 	</modules>
 
 	<dependencies>

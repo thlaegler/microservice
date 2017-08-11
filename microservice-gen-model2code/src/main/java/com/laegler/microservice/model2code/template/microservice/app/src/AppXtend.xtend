@@ -17,7 +17,7 @@ class AppXtend extends Xtend {
 		val relativPath = namingStrategy.getSrcPathWithPackage(p)
 		log.debug('  Generating template: {}/Application.xtend', relativPath)
 
-		templateBuilder //
+		Template::builder //
 		.project(p) //
 		.fileName('Application') //
 		.fileType(FileType.XTEND) //

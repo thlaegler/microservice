@@ -5,6 +5,8 @@ import javax.inject.Named
 import org.apache.maven.model.Model
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.eclipse.xtend.lib.annotations.FinalFieldsConstructor
+import de.oehme.xtend.contrib.Buildable
+import java.util.ArrayList
 
 /**
  * Use ProjectBuilder to get instance.
@@ -12,6 +14,7 @@ import org.eclipse.xtend.lib.annotations.FinalFieldsConstructor
  * @see ProjectBuilder
  */
 @Named
+@Buildable
 @Accessors
 @FinalFieldsConstructor
 class Project {
@@ -28,8 +31,8 @@ class Project {
 	val Model pom
 	val Object microserviceModel
 
-	List<Template> templates
-	List<Project> subProjects
+	List<Template> templates = new ArrayList
+	List<Project> subProjects = new ArrayList
 
 	def String getPackaging() {
 		projectType?.packaging

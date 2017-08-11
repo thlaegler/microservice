@@ -1,8 +1,6 @@
 package com.laegler.microservice.adapter
 
 import com.laegler.microservice.adapter.model.Project
-import com.laegler.microservice.adapter.model.ProjectBuilder
-import com.laegler.microservice.adapter.model.TemplateBuilder
 import com.laegler.microservice.adapter.model.World
 import com.laegler.microservice.adapter.util.FileUtil
 import com.laegler.microservice.adapter.util.YamlConfig
@@ -32,8 +30,6 @@ abstract class AbstractTransformator {
 
 	@Inject protected World world
 	@Inject protected FileUtil fileHelper
-	@Inject protected ProjectBuilder projectBuilder
-	@Inject protected TemplateBuilder templateBuilder
 	@Inject protected MavenXpp3Reader mavenReader
 
 	protected def Set<Class<?>> getValidClasses(String basePackage, Class<? extends Annotation> clazz) {
@@ -82,7 +78,12 @@ abstract class AbstractTransformator {
 
 //			if (!model.artifactId?.equals(pomXmlFile?.name)) {}
 		if (pom !== null) {
-			world.rootProject.subProjects?.add(projectBuilder.name(pom?.artifactId).pom(pom).build)
+			world.rootProject.subProjects?.add(
+				Project::builder//
+				.name(pom?.artifactId)//
+				.pom(pom)//
+				.build
+			)
 		}
 //		writeFile(model.projects.dotGraphFileContent2, projectDir.getFilePath('architecture.component.plantuml'))
 		world.rootProject.subProjects?.transform

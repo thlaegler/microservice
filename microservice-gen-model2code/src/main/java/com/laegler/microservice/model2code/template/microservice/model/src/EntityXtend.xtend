@@ -23,7 +23,7 @@ class EntityXtend extends Xtend {
 
 		this.entity = entity
 
-		templateBuilder //
+		Template::builder //
 		.project(project) //
 		.fileName(entity?.name?.toFirstUpper) //
 		.fileType(FileType.XTEND) //

@@ -8,11 +8,13 @@ import java.util.UUID
 import javax.inject.Named
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.eclipse.xtend.lib.annotations.FinalFieldsConstructor
+import de.oehme.xtend.contrib.Buildable
 
 /**
  * Abstract super type for all templates.
  */
 @Named
+@Buildable
 @Accessors
 @FinalFieldsConstructor
 class Template {
@@ -30,14 +32,14 @@ class Template {
 	val OverwritePolicy overwritePolicy
 	val boolean skipStamping
 
-	String content
-
-	public static def TemplateBuilder getBuilder() {
-		new TemplateBuilder
-	}
+	val String content
 
 	public def String getFullPathWithName() {
-		'''«relativPath»«fileName».«fileType.extension»'''
+		if (fileType.extension == FileType.UNDEFINED) {
+			return relativPath + fileName
+		} else {
+			return '''«relativPath»«fileName».«fileType.extension»'''
+		}
 	}
 
 	public def String getTemplateName() {

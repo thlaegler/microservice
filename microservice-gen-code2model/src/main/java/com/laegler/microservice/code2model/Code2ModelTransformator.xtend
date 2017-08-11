@@ -13,6 +13,7 @@ import javax.inject.Inject
 import javax.inject.Named
 import org.apache.maven.model.Model
 import org.apache.maven.project.MavenProject
+import com.laegler.microservice.adapter.model.Project
 
 @Named
 class Code2ModelTransformator extends AbstractTransformator {
@@ -40,6 +41,11 @@ class Code2ModelTransformator extends AbstractTransformator {
 			w.mavenProject = mavenProject
 			w.rootFolder = mavenProject?.basedir
 
+			// TODO: get values from maven properties
+			w.author = 'johnDoe'
+			w.vendor = 'myCompanyName'
+			w.vendorPrefix = 'it'
+
 			w.architecture = new Architecture => [ a |
 				mavenProject?.model?.transformPom
 				mavenProject?.transformSpring
@@ -66,7 +72,10 @@ class Code2ModelTransformator extends AbstractTransformator {
 		LOG.debug('''Trying to transform POM to Model: «pom.artifactId»''')
 		pom?.modules?.forEach [
 			world.rootProject.subProjects?.add(
-				projectBuilder.name(pom.artifactId).microserviceModel(world).build
+				Project::builder //
+				.name(pom.artifactId) //
+				.microserviceModel(world) //
+				.build
 			)
 		]
 		LOG.debug('POM to Model Transformation done.')
@@ -189,7 +198,10 @@ class Code2ModelTransformator extends AbstractTransformator {
 		LOG.debug('''Trying to transform POM child-modules to Model: «pom.artifactId»''')
 		pom?.modules?.forEach [ mo |
 			world.rootProject.subProjects?.add(
-				projectBuilder.name(pom.artifactId).microserviceModel(world).build
+				Project::builder //
+				.name(pom.artifactId) //
+				.microserviceModel(world) //
+				.build
 			)
 			artifacts.add(
 				new Artifact => [
@@ -204,7 +216,10 @@ class Code2ModelTransformator extends AbstractTransformator {
 		LOG.debug('''Trying to transform POM dependencies to Model: «pom.artifactId»''')
 		pom?.dependencies?.forEach [ dep |
 			world.rootProject.subProjects?.add(
-				projectBuilder.name(pom.artifactId).microserviceModel(world).build
+				Project::builder //
+				.name(pom.artifactId) //
+				.microserviceModel(world) //
+				.build
 			)
 			artifacts.add(
 				new Artifact => [

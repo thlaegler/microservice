@@ -1,7 +1,6 @@
 package com.laegler.microservice.adapter.model
 
 import com.laegler.microservice.adapter.model.FileType
-import com.laegler.microservice.adapter.model.TemplateBuilder
 import javax.annotation.PostConstruct
 import org.slf4j.LoggerFactory
 import org.slf4j.Logger
@@ -11,14 +10,14 @@ import com.laegler.microservice.adapter.util.NamingStrategy
 abstract class PomXml {
 
 	protected static final Logger LOG = LoggerFactory.getLogger(PomXml)
+	protected Template.Builder templateBuilder
 
 	@Inject protected World world
-	@Inject protected TemplateBuilder templateBuilder
 	@Inject protected NamingStrategy namingStrategy
 
 	@PostConstruct
 	public def void prepareTemplateBuilder() {
-		templateBuilder //
+		templateBuilder = Template::builder //
 		.fileName('pom') //
 		.fileType(FileType.XML) //
 		.header('''

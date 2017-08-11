@@ -19,6 +19,8 @@ class BaseProjectGenerator extends Generator {
 
 	protected static Logger log = LoggerFactory.getLogger(BaseProjectGenerator)
 
+	@Inject GatewayProjectGenerator gatewayProject
+	@Inject AuthProjectGenerator authProject
 	@Inject ModelProjectGenerator modelProject
 	@Inject BusinessProjectGenerator businessProject
 //	@Inject SoapProjectGenerator soapProject
@@ -40,13 +42,16 @@ class BaseProjectGenerator extends Generator {
 	}
 
 	protected def Project generateBaseProject(Architecture a) {
-		projectBuilder //
+		Project::builder //
 		.name(namingStrategy.getProjectName(a.name)) //
 		.basePackage(a.basePackage) //
-		.dir(namingStrategy.getProjectPath(a.name)) //
+		.directory(namingStrategy.getProjectPath(a.name)) //
+//		.directory('example') //
 		.microserviceModel(a) //
 		.build => [ p |
 			p.subProjects => [
+				addAll(authProject.generate(a))
+				addAll(gatewayProject.generate(a))
 				addAll(modelProject.generate(a))
 				addAll(businessProject.generate(a))
 //				addAll(soapProject.generate(a))

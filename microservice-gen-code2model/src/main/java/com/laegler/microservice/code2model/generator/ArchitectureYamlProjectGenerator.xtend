@@ -13,6 +13,7 @@ import com.laegler.microservice.model.ModelRoot
 import java.util.List
 import java.util.ArrayList
 import com.laegler.microservice.adapter.model.template.PlantUmlComponentDiagram
+import com.laegler.microservice.adapter.model.Template
 
 @Named
 class ArchitectureYamlProjectGenerator extends Generator {
@@ -34,20 +35,20 @@ class ArchitectureYamlProjectGenerator extends Generator {
 	protected def Project generateProject(Architecture a) {
 		LOG.debug('Generating REST parent project for {}', a.name)
 
-		projectBuilder //
+		Project::builder //
 		.name(namingStrategy.getProjectName(a.name)) //
 		.basePackage(world.basePackage) //
-		.dir(namingStrategy.getProjectPath(a.name)) //
+		.directory(namingStrategy.getProjectPath(a.name)) //
 		.build => [ p |
 			p.templates.addAll(
-				templateBuilder //
+				Template::builder //
 				.fileName('architecture') //
 				.fileType(FileType.YAML) //
 				.content(yamlAdapter.serialize(new ModelRoot => [
 					it.architecture = architecture
 				])) //
 				.build,
-				templateBuilder //
+				Template::builder //
 				.fileName('architecture') //
 				.fileType(FileType.JSON) //
 				.content(jsonAdapter.serialize(a)) //

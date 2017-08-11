@@ -38,17 +38,17 @@ class GrpcProjectGenerator extends Generator {
 	protected def Project generateGrpcProject(Artifact a) {
 		log.debug('Generating gRPC project for artifact {}', a.name)
 
-		projectBuilder //
+		Project::builder //
 		.name(namingStrategy.getProjectName(a.name, 'grpc')) //
 		.basePackage(world.architecture?.basePackage) //
-		.dir(namingStrategy.getProjectPath(a.name+'/grpc')) //
-		.microserviceModel(a)//
+		.directory(namingStrategy.getProjectPath(a.name + '/grpc')) //
+		.microserviceModel(a) //
 		.build => [ p |
 			p.subProjects?.addAll(
-				generateGrpcParentProject(p,a),
-				generateGrpcModelProject(p,a),
-				generateGrpcServerProject(p,a),
-				generateGrpcClientProject(p,a)
+				generateGrpcParentProject(p, a),
+				generateGrpcModelProject(p, a),
+				generateGrpcServerProject(p, a),
+				generateGrpcClientProject(p, a)
 			)
 			p.templates?.add(grpcPomXml.getTemplate(p))
 		]
@@ -57,12 +57,12 @@ class GrpcProjectGenerator extends Generator {
 	protected def Project generateGrpcParentProject(Project parent, Artifact a) {
 		log.debug('Generating gRPC parent project for artifact {}', a.name)
 
-		projectBuilder //
+		Project::builder //
 		.name(namingStrategy.getProjectName(parent.name, 'parent')) //
 		.basePackage(world.architecture?.basePackage) //
-		.dir(namingStrategy.getProjectPath(parent.name+'/parent')) //
-		.microserviceModel(a)//
-		.build => [ p |
+		.directory(namingStrategy.getProjectPath(parent.name + '/parent')) //
+		.microserviceModel(a) //
+		.build => [p |
 //			p.templates?.addAll(
 //				grpcModelPomXml.getTemplate(p)
 //			)
@@ -72,11 +72,11 @@ class GrpcProjectGenerator extends Generator {
 	protected def Project generateGrpcModelProject(Project parent, Artifact a) {
 		log.debug('Generating gRPC model project for artifact {}', a.name)
 
-		projectBuilder //
+		Project::builder //
 		.name(namingStrategy.getProjectName(parent.name, 'model')) //
 		.basePackage(world.architecture?.basePackage) //
-		.dir(namingStrategy.getProjectPath(parent.name+'/model')) //
-		.microserviceModel(a)//
+		.directory(namingStrategy.getProjectPath(parent.name + '/model')) //
+		.microserviceModel(a) //
 		.build => [ p |
 			p.templates?.addAll(
 				grpcProto.getTemplate(p, a),
@@ -88,11 +88,11 @@ class GrpcProjectGenerator extends Generator {
 	protected def Project generateGrpcServerProject(Project parent, Artifact a) {
 		log.debug('Generating gRPC server project for artifact {}', a.name)
 
-		projectBuilder //
+		Project::builder //
 		.name(namingStrategy.getProjectName(parent.name, 'server')) //
 		.basePackage(world.architecture?.basePackage) //
-		.dir(namingStrategy.getProjectPath(parent.name+'/server')) //
-		.microserviceModel(a)//
+		.directory(namingStrategy.getProjectPath(parent.name + '/server')) //
+		.microserviceModel(a) //
 		.build => [ p |
 			p.templates?.addAll(
 				p.generateGrpcDefaultServerXtend(a),
@@ -104,11 +104,11 @@ class GrpcProjectGenerator extends Generator {
 	protected def Project generateGrpcClientProject(Project parent, Artifact a) {
 		log.debug('Generating gRPC client project for artifact {}', a.name)
 
-		projectBuilder //
+		Project::builder //
 		.name(namingStrategy.getProjectName(parent.name, 'client')) //
 		.basePackage(world.architecture?.basePackage) //
-		.dir(namingStrategy.getProjectPath(parent.name+'/client')) //
-		.microserviceModel(a)//
+		.directory(namingStrategy.getProjectPath(parent.name + '/client')) //
+		.microserviceModel(a) //
 		.build => [ p |
 			p.templates?.addAll(
 				p.generateGrpcClientXtend(a),
@@ -120,7 +120,7 @@ class GrpcProjectGenerator extends Generator {
 	protected def Template generateGrpcModelXtend(Project p, Artifact a) {
 		log.debug('  Generating template: gRPC model xtend')
 
-		templateBuilder //
+		Template::builder //
 		.project(p) //
 		.fileName(a.name.toFirstUpper + 'GrpcModel') //
 		.fileType(FileType.XTEND) //
@@ -134,7 +134,7 @@ class GrpcProjectGenerator extends Generator {
 	protected def Template generateGrpcDefaultServerXtend(Project p, Artifact a) {
 		log.debug('  Generating template: gRPC default server xtend')
 
-		templateBuilder //
+		Template::builder //
 		.project(p) //
 		.fileName('Default' + p.name.replaceAll('.', '').toFirstUpper + 'GrpcServer') //
 		.fileType(FileType.XTEND) //
@@ -148,7 +148,7 @@ class GrpcProjectGenerator extends Generator {
 	protected def Template generateGrpcServerXtend(Project p, Artifact a) {
 		log.debug('  Generating template: gRPC server xtend')
 
-		templateBuilder //
+		Template::builder //
 		.project(p) //
 		.fileName(a.name.replaceAll('.', '').toFirstUpper + 'GrpcServer') //
 		.fileType(FileType.XTEND) //
@@ -162,7 +162,7 @@ class GrpcProjectGenerator extends Generator {
 	protected def Template generateGrpcClientXtend(Project p, Artifact a) {
 		log.debug('  Generating template: gRPC client xtend')
 
-		templateBuilder //
+		Template::builder //
 		.project(p) //
 		.fileName(a.name.replaceAll('.', '').toFirstUpper + 'GrpcClient') //
 		.fileType(FileType.XTEND) //

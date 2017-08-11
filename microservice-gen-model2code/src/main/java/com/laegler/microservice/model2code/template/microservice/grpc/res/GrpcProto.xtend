@@ -3,7 +3,7 @@ package com.laegler.microservice.model2code.template.microservice.grpc.res
 import com.laegler.microservice.adapter.model.FileType
 import com.laegler.microservice.adapter.model.Project
 import com.laegler.microservice.adapter.model.Template
-import com.laegler.microservice.adapter.model.TemplateBuilder
+
 import com.laegler.microservice.adapter.model.World
 import com.laegler.microservice.adapter.util.NamingStrategy
 import com.laegler.microservice.model.Artifact
@@ -16,11 +16,11 @@ import javax.inject.Named
 class GrpcProto {
 
 	@Inject protected World world
-	@Inject protected TemplateBuilder templateBuilder
+	
 	@Inject protected NamingStrategy namingStrategy
 
 	public def Template getTemplate(Project p, Artifact a) {
-		templateBuilder //
+		Template::builder //
 		.project(p) //
 		.fileName(a.name.toLowerCase) //
 		.fileType(FileType.PROTO) //

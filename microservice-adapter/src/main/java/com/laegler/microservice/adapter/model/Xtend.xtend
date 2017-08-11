@@ -14,13 +14,15 @@ abstract class Xtend {
 
 	protected static final Logger LOG = LoggerFactory.getLogger(Xtend)
 
+	protected Template.Builder templateBuilder
+
 	@Inject protected World world
-	@Inject protected TemplateBuilder templateBuilder
+
 	@Inject protected NamingStrategy namingStrategy
-	
+
 	@PostConstruct
 	public def void prepareTemplateBuilder() {
-		templateBuilder//
+		templateBuilder = Template::builder //
 		.fileType(FileType.XTEND) //
 		.documentation('Xtend file') //
 		.skipStamping(false) //

@@ -19,7 +19,7 @@ class GrpcClientXtend extends Xtend {
 
 		this.entity = entity
 
-		templateBuilder //
+		Template::builder //
 		.project(p) //
 		.fileName(entity.name?.toLowerCase.replaceAll(' ', '').toFirstUpper + 'GrpcClient') //
 		.fileType(FileType.XTEND) //

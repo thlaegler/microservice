@@ -3,7 +3,7 @@ package com.laegler.microservice.model2code.template.microservice
 import javax.inject.Named
 import com.laegler.microservice.adapter.model.Template
 import com.laegler.microservice.adapter.model.Project
-import com.laegler.microservice.adapter.model.TemplateBuilder
+
 import com.laegler.microservice.adapter.model.FileType
 import javax.inject.Inject
 import org.slf4j.Logger
@@ -17,11 +17,11 @@ class EclipseDotProject {
 	protected static final Logger LOG = LoggerFactory.getLogger(EclipseDotProject)
 
 	@Inject protected World world
-	@Inject protected TemplateBuilder templateBuilder
+	
 	@Inject protected NamingStrategy namingStrategy
 
 	public def Template getTemplate(Project project) {
-		templateBuilder //
+		Template::builder //
 		.project(project) //
 		.fileName('') //
 		.fileType(FileType.ECLIPSE_PROJECT) //

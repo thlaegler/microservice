@@ -30,10 +30,10 @@ class SoapProjectGenerator extends Generator {
 	protected def Project generateSoapProject(Artifact a) {
 		LOG.debug('Generating gRPC project')
 
-		projectBuilder //
+		Project::builder //
 		.name(namingStrategy.getProjectName(a.name, 'soap')) //
 		.basePackage(world.basePackage) //
-		.dir(namingStrategy.getProjectPath(a.name, 'soap')) //
+		.directory(namingStrategy.getProjectPath(a.name, 'soap')) //
 		.build => [ p |
 			p.subProjects.addAll(
 				a.generateSoapModelProject,
@@ -49,10 +49,10 @@ class SoapProjectGenerator extends Generator {
 	}
 
 	protected def Project generateSoapServerProject(Artifact a) {
-		projectBuilder //
+		Project::builder //
 		.name(namingStrategy.getProjectName(a.name, 'soap', 'server')) //
 		.basePackage(world.basePackage) //
-		.dir(namingStrategy.getProjectPath(a.name, 'soap', 'server')) //
+		.directory(namingStrategy.getProjectPath(a.name, 'soap', 'server')) //
 		.build => [ p |
 			p.templates.addAll(
 				p.generateSoapDefaultServerJava(a),
@@ -62,10 +62,10 @@ class SoapProjectGenerator extends Generator {
 	}
 
 	protected def Project generateSoapClientProject(Artifact a) {
-		projectBuilder //
+		Project::builder //
 		.name(namingStrategy.getProjectName(a.name, 'soap', 'client')) //
 		.basePackage(world.basePackage) //
-		.dir(namingStrategy.getProjectPath(a.name, 'soap', 'client')) //
+		.directory(namingStrategy.getProjectPath(a.name, 'soap', 'client')) //
 		.build => [ p |
 			p.templates.addAll(
 				p.generateSoapClientJava(a),
@@ -75,10 +75,10 @@ class SoapProjectGenerator extends Generator {
 	}
 
 	protected def Project generateSoapModelProject(Artifact a) {
-		projectBuilder //
+		Project::builder //
 		.name(namingStrategy.getProjectName(a.name, 'soap', 'model')) //
 		.basePackage(world.basePackage) //
-		.dir(namingStrategy.getProjectPath(a.name, 'soap', 'model')) //
+		.directory(namingStrategy.getProjectPath(a.name, 'soap', 'model')) //
 		.build => [ p |
 			p.templates.addAll(
 				p.generateSoapModelPomXml(a),
@@ -101,7 +101,7 @@ class SoapProjectGenerator extends Generator {
 	}
 
 	protected def Template generateSoapClientJava(Project p, Artifact a) {
-		templateBuilder //
+		Template::builder //
 		.fileName(a.name + 'SoapClient') //
 		.fileType(FileType.XTEND) //
 		.relativPath(namingStrategy.getSrcPathWithPackage(p)) //

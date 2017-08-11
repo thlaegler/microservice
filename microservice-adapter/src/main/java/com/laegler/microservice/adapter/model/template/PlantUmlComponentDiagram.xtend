@@ -3,7 +3,6 @@ package com.laegler.microservice.adapter.model.template
 import com.laegler.microservice.adapter.model.FileType
 import com.laegler.microservice.adapter.model.Project
 import com.laegler.microservice.adapter.model.Template
-import com.laegler.microservice.adapter.model.TemplateBuilder
 import com.laegler.microservice.adapter.model.World
 import com.laegler.microservice.adapter.util.DiagramUtil
 import com.laegler.microservice.adapter.util.NamingStrategy
@@ -23,7 +22,6 @@ class PlantUmlComponentDiagram {
 	static final Logger LOG = LoggerFactory.getLogger(PlantUmlComponentDiagram)
 
 	@Inject World world
-	@Inject TemplateBuilder templateBuilder
 	@Inject NamingStrategy namingStrategy
 	@Inject DiagramUtil diagramUtil
 	@Inject StringUtil stringUtil
@@ -31,7 +29,7 @@ class PlantUmlComponentDiagram {
 	public def Template getTemplate(Project p) {
 		LOG.debug('Generate template PlantUmlDot')
 
-		templateBuilder //
+		Template::builder //
 		.project(p) //
 		.fileName(p.name + '-component-uml') //
 		.fileType(FileType.DOT) //

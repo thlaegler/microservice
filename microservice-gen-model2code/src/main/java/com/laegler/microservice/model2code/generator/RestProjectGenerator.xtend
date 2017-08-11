@@ -28,10 +28,10 @@ class RestProjectGenerator extends Generator {
 	protected def Project generateRestProject(Artifact a) {
 		LOG.debug('Generating REST project(s) for {}', a.name)
 
-		projectBuilder //
+		Project::builder //
 		.name(namingStrategy.getProjectName(a.name, 'rest')) //
 		.basePackage(world.basePackage) //
-		.dir(namingStrategy.getProjectPath(a.name, 'rest')) //
+		.directory(namingStrategy.getProjectPath(a.name, 'rest')) //
 		.build => [ p |
 			p.subProjects.addAll(
 				a.generateRestParentProject,
@@ -50,10 +50,10 @@ class RestProjectGenerator extends Generator {
 	protected def Project generateRestParentProject(Artifact a) {
 		LOG.debug('Generating REST parent project for {}', a.name)
 
-		projectBuilder //
+		Project::builder //
 		.name(namingStrategy.getProjectName(a.name, 'rest', 'parent')) //
 		.basePackage(world.basePackage) //
-		.dir(namingStrategy.getProjectPath(a.name, 'rest', 'parent')) //
+		.directory(namingStrategy.getProjectPath(a.name, 'rest', 'parent')) //
 		.build => [p|
 //			p.templates.addAll(
 //				p.generateRestDefaultServerJava(a),
@@ -65,10 +65,10 @@ class RestProjectGenerator extends Generator {
 	protected def Project generateRestServerProject(Artifact a) {
 		LOG.debug('Generating REST server project for {}', a.name)
 
-		projectBuilder //
+		Project::builder //
 		.name(namingStrategy.getProjectName(a.name, 'rest', 'server')) //
 		.basePackage(world.basePackage) //
-		.dir(namingStrategy.getProjectPath(a.name, 'rest', 'server')) //
+		.directory(namingStrategy.getProjectPath(a.name, 'rest', 'server')) //
 		.build => [ p |
 			p.templates.addAll(
 				p.generateRestDefaultServerJava(a),
@@ -80,10 +80,10 @@ class RestProjectGenerator extends Generator {
 	protected def Project generateRestClientProject(Artifact a) {
 		LOG.debug('Generating REST client project for {}', a.name)
 
-		projectBuilder //
+		Project::builder //
 		.name(namingStrategy.getProjectName(a.name, 'rest', 'client')) //
 		.basePackage(world.basePackage) //
-		.dir(namingStrategy.getProjectPath(a.name, 'rest', 'client')) //
+		.directory(namingStrategy.getProjectPath(a.name, 'rest', 'client')) //
 		.build => [ p |
 			p.templates.addAll(
 				p.generateRestClientJava(a),
@@ -95,10 +95,10 @@ class RestProjectGenerator extends Generator {
 	protected def Project generateRestModelProject(Artifact a) {
 		LOG.debug('Generating REST model project for {}', a.name)
 
-		projectBuilder //
+		Project::builder //
 		.name(namingStrategy.getProjectName(a.name, 'rest', 'model')) //
 		.basePackage(world.basePackage) //
-		.dir(namingStrategy.getProjectPath(a.name, 'rest', 'model')) //
+		.directory(namingStrategy.getProjectPath(a.name, 'rest', 'model')) //
 		.build => [ p |
 			p.templates.addAll(
 				p.generateRestDtoXtend(a)
@@ -127,7 +127,7 @@ class RestProjectGenerator extends Generator {
 	protected def Template generateRestClientJava(Project p, Artifact s) {
 		LOG.debug('Creating file: REST client Java')
 
-		templateBuilder //
+		Template::builder //
 		.fileName(s.name + 'RestClient') //
 		.fileType(FileType.XTEND) //
 		.relativPath(namingStrategy.getSrcPathWithPackage(p)) //

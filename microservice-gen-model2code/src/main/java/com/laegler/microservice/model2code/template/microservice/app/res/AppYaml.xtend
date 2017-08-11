@@ -3,7 +3,7 @@ package com.laegler.microservice.model2code.template.microservice.app.res
 import com.laegler.microservice.adapter.model.FileType
 import com.laegler.microservice.adapter.model.Project
 import com.laegler.microservice.adapter.model.Template
-import com.laegler.microservice.adapter.model.TemplateBuilder
+
 import com.laegler.microservice.adapter.model.World
 import com.laegler.microservice.adapter.util.NamingStrategy
 import javax.inject.Inject
@@ -17,23 +17,26 @@ class AppYaml {
 	static final Logger log = LoggerFactory.getLogger(AppYaml)
 
 	@Inject World world
-	@Inject TemplateBuilder templateBuilder
 	@Inject NamingStrategy namingStrategy
 
 	public def Template getTemplate(Project p) {
-		val relativPath = namingStrategy.resPath
-		log.debug('  Generating template: {}/application.yml', relativPath)
+		log.debug('  Generating template: {}/application.yml', namingStrategy.resPath)
 		
-		templateBuilder //
+		Template::builder //
 		.project(p) //
 		.fileName('application') //
 		.fileType(FileType.YAML) //
-		.relativPath(relativPath) //
+		.relativPath(namingStrategy.resPath) //
 		.documentation('AppYaml') //
 		.skipStamping(true) //
 		.content('''
+			«world.vendorPrefix»:
+			  version: @project.version@
+			  description: @project.description@
+			  java:
+			    version: @java.version@
 			server:
-			  port: 8080
+			  port: ${«world.vendorPrefix».«p.name».rest.port}
 		''') //
 		.build
 	}

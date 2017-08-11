@@ -1,7 +1,7 @@
 package com.laegler.microservice.model2code.template
 
 import com.laegler.microservice.adapter.model.Template
-import com.laegler.microservice.adapter.model.TemplateBuilder
+
 import com.laegler.microservice.adapter.model.Project
 import javax.inject.Named
 import com.laegler.microservice.adapter.model.FileType
@@ -13,11 +13,11 @@ import com.laegler.microservice.adapter.model.World
 class DotGitignore {
 
 	@Inject protected World world
-	@Inject protected TemplateBuilder templateBuilder
+	
 	@Inject protected NamingStrategy namingStrategy
 
 	public def Template getTemplate(Project project) {
-		templateBuilder //
+		Template::builder //
 		.project(project) //
 		.fileName('') //
 		.fileType(FileType.GITIGNORE) //

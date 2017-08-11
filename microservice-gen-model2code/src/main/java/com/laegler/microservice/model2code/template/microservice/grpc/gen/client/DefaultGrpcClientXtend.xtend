@@ -16,7 +16,7 @@ class DefaultGrpcClientXtend extends Xtend {
 	public def Template getTemplate(Project p) {
 		LOG.debug('Generate template DefaultGrpcClientXtend')
 
-		templateBuilder //
+		Template::builder //
 		.project(p) //
 		.fileName('Default' + p.name?.replaceAll('.', '').toFirstUpper + 'GrpcClient2') //
 		.fileType(FileType.XTEND) //

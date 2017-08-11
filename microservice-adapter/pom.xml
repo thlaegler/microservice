@@ -29,6 +29,11 @@
 			<artifactId>org.eclipse.xtend.lib</artifactId>
 			<version>2.12.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.github.oehme.xtend</groupId>
+			<artifactId>xtend-contrib</artifactId>
+			<version>1.1.0</version>
+		</dependency>
 
 		<!-- Infrastructure -->
 		<dependency>

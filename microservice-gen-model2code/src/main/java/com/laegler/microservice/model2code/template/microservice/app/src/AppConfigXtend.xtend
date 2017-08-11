@@ -17,7 +17,7 @@ class AppConfigXtend extends Xtend {
 		val path = namingStrategy.getSrcPathWithPackage(p)
 		log.debug('  Generating template: {}/ApplicationConfig.xtend', path)
 
-		templateBuilder //
+		Template::builder //
 		.project(p) //
 		.fileName('ApplicationConfig') //
 		.fileType(FileType.XTEND) //
