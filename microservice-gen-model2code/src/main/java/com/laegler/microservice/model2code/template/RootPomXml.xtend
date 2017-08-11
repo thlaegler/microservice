@@ -22,15 +22,18 @@ class RootPomXml extends PomXml {
 	public def Template getTemplate(Project p) {
 		log.debug('  Generating template pom.xml')
 
-		val contentWriter = new StringWriter
-		mavenWriter.write(contentWriter, getModel(p))
-
 		templateBuilder //
 		.project(p) //
 		.fileName('pom_gen') //
 		.fileType(FileType.XML) //
-		.content(contentWriter.toString) //
+		.content(p.content) //
 		.build //
+	}
+
+	private def String getContent(Project p) {
+		val contentWriter = new StringWriter
+		mavenWriter.write(contentWriter, getModel(p))
+		contentWriter.toString
 	}
 
 	private def getModel(Project p) {
