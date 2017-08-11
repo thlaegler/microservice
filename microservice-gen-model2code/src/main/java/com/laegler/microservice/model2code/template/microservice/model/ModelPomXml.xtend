@@ -1,17 +1,29 @@
 package com.laegler.microservice.model2code.template.microservice.model
 
+import com.laegler.microservice.adapter.model.FileType
 import com.laegler.microservice.adapter.model.PomXml
 import com.laegler.microservice.adapter.model.Project
 import com.laegler.microservice.adapter.model.Template
+import java.io.StringWriter
+import javax.inject.Inject
 import javax.inject.Named
+import org.apache.maven.model.Extension
+import org.apache.maven.model.Build
+import org.apache.maven.model.Dependency
+import org.apache.maven.model.Model
+import org.apache.maven.model.io.xpp3.MavenXpp3Writer
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import com.laegler.microservice.adapter.model.FileType
+import org.apache.maven.model.Plugin
+import java.util.HashMap
+import org.codehaus.plexus.util.xml.Xpp3Dom
 
 @Named
 class ModelPomXml extends PomXml {
 
 	protected static final Logger log = LoggerFactory.getLogger(ModelPomXml)
+
+	@Inject MavenXpp3Writer mavenWriter
 
 	public def Template getTemplate(Project p) {
 		log.debug('  Generate template {}/model/pom.yml', p.name)
@@ -20,127 +32,77 @@ class ModelPomXml extends PomXml {
 		.project(p) //
 		.fileName('pom') //
 		.fileType(FileType.XML) //
-		.content('''
-			«parentSection»
-			<artifactId>«p.name»</artifactId>
-			<name>«p.canonicalName»</name>
-			<packaging>«p.packaging»</packaging>
-			<description>«p.documentation»</description>
-			<dependencies>
-				<!-- Project internal -->
-				<!-- <dependency>
-					<groupId>${project.groupId}</groupId>
-					<artifactId>«world.getOption('name')?.toLowerCase»-common</artifactId>
-					<version>${project.version}</version>
-				</dependency>
-				<dependency>
-					<groupId>${project.groupId}</groupId>
-					<artifactId>«world.getOption('name')?.toLowerCase»-model</artifactId>
-					<version>${project.version}</version>
-				</dependency>
-				<dependency>
-					<groupId>${project.groupId}</groupId>
-					<artifactId>«world.getOption('name')?.toLowerCase»-persistence</artifactId>
-					<version>${project.version}</version>
-				</dependency>
-				<dependency>
-					<groupId>org.wildfly.bom</groupId>
-					<artifactId>wildfly-javaee7-with-tools</artifactId>
-					<version>${wildfly.bom.version}</version>
-					<type>pom</type>
-				</dependency>
-				<dependency>
-					<groupId>javax.enterprise</groupId>
-					<artifactId>cdi-api</artifactId>
-				</dependency>
-				<dependency>
-					<groupId>org.jboss.spec.javax.ejb</groupId>
-					<artifactId>jboss-ejb-api_3.2_spec</artifactId>
-				</dependency>
-				<dependency>
-					<groupId>org.jboss.spec.javax.annotation</groupId>
-					<artifactId>jboss-annotations-api_1.2_spec</artifactId>
-				</dependency>
-				<dependency>
-					<groupId>org.jboss.resteasy</groupId>
-					<artifactId>resteasy-jaxrs</artifactId>
-					<version>3.1.0.Beta1</version>
-				</dependency>
-				 -->
-				<dependency>
-					<groupId>io.rest-assured</groupId>
-					<artifactId>rest-assured</artifactId>
-					<version>3.0.0</version>
-				</dependency>
-				<dependency>
-					<groupId>org.eclipse.xtend</groupId>
-					<artifactId>org.eclipse.xtend.lib</artifactId>
-				</dependency>
-				<dependency>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</dependency>
-				<dependency>
-					<groupId>joda-time</groupId>
-					<artifactId>joda-time</artifactId>
-				</dependency>
-				<dependency>
-					<groupId>com.google.code.gson</groupId>
-					<artifactId>gson</artifactId>
-				</dependency>
-				
-				<!-- TEST -->
-				<dependency>
-					<groupId>junit</groupId>
-					<artifactId>junit</artifactId>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.mockito</groupId>
-					<artifactId>mockito-all</artifactId>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.powermock</groupId>
-					<artifactId>powermock-api-mockito</artifactId>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>info.cukes</groupId>
-					<artifactId>cucumber-core</artifactId>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>info.cukes</groupId>
-					<artifactId>cucumber-java</artifactId>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>info.cukes</groupId>
-					<artifactId>cucumber-junit</artifactId>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>info.cukes</groupId>
-					<artifactId>gherkin</artifactId>
-					<scope>test</scope>
-				</dependency>
-			</dependencies>
-			<!-- <build>
-				<finalName>${project.artifactId}</finalName>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven</groupId>
-						<artifactId>maven-war-plugin</artifactId>
-						<version>${war.plugin.version}</version>
-						<configuration>
-							<failOnMissingWebXml>false</failOnMissingWebXml>
-							<webXml>src/main/webapp/WEB-INF/web.xml</webXml>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build> -->
-		''') //
-		.build
+		.content(p.content).build
 	}
+
+	private def String getContent(Project p) {
+		val contentWriter = new StringWriter
+		mavenWriter.write(contentWriter, getModel(p))
+		contentWriter.toString
+	}
+
+	private def getModel(Project p) {
+		new Model => [
+			groupId = p.basePackage
+			artifactId = p.name
+			version = p.version
+			dependencies = #[
+				new Dependency => [
+					groupId = 'io.grpc'
+					artifactId = 'grpc-all'
+					version = '1.4.0'
+				],
+				new Dependency => [
+					groupId = 'org.slf4j'
+					artifactId = 'slf4j-api'
+					version = '1.7.25'
+				]
+			]
+			build= new Build => [
+				finalName = "${project.artifactId}"
+				extensions = #[
+					new Extension => [
+						groupId = 'kr.motd.maven'
+						artifactId = 'os-maven-plugin'
+						version = '${os-maven-plugin.version}'
+					]
+				]
+				plugins = #[
+                    new Plugin => [
+						groupId = 'org.apache.maven.plugins'
+						artifactId = 'maven-clean-plugin'
+						version = '3.0.0'
+						configuration = new Xpp3Dom('filesets') => [
+							addChild(new Xpp3Dom('fileset') => [
+								setAttribute('directory', '${grpc.dir.generated}')
+							])
+						]
+					],
+					new Plugin => [
+						groupId = 'org.xolstice.maven.plugins'
+						artifactId = 'protobuf-maven-plugin'
+						version = '${os-maven-plugin.version}'
+//					 <version>${protobuf-maven-plugin.version}</version>
+//                    <configuration>
+//                        <outputDirectory>${grpc.dir.generated}</outputDirectory>
+//                        <clearOutputDirectory>false</clearOutputDirectory>
+//                        <protocArtifact>com.google.protobuf:protoc:${google-protobuf.version}:exe:${os.detected.classifier}</protocArtifact>
+//                        <pluginId>grpc-java</pluginId>
+//                        <pluginArtifact>io.grpc:protoc-gen-grpc-java:${grpc.version}:exe:${os.detected.classifier}
+//                        </pluginArtifact>
+//                    </configuration>
+//                    <executions>
+//                        <execution>
+//                            <goals>
+//                                <goal>compile</goal>
+//                                <goal>compile-custom</goal>
+//                            </goals>
+//                        </execution>
+//                    </executions>
+                    ]
+				]
+			]
+		]
+	}
+
 }

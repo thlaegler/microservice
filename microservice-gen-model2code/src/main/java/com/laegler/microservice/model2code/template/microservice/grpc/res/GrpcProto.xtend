@@ -53,7 +53,7 @@ class GrpcProto {
 				«var int idx = 1»
 				«FOR Entry<String, String> es : e?.fields?.entrySet»
 					«es?.value?.toLowerCase» «es?.key?.toLowerCase» = «idx»;
-					«idx++»
+					«idx=idx+1»
 				«ENDFOR»
 				}
 			«ENDFOR»
