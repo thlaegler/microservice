@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory
  * Reads, parses and generates Cucumber/Gherkin files.
  */
 @Named
-class GherkinAdapter extends Adapter<GherkinDocument> {
+class GherkinAdapter extends Adapter<GherkinDocument> { 
 
 	private static Logger LOG = LoggerFactory.getLogger(GherkinAdapter)
 

@@ -18,7 +18,6 @@ import javax.inject.Inject
 import org.apache.maven.model.Dependency
 import org.apache.maven.model.Model
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader
-import org.reflections.Reflections
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.yaml.snakeyaml.Yaml
@@ -32,14 +31,14 @@ abstract class AbstractTransformator {
 	@Inject protected FileUtil fileHelper
 	@Inject protected MavenXpp3Reader mavenReader
 
-	protected def Set<Class<?>> getValidClasses(String basePackage, Class<? extends Annotation> clazz) {
-		val Set<Class<?>> classes = new LinkedHashSet<Class<?>>
-		val Set<Class<?>> c = new Reflections(basePackage).getTypesAnnotatedWith(clazz, true);
-		classes.addAll(c)
-		val Set<Class<?>> inherited = new Reflections(basePackage).getTypesAnnotatedWith(clazz);
-		classes.addAll(inherited)
-		classes
-	}
+//	protected def Set<Class<?>> getValidClasses(String basePackage, Class<? extends Annotation> clazz) {
+//		val Set<Class<?>> classes = new LinkedHashSet<Class<?>>
+//		val Set<Class<?>> c = new Reflections(basePackage).getTypesAnnotatedWith(clazz, true);
+//		classes.addAll(c)
+//		val Set<Class<?>> inherited = new Reflections(basePackage).getTypesAnnotatedWith(clazz);
+//		classes.addAll(inherited)
+//		classes
+//	}
 
 //	protected def Map<String, SpringResource> getResourceMap(Set<Class<?>> validClasses) {
 //	 throws GenerateException {

@@ -8,7 +8,7 @@ before_install:
 - mvn -N io.takari:maven:wrapper
 install:
 - ./mvnw install cobertura:cobertura -DskipTests=true -Dmaven.javadoc.skip=true -q -B -V
-script:
-- ./mvnw test cobertura:cobertura -q
+#script:
+#- ./mvnw test cobertura:cobertura -q
 after_success:
 - bash <(curl -s https://codecov.io/bash)
