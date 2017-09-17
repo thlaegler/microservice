@@ -1,0 +1,138 @@
+swagger: '2.0'
+info:
+  description: Microservice Example OAuth2 Server.
+  version: 0.0.2-SNAPSHOT
+  title: OAuth2 API
+host: localhost
+basePath: /oauth2/oauth
+tags:
+- name: oauth2
+schemes:
+- http
+paths:
+  /token:
+    post:
+      tags:
+      - OAuth2 Service
+      summary: Get OAuth2 access token (either by user credentials or by refresh token)
+      description: ''
+      operationId: tokenPost
+      consumes:
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      parameters:
+      - name: grant_type
+        in: formData
+        description: |
+          Grant type
+          For authentication by username and password (OAuth2 grant type 'resource owner password credentials') this value must be 'password'. The parameters username, password and client_id must be set.
+          For authentication by refresh token this value must be 'refresh_token' and the parameter refresh_token must contain the actual refresh token.
+          For authentication by application (OAuth2 grant type 'client credentials') this value must be 'client_credentials'. The parameters client_id and client_secret must be set.
+          The parameter scope is for all grant types optional in not in use right now.
+        required: true
+        type: string
+        x-example: password
+      - name: client_id
+        in: formData
+        description: Client ID identifies the store (store ID)
+        required: false
+        type: string
+        x-example: cloudQA
+      - name: client_secret
+        in: formData
+        description: Client secret if grant_type is client_credentials
+        required: false
+        type: string
+        x-example: cloudQA
+      - name: username
+        in: formData
+        description: Username of a user who wants to login for the given store
+        required: false
+        type: string
+        x-example: adminpaul
+      - name: password
+        in: formData
+        description: Password of a user who wants to login for the given store
+        required: false
+        type: string
+        x-example: p4ssw0rd
+      - name: refresh_token
+        in: formData
+        description: The refresh token if grant_type is refresh_token
+        required: false
+        type: string
+        x-example: 0X2lkIjoidGVzdDEiLCJzY29wZSI6WyJ
+      - name: scope
+        in: formData
+        description: Password of a user who wants to login for the given store
+        required: false
+        type: string
+        x-example: p4ssw0rd
+      - name: Authorization
+        in: header
+        description: Basic Authorization
+        required: true
+        type: string
+        x-example: Basic lsdflkawchetiowetchi
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/OAuth2AccessToken'
+        '400':
+          description: Bad credentials (user password wrong)
+        '401':
+          description: Unauthorized (user or client not found)
+  /check_token:
+    get:
+      tags:
+      - OAuth2 Service
+      summary: Check OAuth2 Token validity
+      description: ''
+      operationId: checkTokenGet
+      produces:
+      - application/json
+      parameters:
+      - name: token
+        in: query
+        description: The access token thet should be checked
+        required: true
+        type: string
+        x-example: 0X2lkIjoidGVzdDEiLCJzY29wZSI6WyJ
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/OAuth2AccessToken'
+        '400':
+          description: Invalid token
+definitions:
+  OAuth2AccessToken:
+    type: object
+    properties:
+      access_token:
+        type: string
+      token_type:
+        type: string
+      refresh_token:
+        type: string
+      expires_in:
+        type: string
+      scope:
+        type: string
+      userProfile:
+        $ref: '#/definitions/UserProfile'
+      jti:
+        type: string
+  UserProfile:
+    type: object
+    properties:
+      groupId:
+        type: string
+      customerCode:
+        type: string
+      userId:
+        type: string
+      warehouseCode:
+        type: string

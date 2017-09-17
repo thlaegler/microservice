@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>example.users.websocket.client</artifactId>
+	<packaging>jar</packaging>
+
+	<name>Microservice Example Users Websocket client library</name>
+	<description>This projects holds the websocket client library for Users.</description>
+
+	<parent>
+		<groupId>org.example</groupId>
+		<artifactId>example.parents.websocket</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath />
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.eclipse.xtend</groupId>
+			<artifactId>org.eclipse.xtend.lib</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<sourceDirectory>src/main/java, src/gen/java</sourceDirectory>
+
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.xtend</groupId>
+				<artifactId>xtend-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

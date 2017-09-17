@@ -1,0 +1,98 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>example.users.grpc.server</artifactId>
+	<packaging>jar</packaging>
+
+	<name>Microservice Example Users gRPC server library</name>
+	<description>This projects holds the gRPC server library for Users.</description>
+
+	<parent>
+		<groupId>org.example</groupId>
+		<artifactId>example.parents.grpc</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath />
+	</parent>
+
+	<dependencies>
+		<!-- internal -->
+		<dependency>
+			<groupId>org.example</groupId>
+			<artifactId>example.utils</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.example</groupId>
+			<artifactId>example.users.grpc.spec</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.example</groupId>
+			<artifactId>example.users.model</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.example</groupId>
+			<artifactId>example.users.business</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.xtend</groupId>
+			<artifactId>org.eclipse.xtend.lib</artifactId>
+		</dependency>
+
+		<!-- Spring Boot -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-all</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<sourceDirectory>src/main/java, src/gen/java</sourceDirectory>
+
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.xtend</groupId>
+				<artifactId>xtend-maven-plugin</artifactId>
+				<version>2.12.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+							<goal>testCompile</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/xtend-gen/main</outputDirectory>
+							<testOutputDirectory>${project.build.directory}/xtend-gen/test</testOutputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.xolstice.maven.plugins</groupId>
+				<artifactId>protobuf-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

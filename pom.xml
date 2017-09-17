@@ -16,7 +16,8 @@
 		<module>microservice-gen-code2model</module>
 		<module>microservice-maven-plugin</module>
 
-		<module>example</module>
+		<module>model2code-example</module>
+		<module>code2model-example</module>
 	</modules>
 
 	<dependencies>

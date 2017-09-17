@@ -1,0 +1,73 @@
+architecture:
+  name: Example
+  version: 1.0.0
+  author: John Doe
+  basePackage: org.example.microservice
+  options:
+    projectStructure: DEEP
+  build:
+    unitTest: true
+    integrationTest: true
+  deployment:
+    googleProject: example
+    chart: platform
+    namespace: example-network
+    cluster: example-cluster
+    zone: australia-southeast1-c
+  atlassian:
+    atlassianProject: example
+    jiraProject: example
+    bitbucketProject: example
+    user: test
+    password: test
+  artifacts:
+  - name: user
+    type: service
+    springConfig: users/application.yaml
+    feature: users/users.feature
+    data:
+    - MYSQL
+    - MONGODB
+    - ELASTICSEARCH
+    - REDIS
+    entities:
+    - name: User
+      fields:
+        id: long
+        name: String
+        email: Email
+        password: Password
+    - name: Group
+      fields:
+        id: long
+        name: String
+    exposes:
+    - type: SOAP
+      name: UsersSoap
+      port: 6081
+      specification: users/users.wsdl
+      isDraft: true
+    - type: GRPC
+      name: UsersGrpc
+      port: 7071
+      specification: users/users.proto
+    - type: REST
+      name: UsersRest
+      port: 8081
+      specification: users/users-api.yaml
+  - name: products
+    type: service
+    springConfig: products/application.yaml
+    feature: products/products.feature
+    exposes:
+    - type: GRPC
+      name: ProductsGrpc
+      port: 7072
+      specification: products/products.proto
+    - type: REST
+      name: ProductsRest
+      port: 8082
+      specification: products/products-api.yaml
+    consumes:
+    - type: GRPC
+      endpoint: null

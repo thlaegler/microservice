@@ -1,0 +1,95 @@
+version: '3'
+services:
+  example.users:
+#    build: example.users/.
+    image: gcr.io/example/example.users:0.0.1-SNAPSHOT
+    container_name: example.users
+    hostname: example.users
+# working_dir: /
+#command: java -Dorg.example.users.basePath=http://example.users:8091 -jar app.jar
+    ports:
+    - 8091:8091
+    environment:
+    - ORG_EXAMPLE_CONFIG_ENDPOINT="http://example.config:8888"
+    - ORG_EXAMPLE_CONFIG_GIT_BRANCH="master"
+    links:
+    - example.config
+    - example.mysql
+#    - example.redis
+    - example.elasticsearch
+    networks:
+    - example-network
+  example.gateway:
+    image: gcr.io/example/example.gateway:0.0.1-SNAPSHOT
+    container_name: example.gateway
+    hostname: example.gateway
+    ports:
+    - 8080:8080
+    environment:
+    - ORG_EXAMPLE_CONFIG_ENDPOINT="http://example.config:8888"
+    - ORG_EXAMPLE_CONFIG_GIT_BRANCH="master"
+    links:
+    - example.config
+    networks:
+    - example-network
+  example.oauth2:
+    image: gcr.io/example/example.oauth2:0.0.1-SNAPSHOT
+    container_name: oauth2
+    hostname: oauth2
+    ports:
+    - 8081:8081
+    environment:
+    - ORG_EXAMPLE_CONFIG_ENDPOINT="http://example.config:8888"
+    - ORG_EXAMPLE_CONFIG_GIT_BRANCH="master"
+    links:
+    - example.config
+    networks:
+    - example-network
+  example.config:
+    image: gcr.io/example/example.config:0.0.1-SNAPSHOT
+    container_name: example.config
+    hostname: example.config
+    ports:
+    - 8888:8888
+    environment:
+    - ORG_EXAMPLE_CONFIG_GIT_URI="https://tlaegler@bitbucket.org/tlaegler/microservice-config.git"
+    - ORG_EXAMPLE_CONFIG_GIT_USERNAME="test"
+    - ORG_EXAMPLE_CONFIG_GIT_PASSWORD="test"
+    networks:
+    - example-network
+  example.mysql:
+    image: gcr.io/example/example.mysql:0.0.1-SNAPSHOT
+    container_name: example.mysql
+    hostname: example.mysql
+    ports:
+    - 3306:3306
+    networks:
+    - example-network
+#  example.redis:
+#    image: gcr.io/example/example.redis:0.0.1-SNAPSHOT
+#    container_name: example.redis
+#    hostname: example.redis
+#    ports:
+#    - 6379:6379
+#    networks:
+#    - example-network
+  example.elasticsearch:
+    image: gcr.io/example/example.elasticsearch:0.0.1-SNAPSHOT
+    container_name: example.elasticsearch
+    hostname: example.elasticsearch
+    ports:
+    - 9200:9200
+    - 9300:9300
+    environment:
+    - cluster.name=example-cluster
+    - bootstrap.memory_lock=true
+    - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    volumes:
+    - esdata:/usr/share/elasticsearch/data
+    networks:
+    - example-network
+volumes:
+  esdata:
+    driver: local
+networks:
+  example-network: null

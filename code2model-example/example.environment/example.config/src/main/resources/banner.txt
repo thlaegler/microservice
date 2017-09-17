@@ -1,0 +1,8 @@
+=============================================================
+  ${project.name}
+=============================================================
+  Application:	${project.artifactId}
+  Version:	${project.version}
+  Description:	${project.description}
+  Spring:	${spring.boot.version}
+=============================================================

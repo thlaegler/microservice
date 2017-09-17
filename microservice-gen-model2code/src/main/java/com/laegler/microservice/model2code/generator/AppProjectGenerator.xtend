@@ -71,8 +71,8 @@ class AppProjectGenerator extends Generator {
 				add(p.generateKubeReplicaSetYaml(a))
 				add(p.generateKubeServiceYaml(a))
 				add(p.generateKubeIngressYaml(a))
-				if (a.featureFile !== null) {
-					val gherkin = gherkinAdapter.parse(a.featureFile)
+				if (a.feature !== null) {
+					val gherkin = gherkinAdapter.toModel(fileHelper.findFile(a.feature))
 					add(featureFile.getTemplate(p, gherkin))
 					add(featureSteps.getTemplate(p, gherkin))
 				}

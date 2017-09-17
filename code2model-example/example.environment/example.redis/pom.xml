@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.example</groupId>
+	<artifactId>example.redis</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>Microservice Example Env Redis</name>
+	<description>todo.</description>
+
+	<properties>
+		<org.example.docker.registry>gcr.io/example/</org.example.docker.registry>
+		<org.example.docker.image.prefix>gcr.io/example</org.example.docker.image.prefix>
+		<org.example.docker.image.name>${project.artifactId}</org.example.docker.image.name>
+		<org.example.docker.image.version>${project.version}</org.example.docker.image.version>
+
+		<docker.plugin.version>1.0.0</docker.plugin.version>
+		<fabric8.plugin.version>3.5.30</fabric8.plugin.version>
+	</properties>
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+
+		<plugins>
+			<!-- Docker plugins -->
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>${docker.plugin.version}</version>
+				<configuration>
+					<imageName>${org.example.docker.image.prefix}/${org.example.docker.image.name}</imageName>
+					<imageTags>${org.example.docker.image.version}</imageTags>
+					<forceTags>true</forceTags>
+					<dockerDirectory>${project.basedir}</dockerDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<id>build-image</id>
+						<phase>package</phase>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>push-image</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>push</goal>
+						</goals>
+						<configuration>
+							<imageName>${org.example.docker.image.registry}${org.example.docker.image.name}:${org.example.docker.image.version}</imageName>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

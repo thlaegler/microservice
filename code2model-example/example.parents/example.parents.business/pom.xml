@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.example</groupId>
+	<artifactId>example.parents.business</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<packaging>pom</packaging>
+
+	<name>Microservice Example Parent Business</name>
+	<description>todo.</description>
+
+	<properties>
+		<!-- Basics: encoding and Java version -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+
+		<!-- Dependency versions -->
+		<xtend.version>2.12.0</xtend.version>
+		<spring.version>4.3.8.RELEASE</spring.version>
+		<spring.boot.version>1.5.6.RELEASE</spring.boot.version>
+		<spring.autorestdocs.version>1.0.6</spring.autorestdocs.version>
+		<springfox.version>2.6.0</springfox.version>
+		<hibernate.verion>5.2.10.Final</hibernate.verion>
+		<swagger.version>1.5.13</swagger.version>
+		<apache.commons.lang.version>3.6</apache.commons.lang.version>
+		<lombok.version>1.16.16</lombok.version>
+		<gson.version>2.8.1</gson.version>
+		<grpc.version>1.4.0</grpc.version>
+		<restassured.version>3.0.3</restassured.version>
+		<cucumber.version>1.2.5</cucumber.version>
+		<gherkin.version>2.12.2</gherkin.version>
+		<hikari-cp.version>2.6.2</hikari-cp.version>
+
+		<!-- Plugin versions -->
+		<protobuf-maven-plugin.version>0.5.0</protobuf-maven-plugin.version>
+		<os-maven-plugin.version>1.4.1.Final</os-maven-plugin.version>
+		<docker-maven-plugin.version>0.4.13</docker-maven-plugin.version>
+		<dockerfile-maven-plugin.version>1.2.2</dockerfile-maven-plugin.version>
+		<fabric8-maven-plugin.version>3.3.5</fabric8-maven-plugin.version>
+		<swagger-maven-plugin.version>3.1.5</swagger-maven-plugin.version>
+
+		<!-- POM properties -->
+		<example.dir.src.gen>src/gen/java</example.dir.src.gen>
+		<example.dir.templates>${basedir}/src/main/templates/</example.dir.templates>
+		<example.dir.generated>${project.build.directory}/generated</example.dir.generated>
+		<example.log.file.path>/tmp/${project.artifactId}.log</example.log.file.path>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.eclipse.xtend</groupId>
+				<artifactId>org.eclipse.xtend.lib</artifactId>
+				<version>${xtend.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-data-jpa</artifactId>
+				<version>${spring.boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+				<version>${spring.boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-data-redis</artifactId>
+				<version>${spring.boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>5.1.42</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>javax.inject</groupId>
+				<artifactId>javax.inject</artifactId>
+				<version>1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>1.7.25</version>
+			</dependency>
+
+			<!-- Apache Commons lang3 -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${apache.commons.lang.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>${gson.version}</version>
+			</dependency>
+
+			<!-- TESTING -->
+
+			<!-- Cucumber und Gherkin -->
+			<!-- <dependency> <groupId>info.cukes</groupId> <artifactId>cucumber-jvm</artifactId> 
+				<version>${cucumber.version}</version> <scope>test</scope> </dependency> -->
+			<dependency>
+				<groupId>info.cukes</groupId>
+				<artifactId>cucumber-core</artifactId>
+				<version>${cucumber.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>info.cukes</groupId>
+				<artifactId>cucumber-java</artifactId>
+				<version>${cucumber.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>info.cukes</groupId>
+				<artifactId>cucumber-junit</artifactId>
+				<version>${cucumber.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>info.cukes</groupId>
+				<artifactId>gherkin</artifactId>
+				<version>${gherkin.version}</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+
+		<finalName>${project.artifactId}</finalName>
+		<sourceDirectory>src/main/java, src/gen/java</sourceDirectory>
+
+		<pluginManagement>
+			<plugins>
+
+				<plugin>
+					<groupId>org.eclipse.xtend</groupId>
+					<artifactId>xtend-maven-plugin</artifactId>
+					<version>${xtend.version}</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>compile</goal>
+								<goal>testCompile</goal>
+							</goals>
+							<configuration>
+								<outputDirectory>${project.build.directory}/xtend-gen/main</outputDirectory>
+								<testOutputDirectory>${project.build.directory}/xtend-gen/test</testOutputDirectory>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
+				<!-- Testing plugins -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.20</version>
+					<configuration>
+						<includes>
+							<include>**/*Test.java</include>
+						</includes>
+						<testFailureIgnore>true</testFailureIgnore>
+						<reuseForks>false</reuseForks>
+						<forkCount>1</forkCount>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-failsafe-plugin</artifactId>
+					<version>2.20</version>
+					<configuration>
+						<includes>
+							<include>**/*IT.java</include>
+						</includes>
+						<skip>true</skip>
+					</configuration>
+					<executions>
+						<execution>
+							<phase>integration-test</phase>
+							<goals>
+								<goal>integration-test</goal>
+								<goal>verify</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<organization>
+		<name>example</name>
+		<url>http://www.example.org</url>
+	</organization>
+	<inceptionYear>2017</inceptionYear>
+	<developers>
+		<developer>
+			<id>doe</id>
+			<organization>example</organization>
+			<organizationUrl>http://www.example.org</organizationUrl>
+			<email>john.doe@example.org</email>
+		</developer>
+	</developers>
+	<issueManagement>
+		<url>https://example.atlassian.net/secure/RapidBoard.jspa</url>
+		<system>Jira - example</system>
+	</issueManagement>
+	<scm>
+		<url>https://bitbucket.org/example</url>
+		<connection>scm:git:git://bitbucket.org/example</connection>
+		<developerConnection>scm:git:git@bitbucket.org:example/example.git</developerConnection>
+	</scm>
+</project>

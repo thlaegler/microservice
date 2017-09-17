@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.example</groupId>
+	<artifactId>example.tests</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<name>Example Tests</name>
+	<description>todo.</description>
+
+	<properties>
+		<!-- Basics: encoding and Java version -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+
+		<!-- Dependency versions -->
+		<spring.boot.version>1.5.4.RELEASE</spring.boot.version>
+		<spring.cloud.version>1.2.2.RELEASE</spring.cloud.version>
+		<springfox.version>2.6.0</springfox.version>
+		<swagger.version>1.5.13</swagger.version>
+		<lombok.version>1.16.16</lombok.version>
+		<grpc.version>1.4.0</grpc.version>
+		<restassured.version>3.0.3</restassured.version>
+		<cucumber.version>1.2.5</cucumber.version>
+		<gherkin.version>2.12.2</gherkin.version>
+		<soapui.version>5.3.0</soapui.version>
+
+		<!-- Integration Testing -->
+		<org.example.skip.itests>true</org.example.skip.itests>
+		<org.example.skip.tests>false</org.example.skip.tests>
+
+		<org.example.platform.cluster>platform-cluster-staging</org.example.platform.cluster>
+		<org.example.platform.host>http://35.186.206.114</org.example.platform.host>
+
+		<performancetest.webservice.host>localhost</performancetest.webservice.host>
+		<performancetest.webservice.port>8080</performancetest.webservice.port>
+		<performancetest.webservice.path>/</performancetest.webservice.path>
+		<performancetest.connectTimeout>1000</performancetest.connectTimeout>
+		<performancetest.responseTimeout>3000</performancetest.responseTimeout>
+		<performancetest.threadCount>20</performancetest.threadCount>
+		<performancetest.loopCount>10</performancetest.loopCount>
+	</properties>
+
+	<dependencies>
+		<!-- project internal -->
+		<dependency>
+			<groupId>org.example</groupId>
+			<artifactId>example.users.rest</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!-- gRPC -->
+		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-all</artifactId>
+			<version>${grpc.version}</version>
+		</dependency>
+
+		<!-- Logger -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.25</version>
+		</dependency>
+
+		<!-- Utilities -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- OpenAPI -->
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>1.5.16</version>
+		</dependency>
+
+		<!-- TESTING -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+		</dependency>
+
+		<!-- JMeter -->
+		<dependency>
+			<groupId>org.apache.jmeter</groupId>
+			<artifactId>ApacheJMeter_java</artifactId>
+			<version>3.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>1.7.25</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.2</version>
+			<!-- <scope>compile</scope> -->
+		</dependency>
+		<dependency>
+			<groupId>org.apache.jmeter</groupId>
+			<artifactId>jorphan</artifactId>
+			<version>3.2</version>
+		</dependency>
+
+		<!-- SOAP UI -->
+		<dependency>
+			<groupId>com.smartbear.soapui</groupId>
+			<artifactId>soapui</artifactId>
+			<version>${soapui.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javafx</groupId>
+					<artifactId>jfxrt</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.jgoodies</groupId>
+					<artifactId>forms</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.jgoodies</groupId>
+					<artifactId>looks</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.jgoodies</groupId>
+					<artifactId>binding</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- Rest-assured -->
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>${restassured.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>spring-mock-mvc</artifactId>
+			<version>${restassured.version}</version>
+		</dependency>
+
+		<!-- Websocket -->
+		<dependency>
+			<groupId>javax.websocket</groupId>
+			<artifactId>javax.websocket-client-api</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.tyrus</groupId>
+			<artifactId>tyrus-client</artifactId>
+			<version>1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.tyrus</groupId>
+			<artifactId>tyrus-container-grizzly</artifactId>
+			<version>1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.json</groupId>
+			<artifactId>javax.json-api</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.json</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+
+		<!-- Cucumber und Gherkin -->
+		<!-- <dependency> <groupId>info.cukes</groupId> <artifactId>cucumber-jvm</artifactId> 
+			<version>${cucumber.version}</version> <scope>test</scope> </dependency> -->
+		<dependency>
+			<groupId>info.cukes</groupId>
+			<artifactId>cucumber-core</artifactId>
+			<version>${cucumber.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>info.cukes</groupId>
+			<artifactId>cucumber-java</artifactId>
+			<version>${cucumber.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>info.cukes</groupId>
+			<artifactId>cucumber-junit</artifactId>
+			<version>${cucumber.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>info.cukes</groupId>
+			<artifactId>gherkin</artifactId>
+			<version>${gherkin.version}</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>features</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
+		<plugins>
+			<!-- Filter and copy resources -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.0.2</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/features</directory>
+									<targetPath>src/test/resources/features</targetPath>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Testing plugins -->
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-surefire-plugin</artifactId> 
+				<configuration> <includes> <include>**/*Test.java</include> </includes> <skipTests>${org.example.skip.tests}</skipTests> 
+				<testFailureIgnore>true</testFailureIgnore> <reuseForks>false</reuseForks> 
+				<forkCount>1</forkCount> </configuration> </plugin> -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.20</version>
+				<configuration>
+					<includes>
+						<include>**/*IT.java</include>
+					</includes>
+					<reportsDirectory>${project.build.directory}/failsafe</reportsDirectory>
+					<skip>${org.example.skip.itests}</skip>
+					<skipTests>${org.example.skip.itests}</skipTests>
+					<testFailureIgnore>true</testFailureIgnore>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>itest-remote</id>
+			<properties>
+				<org.example.skip.itests>false</org.example.skip.itests>
+				<org.example.skip.tests>true</org.example.skip.tests>
+			</properties>
+		</profile>
+		<profile>
+			<id>itest-docker</id>
+			<properties>
+				<org.example.skip.itests>false</org.example.skip.itests>
+				<org.example.skip.tests>true</org.example.skip.tests>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>1.6.0</version>
+						<executions>
+							<execution>
+								<id>docker-compose-up</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+								<configuration>
+									<executable>${basedir}/src/main/resources/docker-compose-up.sh</executable>
+								</configuration>
+							</execution>
+							<execution>
+								<id>docker-compose-down</id>
+								<phase>post-integration-test</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+								<configuration>
+									<executable>${basedir}/src/main/resources/docker-compose-down.sh</executable>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>itest-local</id>
+			<properties>
+				<org.example.skip.itests>false</org.example.skip.itests>
+				<org.example.skip.tests>true</org.example.skip.tests>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>spring-boot-run</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>start</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>spring-boot-stop</id>
+								<phase>post-integration-test</phase>
+								<goals>
+									<goal>stop</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<!-- JMeter performance tests -->
+		<profile>
+			<id>ptest-remote</id>
+			<properties>
+				<org.example.skip.itests>true</org.example.skip.itests>
+				<org.example.skip.tests>true</org.example.skip.tests>
+			</properties>
+		</profile>
+		<profile>
+			<id>ptest-docker</id>
+			<properties>
+				<org.example.skip.itests>true</org.example.skip.itests>
+				<org.example.skip.tests>true</org.example.skip.tests>
+			</properties>
+		</profile>
+		<profile>
+			<id>ptest-local</id>
+			<properties>
+				<org.example.skip.itests>true</org.example.skip.itests>
+				<org.example.skip.tests>true</org.example.skip.tests>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.lazerycode.jmeter</groupId>
+						<artifactId>jmeter-maven-plugin</artifactId>
+						<version>2.2.0</version>
+						<configuration>
+							<testFilesIncluded>
+								<testFilesIncluded>GatewayTest.jmx</testFilesIncluded>
+							</testFilesIncluded>
+							<testResultsTimestamp>false</testResultsTimestamp>
+							<overrideRootLogLevel>DEBUG</overrideRootLogLevel>
+							<suppressJMeterOutput>false</suppressJMeterOutput>
+							<ignoreResultFailures>true</ignoreResultFailures>
+							<propertiesUser>
+								<webservice.connectTimeout>${performancetest.connectTimeout}</webservice.connectTimeout>
+								<webservice.responseTimeout>${performancetest.responseTimeout}</webservice.responseTimeout>
+								<threadCount>${performancetest.threadCount}</threadCount>
+								<loopCount>${performancetest.loopCount}</loopCount>
+							</propertiesUser>
+							<propertiesJMeter>
+								<jmeter.save.saveservice.thread_counts>true</jmeter.save.saveservice.thread_counts>
+							</propertiesJMeter>
+							<jmeterPlugins>
+								<plugin>
+									<groupId>kg.apc</groupId>
+									<artifactId>jmeter-plugins-common</artifactId>
+								</plugin>
+								<plugin>
+									<groupId>kg.apc</groupId>
+									<artifactId>jmeter-plugins-standard</artifactId>
+								</plugin>
+								<plugin>
+									<groupId>kg.apc</groupId>
+									<artifactId>jmeter-plugins-extras</artifactId>
+								</plugin>
+								<plugin>
+									<groupId>kg.apc</groupId>
+									<artifactId>jmeter-plugins-extras-libs</artifactId>
+								</plugin>
+								<plugin>
+									<groupId>kg.apc</groupId>
+									<artifactId>jmeter-plugins</artifactId>
+								</plugin>
+							</jmeterPlugins>
+						</configuration>
+						<dependencies>
+							<dependency>
+								<groupId>kg.apc</groupId>
+								<artifactId>jmeter-plugins-common</artifactId>
+								<version>1.4.0</version>
+							</dependency>
+							<dependency>
+								<groupId>kg.apc</groupId>
+								<artifactId>jmeter-plugins-standard</artifactId>
+								<version>1.4.0</version>
+							</dependency>
+							<dependency>
+								<groupId>kg.apc</groupId>
+								<artifactId>jmeter-plugins-extras</artifactId>
+								<version>1.4.0</version>
+							</dependency>
+							<dependency>
+								<groupId>kg.apc</groupId>
+								<artifactId>jmeter-plugins-extras-libs</artifactId>
+								<version>1.4.0</version>
+							</dependency>
+							<dependency>
+								<groupId>org.apache.jmeter</groupId>
+								<artifactId>jorphan</artifactId>
+								<version>3.2</version>
+							</dependency>
+						</dependencies>
+						<executions>
+							<execution>
+								<id>execute-jmeter-tests</id>
+								<goals>
+									<goal>jmeter</goal>
+								</goals>
+								<phase>integration-test</phase>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>com.lazerycode.jmeter</groupId>
+						<artifactId>jmeter-analysis-maven-plugin</artifactId>
+						<version>1.0.6</version>
+						<configuration>
+							<source>${project.build.directory}/jmeter/results/GatewayTest.jtl</source>
+						</configuration>
+						<dependencies>
+							<dependency>
+								<groupId>commons-logging</groupId>
+								<artifactId>commons-logging</artifactId>
+								<version>1.2</version>
+							</dependency>
+						</dependencies>
+						<executions>
+							<execution>
+								<id>jmeter-html-report</id>
+								<goals>
+									<goal>analyze</goal>
+								</goals>
+								<phase>post-integration-test</phase>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>de.codecentric</groupId>
+						<artifactId>jmeter-graph-maven-plugin</artifactId>
+						<version>0.1.0</version>
+						<executions>
+							<execution>
+								<id>jmeter-graph-report</id>
+								<goals>
+									<goal>create-graph</goal>
+								</goals>
+								<phase>post-integration-test</phase>
+							</execution>
+						</executions>
+						<configuration>
+							<inputFile>${project.build.directory}/jmeter/results/GatewayTest.jtl</inputFile>
+							<graphs>
+								<graph>
+									<pluginType>ThreadsStateOverTime</pluginType>
+									<width>800</width>
+									<height>600</height>
+									<outputFile>${project.build.directory}/jmeter/results/GatewayTest-ThreadsStateOverTime.png</outputFile>
+								</graph>
+								<graph>
+									<pluginType>ResponseTimesOverTime</pluginType>
+									<width>800</width>
+									<height>600</height>
+									<outputFile>${project.build.directory}/jmeter/results/GatewayTest-ResponseTimesOverTime.png</outputFile>
+								</graph>
+								<graph>
+									<pluginType>TransactionsPerSecond</pluginType>
+									<width>800</width>
+									<height>600</height>
+									<outputFile>${project.build.directory}/jmeter/results/GatewayTest-TransactionsPerSecond.png</outputFile>
+								</graph>
+							</graphs>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<repositories>
+		<!-- For the sake of soap ui -->
+		<repository>
+			<id>smartbear</id>
+			<name>smartbear repository</name>
+			<url>http://smartbearsoftware.com/repository/maven2</url>
+		</repository>
+	</repositories>
+</project>

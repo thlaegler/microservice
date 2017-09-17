@@ -44,14 +44,16 @@ class ArchitectureYamlProjectGenerator extends Generator {
 				Template::builder //
 				.fileName('architecture') //
 				.fileType(FileType.YAML) //
-				.content(yamlAdapter.serialize(new ModelRoot => [
+				.content(yamlAdapter.toString(new ModelRoot => [
 					it.architecture = architecture
 				])) //
 				.build,
 				Template::builder //
 				.fileName('architecture') //
 				.fileType(FileType.JSON) //
-				.content(jsonAdapter.serialize(a)) //
+				.content(jsonAdapter.toString(new ModelRoot => [
+					it.architecture = a
+				])) //
 				.build,
 				plantUml.getTemplate(p)
 			)

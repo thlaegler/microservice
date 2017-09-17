@@ -9,6 +9,7 @@ import javax.inject.Inject
 import javax.inject.Named
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import com.laegler.microservice.model.ModelRoot
 
 @Named
 class ArchitectureYaml {
@@ -27,6 +28,9 @@ class ArchitectureYaml {
 		.documentation('Architecture Model') //
 		.relativPath('/') //
 		.skipStamping(true) //
-		.content(yamlAdapter.serialize(a)).build
+		.content(yamlAdapter.toString(new ModelRoot => [
+			it.architecture = a
+		])) //
+		.build
 	}
 }

@@ -60,7 +60,7 @@ class Model2CodeTransformator extends AbstractTransformator {
 		]
 
 		log.debug('Parsing architecture.yml file ...')
-		val ModelRoot modelRoot = yamlAdapter.deserialize(fileHelper.asString(architectureFile))
+		val ModelRoot modelRoot = yamlAdapter.toModel(fileHelper.asString(architectureFile))
 
 		log.debug('Parsed architecture model: {}.{}', modelRoot.architecture.basePackage, modelRoot.architecture.name)
 		modelRoot.architecture.artifacts.forEach [

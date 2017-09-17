@@ -15,11 +15,18 @@ import javax.inject.Inject
 import javax.inject.Named
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import com.squareup.protoparser.ProtoParser
+import com.laegler.microservice.adapter.lib.protobuf.ProtobufAdapter
+import com.laegler.microservice.adapter.model.SpecificationType
+import com.laegler.microservice.model.Expose
+import com.squareup.protoparser.ProtoFile
 
 @Named
 class GrpcProjectGenerator extends Generator {
 
 	protected static Logger log = LoggerFactory.getLogger(GrpcProjectGenerator)
+
+	@Inject ProtobufAdapter protobufAdapter
 
 	@Inject GrpcPomXml grpcPomXml
 	@Inject GrpcProto grpcProto
@@ -171,6 +178,15 @@ class GrpcProjectGenerator extends Generator {
 			This is the template of GrpcClient.java
 		''') //
 		.build
+	}
+
+	private def ProtoFile getProtobuf(Expose expose) {
+		val specType = SpecificationType.values.findFirst[expose.specification.endsWith(it.matcher)]
+		if (specType == SpecificationType.PROTOBUF) {
+			val specContent = fileHelper.asString(fileHelper.findFile(expose.specification))
+			val specModel = protobufAdapter.toModel(specContent)
+			return specModel
+		}
 	}
 
 }

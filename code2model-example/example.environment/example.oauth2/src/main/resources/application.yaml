@@ -1,0 +1,10 @@
+org:
+  example:
+    oauth2:
+      http:
+        port: 8081
+server:
+  port: ${org.example.oauth2.port}
+security:
+  basic:
+    enabled: false

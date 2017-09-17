@@ -1,0 +1,7 @@
+org:
+  example:
+    users:
+      http:
+        port: 8081
+server:
+  port: ${org.example.users.port}

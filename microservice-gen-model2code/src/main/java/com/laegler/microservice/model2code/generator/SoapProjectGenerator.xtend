@@ -15,6 +15,33 @@ import org.slf4j.LoggerFactory
 @Named
 class SoapProjectGenerator extends Generator {
 
+//<plugin>
+//	<groupId>org.apache.cxf</groupId>
+//	<artifactId>cxf-codegen-plugin</artifactId>
+//	<version>${cxf.version}</version>
+//	<executions>
+//		<execution>
+//			<id>generate-sources</id>
+//			<phase>generate-sources</phase>
+//			<configuration>
+//				<sourceRoot>${project.build.directory}/generated/cxf</sourceRoot>
+//				<wsdlOptions>
+//					<wsdlOption>
+//						<wsdl>${basedir}/src/main/resources/myService.wsdl</wsdl>
+//					<extraargs>
+//                   	 <extraarg>-impl</extraarg>
+//                   	 <extraarg>-verbose</extraarg>
+//               	 </extraargs>
+//					</wsdlOption>
+//				</wsdlOptions>
+//			</configuration>
+//			<goals>
+//				<goal>wsdl2java</goal>
+//			</goals>
+//		</execution>
+//	</executions>
+//</plugin>
+
 	protected static Logger LOG = LoggerFactory.getLogger(SoapProjectGenerator)
 
 	override List<Project> generate(Architecture a) {

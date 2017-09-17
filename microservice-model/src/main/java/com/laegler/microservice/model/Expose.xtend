@@ -15,9 +15,7 @@ class Expose {
 	boolean isDraft
 	String type
 	int port
-	String openApiFile
-	String protoFile
-	String wsdlFile
+	String specification
 	
 	public def EndpointType getEndpointType() {
 		EndpointType.valueOf(type)

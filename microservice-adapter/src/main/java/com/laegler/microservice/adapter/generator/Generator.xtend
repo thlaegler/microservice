@@ -14,6 +14,8 @@ import com.laegler.microservice.adapter.util.NamingStrategy
 import com.laegler.microservice.adapter.model.World
 import com.laegler.microservice.adapter.util.FileUtil
 import java.util.List
+import com.laegler.microservice.adapter.model.SpecificationType
+import com.laegler.microservice.model.Expose
 
 abstract class Generator {
 

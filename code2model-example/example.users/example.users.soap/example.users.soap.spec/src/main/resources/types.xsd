@@ -1,0 +1,39 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:types="http://www.example.org/types/users" targetNamespace="http://example.org/types/users"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	version="1.0">
+
+	<xsd:element name="userId" type="xsd:integer" />
+
+	<xsd:element name="user">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="id" type="xsd:integer" />
+				<xsd:element name="username" type="xsd:string" />
+				<xsd:element name="email" type="xsd:string" />
+				<xsd:element name="firstName" type="xsd:string" />
+				<xsd:element name="lastName" type="xsd:string" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="users">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element maxOccurs="unbounded" minOccurs="0" name="return"
+					nillable="true">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="id" type="xsd:integer" />
+							<xsd:element name="username" type="xsd:string" />
+							<xsd:element name="email" type="xsd:string" />
+							<xsd:element name="firstName" type="xsd:string" />
+							<xsd:element name="lastName" type="xsd:string" />
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+</xsd:schema>

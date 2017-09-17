@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: example.users
+  namespace: example-network
+  labels:
+    project: example
+    app: example.users
+    group: org.example
+    version: 0.0.1-SNAPSHOT
+    provider: john.doe
+spec:
+  template:
+    spec:
+      containers:
+      - name: example.users
+        image: gcr.io/example/example.users:0.0.1-SNAPSHOT
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: ORG_EXAMPLE_CONFIG_GIT_BRANCH
+          value: master
+        - name: ORG_EXAMPLE_CONFIG_GIT_BRANCH
+          value: 8091
+        - name: ORG_EXAMPLE_USERS_GRPC_PORT
+          value: 7091
+        ports:
+        - name: http
+          containerPort: 8091
+        - name: grpc
+          containerPort: 7091
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
