@@ -1,0 +1,11 @@
+org:
+  example:
+    config:
+      git:
+        branch: master
+    users:
+      host: users
+      http:
+        port: 8091
+      grps:
+        port: 7091

@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: ${project.artifactId}
+  cloud:
+    config:
+      uri: ${SPRING_CLOUD_CONFIG_URI}
+      label: ${SPRING_CLOUD_CONFIG_LABEL}

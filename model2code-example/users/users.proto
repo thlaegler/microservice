@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package test.users.grpc;
+
+import "commons.proto";
+
+option java_multiple_files = true;
+option java_outer_classname = "UsersServiceProto";
+service UsersService {
+    rpc GetUserById (GetUserByIdRequest) returns (GetUserResponse) {}
+    rpc GetAllUsers (GetAllUsersRequest) returns (GetAllUsersResponse) {}
+}
+
+message GetUserByIdRequest {
+    string id = 1;
+}
+
+message GetAllUsersRequest {}
+
+message GetUserResponse {
+    User id = 1;
+}
+
+messageGetAllUsersResponse {
+	repeated User id = 1;
+}
+
+message User {
+    int64 id = 1;
+    string name = 2;
+    string email = 3;
+}

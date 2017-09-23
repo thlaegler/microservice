@@ -1,0 +1,15 @@
+server:
+  port: ${org.example.gateway.port:8080}
+security:
+  ignored: /**
+  basic:
+    enabled: false
+  enable-csrf: false
+spring:
+  aop:
+    auto: false
+  security:
+    enabled: false
+management:
+  security:
+    enabled: false

@@ -15,8 +15,8 @@ class Artifact {
 
 	String name
 	String type
-	String appConfigFile
-	String featureFile
+	String springConfig
+	String feature
 	List<Entity> entities = new ArrayList
 	List<DatabaseType> data = new ArrayList
 

@@ -1,0 +1,16 @@
+{
+  "UserPasswordSecurity": {
+    "type": "oauth2",
+    "flow": "password",
+    "description": "Example OAuth2 Resource Owner Password Credentials Grant",
+    "tokenUrl": "http://localhost:8080/oauth2/oauth/token",
+    "scopes": {}
+  },
+  "ClientCredentialsSecurity": {
+    "type": "oauth2",
+    "flow": "application",
+    "description": "Example OAuth2 Client Credentials Grant",
+    "tokenUrl": "http://localhost:8080/oauth2/oauth/token",
+    "scopes": {}
+  }
+}

@@ -84,7 +84,7 @@ class PlantUmlComponentDiagram {
 //			]
 //		]
 		world.architecture?.artifacts?.filter(Artifact)?.forEach [
-			val service = it as Artifact
+			val service = it
 			val serviceName = service?.name
 			service => [
 				val serviceNameClean = stringUtil.clean(serviceName)

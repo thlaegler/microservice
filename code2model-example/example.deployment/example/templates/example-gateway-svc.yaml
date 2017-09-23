@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: platform-gateway
+  namespace: example-network
+  labels:
+    project: example
+    app: example.gateway
+    group: org.example
+    version: 0.0.1-SNAPSHOT
+    provider: john.doe
+spec:
+  selector:
+    app: example.gateway
+  type: NodePort
+  ports:
+  - name: api
+    port: 8080

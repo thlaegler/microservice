@@ -1,0 +1,82 @@
+steps:
+
+# gcloud: prepare
+- name: gcr.io/cloud-builders/gcloud
+  id: prepare
+  entrypoint: '/bin/bash'
+  args:
+  - '-c'
+  - |
+    source script.sh
+    example_init $BRANCH_NAME $COMMIT_SHA
+
+# gcloud: clone repos into workspace
+- name: gcr.io/cloud-builders/gcloud
+  id: git-clone-sources
+  entrypoint: '/bin/bash'
+  args:
+  - '-c'
+  - |
+    source script.sh
+    example_git_clone example-services
+    example_git_clone example-cloud-config
+
+# gcloud: build artifacts
+- name: gcr.io/cloud-builders/gcloud
+  id: maven-build
+  waitFor: ['git-clone-sources']
+  entrypoint: '/bin/bash'
+  args:
+  - '-c'
+  - |
+    source script.sh
+    example_maven_build example-services
+
+# docker: build and push docker image
+- name: gcr.io/cloud-builders/docker
+  id: docker-build-push
+  waitFor: ['maven-build']
+  entrypoint: '/bin/bash'
+  args:
+  - '-c'
+  - |
+    source script.sh
+    example_docker_build example-services $(getvalue org.example.image.registry)
+    example_docker_push example-services $(getvalue org.example.image.registry)
+
+# gcloud: helm/kubectl: cluster deployment
+- name: gcr.io/cloud-builders/gcloud
+  id: helm-deploy
+  waitFor: ['docker-build-push']
+  entrypoint: '/bin/bash'
+  args:
+  - '-c'
+  - |
+    source script.sh
+    gcloud components install kubectl
+    example_deploy
+
+# gcloud: create spring cloud config (branch)
+- name: gcr.io/cloud-builders/gcloud
+  id: cloud-config
+  waitFor: ['git-clone-sources']
+  entrypoint: '/bin/bash'
+  args:
+  - '-c'
+  - |
+    source script.sh
+    cp spring/development.yaml example-cloud-config/application.yaml
+    example_git_push example-cloud-config "Generated Microservice Example Cloud Config $(getvalue org.example.namespace)"
+
+# gcloud: reporting and results (builder image is a custom extension of gcloud image providing curl)
+- name: gcr.io/cloud-builders/gcloud
+  id: reporting
+  waitFor: ['helm-deploy']
+  entrypoint: '/bin/bash'
+  args:
+  - '-c'
+  - |
+    source script.sh
+    example_report
+
+timeout: 1200s

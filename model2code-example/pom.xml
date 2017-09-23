@@ -1,0 +1,34 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.example.microservice</groupId>
+	<artifactId>model2code-example</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>Microservice Example Model to Code</name>
+
+	<!--<modules> <module>user<module> <module>product<module> </modules> -->
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.laegler.microservice</groupId>
+				<artifactId>microservice-maven-plugin</artifactId>
+				<version>${project.version}</version>
+				<configuration>
+					<activateModel2Code>true</activateModel2Code>
+				</configuration>
+				<executions>
+					<execution>
+						<id>generate-code</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generator</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

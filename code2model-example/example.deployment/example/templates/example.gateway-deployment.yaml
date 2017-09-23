@@ -1,0 +1,50 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: example.gateway
+  namespace: example-network
+  labels:
+    project: example
+    app: example.gateway
+    group: org.example
+    version: 0.0.1-SNAPSHOT
+    provider: john.doe
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: example.gateway
+    spec:
+      containers:
+      - name: example.gateway
+        image: gcr.io/example/example.gateway:0.0.1-SNAPSHOT
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: ORG_EXAMPLE_CONFIG_GIT_BRANCH
+          value: master
+        ports:
+        - name: api
+          containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 10
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30

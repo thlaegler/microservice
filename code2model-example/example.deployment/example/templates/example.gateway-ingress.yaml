@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: platform-gateway
+  namespace: example-network
+  labels:
+    project: example
+    app: example.gateway
+    group: org.example
+    version: 0.0.1-SNAPSHOT
+    provider: john.doe
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.allow-http: "true"
+spec:
+  backend:
+    serviceName: example.gateway
+    servicePort: 8080
+#  rules:
+#  - host: example.org
+#    http:
+#      paths:
+#      - path: /*
+#        backend:
+#          serviceName: example.gateway
+#          servicePort: 8080

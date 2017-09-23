@@ -1,0 +1,29 @@
+org:
+  example:
+    version: 0.0.1-SNAPSHOT
+    cluster: example-cluster
+    zone: australia-southeast1-c
+    chart: example
+    projectId: example-123456
+    description: example deployment descriptor for version 0.0.1-SNAPSHOT
+    jira:
+      issueId: TICKET-1
+      storyId: TICKET-1
+      testrailsId: TICKET-1
+    atlassian:
+      baseUrl: https://example.atlassian.net
+      user: ci
+      email: ci@example.org
+      token: test
+      basic: base64-ci:test
+      bitbucket:
+        project: exampleproject
+    hipchat:
+      baseUrl: https://example.hipchat.com/v2
+      token: test
+    bucket:
+      cloudbuild: example-cloudbuild
+      helm: example-helmcharts
+    build: true
+    test: false
+    usehelm: true

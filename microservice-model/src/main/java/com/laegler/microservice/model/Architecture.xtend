@@ -22,6 +22,10 @@ class Architecture {
 	String dirStrategy
 
 	Map<String, String> options = new HashMap
+	Map<String, String> build = new HashMap
+	Map<String, String> deployment = new HashMap
+	Map<String, String> atlassian = new HashMap
+	
 	List<Artifact> artifacts = new ArrayList
 
 	public def DirStrategy getDirStrategyType() {

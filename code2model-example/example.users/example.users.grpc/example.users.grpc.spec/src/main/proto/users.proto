@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package org.example.users.grpc.spec;
+
+option java_multiple_files = true;
+option java_outer_classname = "UsersProtobufService";
+
+service UsersService {
+    rpc AddUser (UserRequest) returns (OneUserResponse) {}
+    rpc UpdateUser (UserRequest) returns (OneUserResponse) {}
+    rpc DeleteUser (UserIdRequest) returns (VoidResponse) {}
+    rpc GetUserById (UserIdRequest) returns (OneUserResponse) {}
+    rpc GetUserByUsername (UsernameRequest) returns (OneUserResponse) {}
+    rpc GetAllUsers (VoidRequest) returns (MultipleUsersResponse) {}
+}
+
+message UserIdRequest {
+    int64 id = 1;
+}
+
+message UsernameRequest {
+    string username = 1;
+}
+
+message UserRequest {
+    User user = 1;
+}
+
+message OneUserResponse {
+    User user = 1;
+}
+
+message MultipleUsersResponse {
+	repeated User user = 1;
+}
+
+message User {
+    int64 id = 1;
+    string username = 2;
+    string email = 3;
+    string firstname = 4;
+    string lastname = 5;
+}
+
+message VoidRequest {}
+message VoidResponse {}

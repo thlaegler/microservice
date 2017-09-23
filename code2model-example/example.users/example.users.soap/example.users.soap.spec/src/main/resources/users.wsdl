@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+<wsdl:definitions name="UsersSoap"
+	targetNamespace="http://www.example.org/ws/users" xmlns:tns="http://www.example.org/ws/users"
+	xmlns:types="http://www.example.org/types/users" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://example.org/types/users"
+			xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+			attributeFormDefault="unqualified" version="1.0">
+
+			<xsd:element name="userId" type="xsd:integer" />
+
+			<xsd:element name="user">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="id" type="xsd:integer" />
+						<xsd:element name="username" type="xsd:string" />
+						<xsd:element name="email" type="xsd:string" />
+						<xsd:element name="firstName" type="xsd:string" />
+						<xsd:element name="lastName" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="users">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element maxOccurs="unbounded" minOccurs="0" name="return"
+							nillable="true">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="id" type="xsd:integer" />
+									<xsd:element name="username" type="xsd:string" />
+									<xsd:element name="email" type="xsd:string" />
+									<xsd:element name="firstName" type="xsd:string" />
+									<xsd:element name="lastName" type="xsd:string" />
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="UserIdInput">
+		<wsdl:part name="user" element="types:userId" />
+	</wsdl:message>
+
+	<wsdl:message name="UserInput">
+		<wsdl:part name="user" element="types:user" />
+	</wsdl:message>
+
+	<wsdl:message name="OneUserOutput">
+		<wsdl:part name="user" element="types:user" />
+	</wsdl:message>
+
+	<wsdl:message name="MultipleUsersOutput">
+		<wsdl:part name="users" element="types:users" />
+	</wsdl:message>
+
+	<wsdl:portType name="UsersSoap_PortType">
+
+		<wsdl:operation name="addUser">
+			<wsdl:input message="tns:UserInput" />
+			<wsdl:output message="tns:OneUserOutput" />
+		</wsdl:operation>
+
+		<wsdl:operation name="editUser">
+			<wsdl:input message="tns:UserInput" />
+			<wsdl:output message="tns:OneUserOutput" />
+		</wsdl:operation>
+
+		<wsdl:operation name="deleteUser">
+			<wsdl:input message="tns:UserIdInput" />
+		</wsdl:operation>
+
+		<wsdl:operation name="findUserById">
+			<wsdl:input message="tns:UserIdInput" />
+			<wsdl:output message="tns:OneUserOutput" />
+		</wsdl:operation>
+
+		<wsdl:operation name="findAllUsers">
+			<wsdl:output message="tns:MultipleUsersOutput" />
+		</wsdl:operation>
+
+	</wsdl:portType>
+
+	<wsdl:binding name="UsersSoap_SoapBinding" type="tns:UsersSoap_PortType">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+
+		<wsdl:operation name="addUser">
+			<soap:operation soapAction="http://example.org/services/users/addUser" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="editUser">
+			<soap:operation soapAction="http://example.org/services/users/editUser" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="deleteUser">
+			<soap:operation soapAction="http://example.org/services/users/deleteUser" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+		</wsdl:operation>
+
+		<wsdl:operation name="findUserById">
+			<soap:operation soapAction="http://example.org/services/users/findUserById" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="findAllUsers">
+			<soap:operation soapAction="http://example.org/services/users/findAllUsers" />
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+	</wsdl:binding>
+
+	<wsdl:service name="UsersSoap_Service">
+		<wsdl:documentation>Users SOAP service</wsdl:documentation>
+		<wsdl:port name="UsersSoap_Port" binding="tns:UsersSoap_SoapBinding">
+			<soap:address location="http://example.users:8091/example/ws/users" />
+		</wsdl:port>
+	</wsdl:service>
+
+</wsdl:definitions>

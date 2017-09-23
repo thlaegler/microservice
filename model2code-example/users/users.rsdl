@@ -1,0 +1,63 @@
+<rsdl rel="rsdl" href="/api?rsdl">
+  <description />
+  <version revision="0" build="0" minor="0" major="0" />
+  <schema rel="schema" href="/api?schema">
+    <name>api.xsd</name>
+    <description />
+  </schema>
+  <general rel="*" href="/*">
+    <request>
+      <headers>
+        <header required="true|false">
+          <name />
+          <description />
+          <value />
+        </header>
+      </headers>
+      <url>
+        <parameters_set>
+          <parameter context="query|matrix" type="xs:string"
+            required="true|false">
+            <name />
+            <value />
+          </parameter>
+        </parameters_set>
+      </url>
+    </request>
+    <name />
+    <description />
+  </general>
+  <links>
+    <link rel="get|..." href="/api/xxx">
+      <request>
+        <http_method>GET|POST|PUT|DELETE|...</http_method>
+        <headers>
+          <header required="true|false">
+            <name />
+            <value />
+          </header>
+        </headers>
+        <url>
+          <parameters_set>
+            <parameter context="query|matrix" type=""
+              required="true|false">
+              <name />
+              <value />
+            </parameter>
+          </parameters_set>
+        </url>
+        <body>
+          <type>...</type>
+          <parameters_set>
+            <parameter type="" required="true|false">
+              <name>FQ-name-to-parameter</name>
+            </parameter>
+          </parameters_set>
+        </body>
+      </request>
+      <response>
+        <type />
+      </response>
+    </link>
+  </links>
+</rsdl>

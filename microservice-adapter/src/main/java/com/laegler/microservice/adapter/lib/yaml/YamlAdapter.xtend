@@ -1,32 +1,36 @@
 package com.laegler.microservice.adapter.lib.yaml
 
-import org.yaml.snakeyaml.Yaml
+import com.laegler.microservice.adapter.lib.SpecAdapter
 import com.laegler.microservice.model.ModelRoot
-import com.laegler.microservice.model.Architecture
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileWriter
+import org.yaml.snakeyaml.Yaml
+import javax.inject.Named
 
-class YamlAdapter {
+@Named
+class YamlAdapter implements SpecAdapter<ModelRoot> {
 
-	/**
-	 * Serialize a ModelRoot.    
-	 */
-	public def String serialize(ModelRoot root) {
+	override toString(ModelRoot specModel) {
 		val Yaml yaml = new Yaml
-		yaml.dump(root)
+		yaml.dump(specModel)
 	}
 
-	/**
-	 * Serialize a Architecture.    
-	 */
-	public def String serialize(Architecture a) {
+	override toFile(ModelRoot specModel, File specFile) {
 		val Yaml yaml = new Yaml
-		yaml.dump(new ModelRoot => [architecture = a])
+		val writer = new FileWriter(specFile)
+		yaml.dump(specModel, writer)
 	}
 
-	/**
-	 * Deserialize to ModelRoot.
-	 */
-	public def ModelRoot deserialize(String yamlString) {
+	override toModel(String specString) {
 		val Yaml yaml = new Yaml
-		yaml.loadAs(yamlString, ModelRoot)
+		yaml.loadAs(specString, ModelRoot)
 	}
+
+	override toModel(File specFile) {
+		val Yaml yaml = new Yaml
+		val inputStream = new FileInputStream(specFile);
+		yaml.loadAs(inputStream, ModelRoot)
+	}
+
 }

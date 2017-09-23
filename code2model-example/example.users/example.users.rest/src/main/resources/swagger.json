@@ -1,0 +1,253 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "This projects holds the RESTful library for Users.",
+    "version" : "0.0.1-SNAPSHOT",
+    "title" : "Microservice Example Users RESTful library REST API"
+  },
+  "host" : "localhost:8080",
+  "basePath" : "/api",
+  "tags" : [ {
+    "name" : "User REST Service"
+  } ],
+  "schemes" : [ "http", "https" ],
+  "paths" : {
+    "/users" : {
+      "get" : {
+        "tags" : [ "User REST Service" ],
+        "summary" : "Get all users",
+        "description" : "",
+        "operationId" : "allUsersGET",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/User"
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error"
+          },
+          "503" : {
+            "description" : "Service not available"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "User REST Service" ],
+        "summary" : "Add a new user",
+        "description" : "",
+        "operationId" : "addUserPOST",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "user",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/User"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok",
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          },
+          "500" : {
+            "description" : "Internal server error"
+          },
+          "503" : {
+            "description" : "Service not available"
+          }
+        }
+      }
+    },
+    "/users/{userId}" : {
+      "get" : {
+        "tags" : [ "User REST Service" ],
+        "summary" : "Get a user by ID",
+        "description" : "",
+        "operationId" : "userByIdGET",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "path",
+          "description" : "user ID",
+          "required" : true,
+          "type" : "integer",
+          "pattern" : "[0-9]+",
+          "format" : "int64",
+          "x-example" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok",
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          },
+          "500" : {
+            "description" : "Internal server error"
+          },
+          "503" : {
+            "description" : "Service not available"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "User REST Service" ],
+        "summary" : "Update an existing new user",
+        "description" : "",
+        "operationId" : "addUserPUT",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "user",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/User"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok",
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          },
+          "500" : {
+            "description" : "Internal server error"
+          },
+          "503" : {
+            "description" : "Service not available"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "User REST Service" ],
+        "summary" : "Delete a user by ID",
+        "description" : "",
+        "operationId" : "userDELETE",
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "path",
+          "description" : "user ID",
+          "required" : true,
+          "type" : "integer",
+          "pattern" : "[0-9]+",
+          "format" : "int64",
+          "x-example" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok",
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          },
+          "500" : {
+            "description" : "Internal server error"
+          },
+          "503" : {
+            "description" : "Service not available"
+          }
+        }
+      }
+    },
+    "/users/{username}" : {
+      "get" : {
+        "tags" : [ "User REST Service" ],
+        "summary" : "Get a user by username",
+        "description" : "",
+        "operationId" : "userByUsernameGET",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "path",
+          "description" : "user ID",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "[A-Za-z]+[a-zA-Z0-9-]*",
+          "x-example" : "1"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok",
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          },
+          "500" : {
+            "description" : "Internal server error"
+          },
+          "503" : {
+            "description" : "Service not available"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "Link" : {
+      "type" : "object",
+      "properties" : {
+        "rel" : {
+          "type" : "string",
+          "xml" : {
+            "attribute" : true
+          }
+        },
+        "href" : {
+          "type" : "string",
+          "xml" : {
+            "attribute" : true
+          }
+        }
+      }
+    },
+    "User" : {
+      "type" : "object",
+      "properties" : {
+        "userId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "username" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        },
+        "firstname" : {
+          "type" : "string"
+        },
+        "lastname" : {
+          "type" : "string"
+        },
+        "links" : {
+          "type" : "array",
+          "xml" : {
+            "name" : "link",
+            "namespace" : "http://www.w3.org/2005/Atom"
+          },
+          "readOnly" : true,
+          "items" : {
+            "xml" : {
+              "name" : "link"
+            },
+            "$ref" : "#/definitions/Link"
+          }
+        }
+      }
+    }
+  }
+}
