@@ -62,6 +62,11 @@
 
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-web</artifactId>
+				<version>${spring.boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-data-jpa</artifactId>
 				<version>${spring.boot.version}</version>
 			</dependency>
@@ -148,9 +153,6 @@
 	</dependencyManagement>
 
 	<build>
-		<finalName>${project.artifactId}</finalName>
-		<sourceDirectory>src/main/java, src/gen/java</sourceDirectory>
-
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -164,8 +166,28 @@
 								<goal>testCompile</goal>
 							</goals>
 							<configuration>
-								<outputDirectory>${project.build.directory}/xtend-gen/main</outputDirectory>
-								<testOutputDirectory>${project.build.directory}/xtend-gen/test</testOutputDirectory>
+								<outputDirectory>${project.build.directory}/main/main</outputDirectory>
+								<testOutputDirectory>${project.build.directory}/main/test</testOutputDirectory>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>3.0.0</version>
+					<executions>
+						<execution>
+							<id>add-source</id>
+							<phase>generate-sources</phase>
+							<goals>
+								<goal>add-source</goal>
+							</goals>
+							<configuration>
+								<sources>
+									<source>${project.basedir}/src/gen/java/</source>
+									</sources>
 							</configuration>
 						</execution>
 					</executions>

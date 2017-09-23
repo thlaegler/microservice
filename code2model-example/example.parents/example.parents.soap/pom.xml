@@ -143,9 +143,6 @@
 	</dependencyManagement>
 
 	<build>
-		<finalName>${project.artifactId}</finalName>
-		<sourceDirectory>src/main/java, src/gen/java</sourceDirectory>
-
 		<pluginManagement>
 			<plugins>
 
@@ -155,13 +152,35 @@
 					<version>2.12.0</version>
 					<executions>
 						<execution>
+							<id>generate-xtend</id>
+							<phase>initialize</phase>
 							<goals>
 								<goal>compile</goal>
 								<goal>testCompile</goal>
 							</goals>
 							<configuration>
-								<outputDirectory>${project.build.directory}/xtend-gen/main</outputDirectory>
-								<testOutputDirectory>${project.build.directory}/xtend-gen/test</testOutputDirectory>
+								<outputDirectory>${project.build.directory}/main/java</outputDirectory>
+								<testOutputDirectory>${project.build.directory}/main/test</testOutputDirectory>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>3.0.0</version>
+					<executions>
+						<execution>
+							<id>add-source</id>
+							<phase>generate-sources</phase>
+							<goals>
+								<goal>add-source</goal>
+							</goals>
+							<configuration>
+								<sources>
+									<source>${project.basedir}/src/gen/java/</source>
+								</sources>
 							</configuration>
 						</execution>
 					</executions>
@@ -183,7 +202,7 @@
 					<configuration>
 						<failOnNoSchemas>false</failOnNoSchemas>
 						<schemaDirectory>${project.basedir}/src/main/resources</schemaDirectory>
-						<outputDirectory>${project.basedir}/gen/java</outputDirectory>
+						<outputDirectory>${project.basedir}/src/gen/java/</outputDirectory>
 						<clearOutputDir>false</clearOutputDir>
 					</configuration>
 				</plugin>
@@ -201,7 +220,7 @@
 						</execution>
 					</executions>
 					<configuration>
-						<generateDirectory>${project.basedir}/src/gen/java</generateDirectory>
+						<generateDirectory>${project.basedir}/src/gen/java/</generateDirectory>
 						<schemaLanguage>WSDL</schemaLanguage>
 						<!-- <generatePackage>org.example</generatePackage> -->
 						<schemaDirectory>${project.basedir}/src/main/resources</schemaDirectory>

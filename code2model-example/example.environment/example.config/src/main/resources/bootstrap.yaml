@@ -7,4 +7,4 @@ spring:
         git:
           uri: ${SPRING_CLOUD_CONFIG_SERVER_GIT_URI}
           username: ${SPRING_CLOUD_CONFIG_SERVER_GIT_USERNAME}
-          password: ${SPRING_CLOUD_CONFIG_SERVER_GIT_PASSWORD}
+          password: ${org.example.atlassian.token}

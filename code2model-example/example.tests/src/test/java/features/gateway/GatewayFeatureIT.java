@@ -7,8 +7,8 @@ package features.gateway;
 // features = "src/test/resources/features/gateway", //
 // plugin = {//
 // "pretty", //
-// "html:target/generated/cucumber/platform-gateway", //
-// "json:target/generated/cucumber/platform-gateway.json"//
+// "html:target/generated/cucumber/example.gateway", //
+// "json:target/generated/cucumber/example.gateway.json"//
 // }//
 // )
 public class GatewayFeatureIT {

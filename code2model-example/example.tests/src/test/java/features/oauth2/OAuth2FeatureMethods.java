@@ -15,7 +15,7 @@ public class OAuth2FeatureMethods extends AbstractTestMethods {
 
 	public static final Logger LOG = LoggerFactory.getLogger(OAuth2FeatureMethods.class);
 
-	private static final String BASE_PATH = "/platform-oauth2";
+	private static final String BASE_PATH = "/example.oauth2";
 
 	@Override
 	public String getBasePath() {

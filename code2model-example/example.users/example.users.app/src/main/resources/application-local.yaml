@@ -1,0 +1,94 @@
+org:
+  example:
+    config:
+      host: example.config
+      port: 8888
+    gateway:
+      host: example.gateway
+      port: 8080
+    oauth2:
+      host: example.oauth2
+      port: 8081
+    users:
+      host: example.users
+      port: 8091
+      soapPort: 8091
+      grcpPort: 7071
+    mysql:
+      host: example.mysql
+      port: 3306
+    redis:
+      host: example.redis
+      port: 6379
+    elasticsearch:
+      host: example.elasticsearch
+      port: 9200
+      transportPort: 9300
+      product:
+        indexName: usersindex
+        indexType: User
+security:
+  sessions: if-required
+  oauth2:
+    client:
+      clientId: tenant
+      clientSecret: test
+      access-token-validity-seconds: 30
+      accessTokenUri: http://${org.example.oauth2.host}:${org.example.oauth2.port}/oauth/token
+      userAuthorizationUri: http://${org.example.oauth2.host}:${org.example.oauth2.port}/oauth/authorize
+      authorized-grant-types: authorization_code,refresh_token,password,implicit,client_credentials
+      scope: guest,user,admin,read,write
+#      tokenName: oauth_token
+#      authenticationScheme: query
+#      clientAuthenticationScheme: form
+    resource:
+      userInfoUri: https://${org.example.oauth2.host}:${org.example.oauth2.port}/oauth/dialog
+      preferTokenInfo: false  
+#      token-info-uri: https://${org.example.oauth2.host}:${org.example.oauth2.port}/oauth/user
+logging:
+  level:
+    org.example: TRACE
+    org.springframework: WARN
+    org.hibernate: WARN
+    io.grpc: WARN
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://${org.example.mysql.host}:${org.example.mysql.port}/example?zeroDateTimeBehavior=convertToNull&autoreconnect=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=false
+    username: test
+    password: test
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        show_sql: true
+        format_sql: true
+      javax:
+        persistence:
+          schema-generation:
+            create-source: metadata
+            drop-source: metadata
+            scripts:
+              action: drop-and-create
+              create-target: src/main/resources/create-schema.sql
+              drop-target: src/main/resources/drop-schema.sql
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch-cluster
+      cluster-nodes: ${org.example.elasticsearch.host}:9300
+      properties:
+        host: example.elasticsearch
+        port: 9300
+        http:
+          enabled: true
+        path:
+          data: target/es/data
+          logs: target/es/logs
+  redis:
+    host: ${org.example.redis.host}
+    port: ${org.example.redis.port}

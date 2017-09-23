@@ -45,6 +45,7 @@
 		<docker.plugin.version>1.0.0</docker.plugin.version>
 
 		<!-- Spring -->
+		<org.example.mainclass>to-be-set</org.example.mainclass>
 		<org.example.spring.jvm.args>-Dspring.profiles.active=local</org.example.spring.jvm.args>
 
 		<!-- Docker -->
@@ -167,12 +168,8 @@
 	</dependencyManagement>
 
 	<build>
-		<finalName>${project.artifactId}</finalName>
-		<sourceDirectory>src/main/java, src/gen/java</sourceDirectory>
-
 		<pluginManagement>
 			<plugins>
-
 				<plugin>
 					<groupId>org.eclipse.xtend</groupId>
 					<artifactId>xtend-maven-plugin</artifactId>
@@ -184,8 +181,8 @@
 								<goal>testCompile</goal>
 							</goals>
 							<configuration>
-								<outputDirectory>${project.build.directory}/xtend-gen/main</outputDirectory>
-								<testOutputDirectory>${project.build.directory}/xtend-gen/test</testOutputDirectory>
+								<outputDirectory>${project.build.directory}/main/java/</outputDirectory>
+								<testOutputDirectory>${project.build.directory}/main/test/</testOutputDirectory>
 							</configuration>
 						</execution>
 					</executions>
@@ -195,6 +192,41 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-resources-plugin</artifactId>
 					<version>3.0.2</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>3.0.0</version>
+					<executions>
+						<execution>
+							<id>add-source</id>
+							<phase>generate-sources</phase>
+							<goals>
+								<goal>add-source</goal>
+							</goals>
+							<configuration>
+								<sources>
+									<source>${project.basedir}/src/gen/java/</source>
+								</sources>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>3.0.2</version>
+					<configuration>
+						<archive>
+							<manifest>
+								<addClasspath>true</addClasspath>
+								<classpathPrefix>lib/</classpathPrefix>
+								<mainClass>${org.example.mainclass}</mainClass>
+							</manifest>
+						</archive>
+					</configuration>
 				</plugin>
 
 				<!-- Spring Boot plugin -->

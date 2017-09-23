@@ -34,9 +34,6 @@
 		<org.example.skip.itests>true</org.example.skip.itests>
 		<org.example.skip.tests>false</org.example.skip.tests>
 
-		<org.example.platform.cluster>platform-cluster-staging</org.example.platform.cluster>
-		<org.example.platform.host>http://35.186.206.114</org.example.platform.host>
-
 		<performancetest.webservice.host>localhost</performancetest.webservice.host>
 		<performancetest.webservice.port>8080</performancetest.webservice.port>
 		<performancetest.webservice.path>/</performancetest.webservice.path>
@@ -50,7 +47,7 @@
 		<!-- project internal -->
 		<dependency>
 			<groupId>org.example</groupId>
-			<artifactId>example.users.rest</artifactId>
+			<artifactId>example.users.rest.spec</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 

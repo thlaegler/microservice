@@ -13,4 +13,4 @@ ADD target/example.config.jar /app.jar
 
 EXPOSE ${ORG_EXAMPLE_CONFIG_HTTP_PORT}
 
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-jar", "-Djava.security.egd=file:/dev/./urandom", "/app.jar"]

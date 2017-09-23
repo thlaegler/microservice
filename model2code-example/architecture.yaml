@@ -34,10 +34,15 @@ architecture:
     - name: User
       fields:
         id: long
+        groups: List<Group>
         name: String
-        email: Email
-        password: Password
+        email: email
+        password: password
     - name: Group
+      fields:
+        id: long
+        name: String
+    - name: Role
       fields:
         id: long
         name: String

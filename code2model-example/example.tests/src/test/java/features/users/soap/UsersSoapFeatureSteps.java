@@ -19,10 +19,9 @@ public class UsersSoapFeatureSteps {
 
 	protected static final Logger LOG = LoggerFactory.getLogger(UsersSoapFeatureSteps.class);
 
-	private static final String HOST = "users";
+	private static final String HOST = "example.users";
 	private static final String PORT = "8091";
-	private static final String APP_PATH = "ws";
-	private static final String BASE_PATH = "users";
+	private static final String BASE_PATH = "/";
 
 	private UsersFeatureMethods feature = new UsersFeatureMethods();
 
@@ -34,7 +33,7 @@ public class UsersSoapFeatureSteps {
 
 	@Before
 	public void init() {
-		req = given().baseUri("http://" + HOST + ":" + PORT + "/" + APP_PATH).basePath(BASE_PATH);
+		req = given().baseUri("http://" + HOST + ":" + PORT).basePath(BASE_PATH);
 	}
 
 	@Given("^is a authorized user with username \"([^\"]*)\" and password \"([^\"]*)\"$")

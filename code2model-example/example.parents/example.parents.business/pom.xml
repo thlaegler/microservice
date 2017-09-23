@@ -148,13 +148,8 @@
 	</dependencyManagement>
 
 	<build>
-
-		<finalName>${project.artifactId}</finalName>
-		<sourceDirectory>src/main/java, src/gen/java</sourceDirectory>
-
 		<pluginManagement>
 			<plugins>
-
 				<plugin>
 					<groupId>org.eclipse.xtend</groupId>
 					<artifactId>xtend-maven-plugin</artifactId>
@@ -166,8 +161,28 @@
 								<goal>testCompile</goal>
 							</goals>
 							<configuration>
-								<outputDirectory>${project.build.directory}/xtend-gen/main</outputDirectory>
-								<testOutputDirectory>${project.build.directory}/xtend-gen/test</testOutputDirectory>
+								<outputDirectory>${project.build.directory}/main/java/</outputDirectory>
+								<testOutputDirectory>${project.build.directory}/main/test/</testOutputDirectory>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>3.0.0</version>
+					<executions>
+						<execution>
+							<id>add-source</id>
+							<phase>generate-sources</phase>
+							<goals>
+								<goal>add-source</goal>
+							</goals>
+							<configuration>
+								<sources>
+									<source>${project.basedir}/src/gen/java/</source>
+									</sources>
 							</configuration>
 						</execution>
 					</executions>

@@ -28,7 +28,7 @@ abstract public class AbstractUsersGrpcServer {
 				.forPort(port) //
 				.addService(ServerInterceptors.intercept(new UsersGrpcServiceImpl(), interceptor)) //
 				.build().start();
-		blockUntilShutdown();
+		// blockUntilShutdown();
 
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			@Override
