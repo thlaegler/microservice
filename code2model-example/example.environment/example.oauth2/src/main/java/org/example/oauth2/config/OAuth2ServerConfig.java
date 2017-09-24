@@ -134,16 +134,12 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
 					// Access token request. In case of refresh token request the principal might be just a String.
 					if (authentication.getUserAuthentication().getPrincipal() instanceof CustomOAuth2Principal) {
 						final Map<String, Object> additionalInfo = new HashMap<>();
-						CustomOAuth2Principal principal = (CustomOAuth2Principal) authentication.getUserAuthentication().getPrincipal();
-
-						final Map<String, Object> userProfile = new HashMap<>();
-
-						userProfile.put("userId", principal.getUserId());
-						userProfile.put("groupId", principal.getGroupId());
-						userProfile.put("customerCode", principal.getCustomerCode());
-						userProfile.put("warehouseCode", principal.getWarehouseCode());
-
-						additionalInfo.put("userProfile", userProfile);
+						// CustomOAuth2Principal principal = (CustomOAuth2Principal)
+						// authentication.getUserAuthentication().getPrincipal();
+						//
+						// final Map<String, Object> userProfile = new HashMap<>();
+						// userProfile.put("user_id", principal.getUserId());
+						additionalInfo.put("user_profile", "todo");
 
 						((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
 					}

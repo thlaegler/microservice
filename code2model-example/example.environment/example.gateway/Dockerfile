@@ -12,4 +12,4 @@ ADD target/example.gateway.jar /app.jar
 
 EXPOSE ${ORG_EXAMPLE_USERS_HTTP_PORT}
 
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-jar", "-Djava.security.egd=file:/dev/./urandom", "/app.jar"]

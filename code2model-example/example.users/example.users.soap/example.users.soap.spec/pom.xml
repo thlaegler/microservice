@@ -26,11 +26,6 @@
 		<!-- <dependency> <groupId>${project.groupId}</groupId> <artifactId>example.users.business</artifactId> 
 			<version>${project.version}</version> </dependency> -->
 
-		<dependency>
-			<groupId>org.eclipse.xtend</groupId>
-			<artifactId>org.eclipse.xtend.lib</artifactId>
-		</dependency>
-
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -93,12 +88,11 @@
 
 	<build>
 		<finalName>${project.artifactId}</finalName>
-		<sourceDirectory>src/main/java, src/gen/java</sourceDirectory>
 
 		<plugins>
 			<plugin>
-				<groupId>org.eclipse.xtend</groupId>
-				<artifactId>xtend-maven-plugin</artifactId>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>org.jvnet.jaxb2.maven2</groupId>

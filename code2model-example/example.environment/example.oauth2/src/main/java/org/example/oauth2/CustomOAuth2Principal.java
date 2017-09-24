@@ -13,8 +13,6 @@ public class CustomOAuth2Principal extends User {
 
 	private String userId;
 	private String groupId;
-	private String customerCode;
-	private String warehouseCode;
 	private List<String> permissions;
 
 	public CustomOAuth2Principal(String username, String password) {

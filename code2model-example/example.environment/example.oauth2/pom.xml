@@ -24,11 +24,11 @@
 
 		<org.example.api.package>org.springframework.security.oauth2.provider.endpoint</org.example.api.package>
 
+		<org.example.mainclass>org.example.oauth.Application</org.example.mainclass>
 		<docker.plugin.version>1.0.0</docker.plugin.version>
 	</properties>
 
 	<dependencies>
-
 		<!-- Project internal dependencies -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -106,8 +106,6 @@
 		</resources>
 
 		<plugins>
-
-			<!-- Filter and copy resources -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
@@ -119,12 +117,12 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${basedir}</outputDirectory>
+							<outputDirectory>${project.basedir}</outputDirectory>
 							<resources>
 								<resource>
-									<directory>${basedir}/src/main/resources</directory>
+									<directory>${project.basedir}/src/main/resources</directory>
 									<filtering>true</filtering>
-									<targetPath>${basedir}/target</targetPath>
+									<targetPath>${project.build.directory}</targetPath>
 								</resource>
 							</resources>
 						</configuration>
@@ -132,13 +130,18 @@
 				</executions>
 			</plugin>
 
-			<!-- Spring Boot plugin -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-
-			<!-- Docker plugins -->
 			<plugin>
 				<groupId>com.spotify</groupId>
 				<artifactId>docker-maven-plugin</artifactId>

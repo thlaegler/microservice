@@ -25,14 +25,13 @@ Append environment variables (e.g. in file /etc/environment) with following line
 ```
 SPRING_CLOUD_CONFIG_URI="http://example.config:8888"
 SPRING_CLOUD_CONFIG_LABEL="master"
-SPRING_CLOUD_CONFIG_SERVER_GIT_URI="https://tlaegler@bitbucket.org/tlaegler/microservice-config.git"
+SPRING_CLOUD_CONFIG_SERVER_GIT_URI="https://my-account@bitbucket.org/my-account/microservice-config.git"
 SPRING_CLOUD_CONFIG_SERVER_GIT_USERNAME="test"
 SPRING_CLOUD_CONFIG_SERVER_GIT_PASSWORD="test"
 ```
 
 ## run
 
-- build base docker image: `docker build -t gcr.io/example/example.base:0.0.1-SNAPSHOT example.parent/.`
 - maven and docker build: `mvn clean install`
 - docker compose: `docker-compose up`
 - ...

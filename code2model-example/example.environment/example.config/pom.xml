@@ -25,6 +25,7 @@
 
 		<docker.plugin.version>1.0.0</docker.plugin.version>
 		<fabric8.plugin.version>3.5.30</fabric8.plugin.version>
+		<org.example.mainclass>org.example.config.Application</org.example.mainclass>
 	</properties>
 
 	<dependencies>
@@ -65,20 +66,18 @@
 		</resources>
 
 		<plugins>
-
-			<!-- Filter and copy resources -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
 			</plugin>
-
-			<!-- Spring Boot plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-
-			<!-- Docker plugins -->
 			<plugin>
 				<groupId>com.spotify</groupId>
 				<artifactId>docker-maven-plugin</artifactId>

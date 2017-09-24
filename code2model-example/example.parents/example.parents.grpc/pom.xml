@@ -104,46 +104,11 @@
 				<version>${slf4j.version}</version>
 			</dependency>
 
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-lang3</artifactId>
-				<version>${apache.commons.lang.version}</version>
-			</dependency>
-
 			<!-- TESTING -->
-			<!-- Cucumber und Gherkin -->
-			<!-- <dependency> <groupId>info.cukes</groupId> <artifactId>cucumber-jvm</artifactId> 
-				<version>${cucumber.version}</version> <scope>test</scope> </dependency> -->
-			<dependency>
-				<groupId>info.cukes</groupId>
-				<artifactId>cucumber-core</artifactId>
-				<version>${cucumber.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>info.cukes</groupId>
-				<artifactId>cucumber-java</artifactId>
-				<version>${cucumber.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>info.cukes</groupId>
-				<artifactId>cucumber-junit</artifactId>
-				<version>${cucumber.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>info.cukes</groupId>
-				<artifactId>gherkin</artifactId>
-				<version>${gherkin.version}</version>
-				<scope>test</scope>
-			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<build>
-		<finalName>${project.artifactId}</finalName>
-
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -157,8 +122,28 @@
 								<goal>testCompile</goal>
 							</goals>
 							<configuration>
-								<outputDirectory>${project.build.directory}/xtend-gen/main</outputDirectory>
-								<testOutputDirectory>${project.build.directory}/xtend-gen/test</testOutputDirectory>
+								<outputDirectory>${project.build.directory}/main/main</outputDirectory>
+								<testOutputDirectory>${project.build.directory}/main/test</testOutputDirectory>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>3.0.0</version>
+					<executions>
+						<execution>
+							<id>add-source</id>
+							<phase>generate-sources</phase>
+							<goals>
+								<goal>add-source</goal>
+							</goals>
+							<configuration>
+								<sources>
+									<source>${project.basedir}/src/gen/java/</source>
+									</sources>
 							</configuration>
 						</execution>
 					</executions>

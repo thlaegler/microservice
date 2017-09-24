@@ -67,30 +67,15 @@
 
 	<build>
 		<finalName>${project.artifactId}</finalName>
-		<sourceDirectory>src/main/java, src/gen/java</sourceDirectory>
 
 		<plugins>
 			<plugin>
 				<groupId>org.eclipse.xtend</groupId>
 				<artifactId>xtend-maven-plugin</artifactId>
-				<version>2.12.0</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>compile</goal>
-							<goal>testCompile</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/xtend-gen/main</outputDirectory>
-							<testOutputDirectory>${project.build.directory}/xtend-gen/test</testOutputDirectory>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
-
 			<plugin>
-				<groupId>org.xolstice.maven.plugins</groupId>
-				<artifactId>protobuf-maven-plugin</artifactId>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>

@@ -5,7 +5,7 @@ services:
     image: gcr.io/example/example.users:0.0.1-SNAPSHOT
     container_name: example.users
     hostname: example.users
-# working_dir: /
+#working_dir: /
 #command: java -Dorg.example.users.basePath=http://example.users:8091 -jar app.jar
     ports:
     - 8091:8091
@@ -34,13 +34,14 @@ services:
     - example-network
   example.oauth2:
     image: gcr.io/example/example.oauth2:0.0.1-SNAPSHOT
-    container_name: oauth2
-    hostname: oauth2
+    container_name: example.oauth2
+    hostname: example.oauth2
     ports:
     - 8081:8081
     environment:
     - ORG_EXAMPLE_CONFIG_ENDPOINT="http://example.config:8888"
     - ORG_EXAMPLE_CONFIG_GIT_BRANCH="master"
+    - ORG_EXAMPLE_USERS_ENDPOINT="http://example.users:8091"
     links:
     - example.config
     networks:

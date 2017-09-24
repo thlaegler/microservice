@@ -15,6 +15,10 @@
 		<relativePath />
 	</parent>
 
+	<properties>
+		<org.example.mainclass>org.example.users.app.Application</org.example.mainclass>
+	</properties>
+
 	<dependencies>
 		<!-- Internal -->
 		<dependency>
@@ -24,12 +28,17 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
+			<artifactId>example.users.business</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>example.users.soap.server</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>example.users.rest</artifactId>
+			<artifactId>example.users.rest.spec</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -41,11 +50,6 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>example.users.websocket.server</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.eclipse.xtend</groupId>
-			<artifactId>org.eclipse.xtend.lib</artifactId>
 		</dependency>
 
 		<!-- Spring Boot -->
@@ -93,7 +97,6 @@
 
 	<build>
 		<finalName>${project.artifactId}</finalName>
-		<sourceDirectory>src/main/java, src/gen/java</sourceDirectory>
 
 		<resources>
 			<resource>
@@ -104,12 +107,21 @@
 
 		<plugins>
 			<plugin>
-				<groupId>org.eclipse.xtend</groupId>
-				<artifactId>xtend-maven-plugin</artifactId>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<!-- Docker plugins -->
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>

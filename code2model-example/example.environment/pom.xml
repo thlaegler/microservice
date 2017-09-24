@@ -10,6 +10,7 @@
 	<name>Microservice Example Environment</name>
 
 	<modules>
+		<module>example.base</module>
 		<module>example.mysql</module>
 		<module>example.redis</module>
 		<module>example.elasticsearch</module>

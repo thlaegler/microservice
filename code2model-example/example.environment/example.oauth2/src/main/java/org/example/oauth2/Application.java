@@ -14,9 +14,8 @@ public class Application {
 	private static final Logger LOG = LoggerFactory.getLogger(Application.class);
 
 	public static void main(String[] args) {
-		LOG.info("Trying to start Auth service ...");
 		ConfigurableApplicationContext ctx = SpringApplication.run(Application.class, args);
-		LOG.info("Started Auth service: " + ctx.getId());
+		LOG.info("OAuth2 server started: " + ctx.getId());
 	}
 
 }
