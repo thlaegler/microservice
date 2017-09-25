@@ -1,5 +1,5 @@
 server:
-  port: ${org.example.gateway.port:8080}
+  port: ${ORG_EXAMPLE_GATEWAY_PORT:8080}
 security:
   ignored: /**
   basic:

@@ -17,16 +17,24 @@ spec:
         image: gcr.io/example/example.users:0.0.1-SNAPSHOT
         imagePullPolicy: IfNotPresent
         env:
-        - name: ORG_EXAMPLE_CONFIG_GIT_BRANCH
+        - name: SPRING_CLOUD_CONFIG_URI
+          value: http://example.config:8888
+        - name: SPRING_CLOUD_CONFIG_LABEL
           value: master
-        - name: ORG_EXAMPLE_CONFIG_GIT_BRANCH
-          value: 8091
-        - name: ORG_EXAMPLE_USERS_GRPC_PORT
+        - name: SPRING_PROFILES_ACTIVE
+          value: local
+        - name: ORG_EXAMPLE_USERS_PORT_GRPC
           value: 7091
+        - name: ORG_EXAMPLE_USERS_PORT_REST
+          value: 8091
+        - name: ORG_EXAMPLE_USERS_PORT_SOAP
+          value: 9091
         ports:
-        - name: http
-          containerPort: 8091
         - name: grpc
           containerPort: 7091
+        - name: rest
+          containerPort: 8091
+        - name: soap
+          containerPort: 9091
       restartPolicy: Always
       terminationGracePeriodSeconds: 30

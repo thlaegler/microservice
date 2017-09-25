@@ -2,17 +2,17 @@ package com.laegler.microservice.model2code.generator
 
 import com.laegler.microservice.adapter.model.Template
 import com.laegler.microservice.adapter.model.World
+import com.laegler.microservice.adapter.util.DefaultNamingStrategy
 import com.laegler.microservice.adapter.util.FileUtil
-import com.laegler.microservice.adapter.util.NamingStrategy
 import com.laegler.microservice.model.Architecture
 import com.laegler.microservice.model.Artifact
 import com.laegler.microservice.model.EndpointType
 import com.laegler.microservice.model.Expose
 import com.laegler.microservice.model2code.template.microservice.grpc.GrpcPomXml
-import com.laegler.microservice.model2code.template.microservice.grpc.gen.client.DefaultGrpcClientXtend
-import com.laegler.microservice.model2code.template.microservice.grpc.res.GrpcProto
-import org.junit.Before
-import org.junit.Test
+import com.laegler.microservice.model2code.template.microservice.grpc.GrpcProjectGenerator
+import com.laegler.microservice.model2code.template.microservice.grpc.client.gen.DefaultGrpcClientXtend
+import com.laegler.microservice.model2code.template.microservice.grpc.model.res.GrpcProto
+import org.junit.Ignore
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
@@ -21,11 +21,8 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import static org.junit.Assert.*
 import static org.mockito.ArgumentMatchers.*
 import static org.mockito.Mockito.*
-import com.laegler.microservice.adapter.util.DefaultNamingStrategy
-import org.junit.Ignore
 
 @RunWith(MockitoJUnitRunner.Silent)
 class GrpcProjectGeneratorTest {

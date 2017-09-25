@@ -12,6 +12,7 @@
 	<modules>
 		<module>example.base</module>
 		<module>example.mysql</module>
+		<module>example.couchbase</module>
 		<module>example.redis</module>
 		<module>example.elasticsearch</module>
 		<module>example.config</module>

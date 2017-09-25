@@ -21,8 +21,14 @@ spec:
         image: gcr.io/example/example.gateway:0.0.1-SNAPSHOT
         imagePullPolicy: IfNotPresent
         env:
-        - name: ORG_EXAMPLE_CONFIG_GIT_BRANCH
+        - name: SPRING_CLOUD_CONFIG_URI
+          value: http://example.config:8888
+        - name: SPRING_CLOUD_CONFIG_LABEL
           value: master
+        - name: SPRING_PROFILES_ACTIVE
+          value: local
+        - name: ORG_EXAMPLE_GATEWAY_PORT
+          value: 8080
         ports:
         - name: api
           containerPort: 8080

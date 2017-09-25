@@ -4,11 +4,11 @@ jdk:
 - oraclejdk8
 #script: "./mvnw install cobertura:cobertura -DskipTests=true -Dmaven.javadoc.skip=true -B -V"
 before_install:
+- mvn -N io.takari:maven:wrapper
 - chmod +x mvnw
-- ./mvnw -N io.takari:maven:wrapper
 install:
 - ./mvnw install -f code2model-example/example.parents/pom.xml
-- ./mvnw install cobertura:cobertura -DskipTests=true -Dmaven.javadoc.skip=true -q -B -V
+- ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -q -B -V
 #script:
 #- ./mvnw test cobertura:cobertura -q
 after_success:

@@ -63,7 +63,7 @@ abstract class AbstractTransformator {
 //	}
 
 	protected def void transform(File rootDir) {
-		world.rootFolder = rootDir
+//		world.rootFolder = rootDir
 		rootDir?.listFiles?.filter [
 			it?.listFiles !== null
 		].forEach[transform(it, it.name)]

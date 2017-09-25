@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: example.mysql
+  namespace: code2model-001
+  labels:
+    app: example.mysql
+    provider: john.doe
+    group: org.example
+    project: example
+    version: 0.0.1-SNAPSHOT
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: example.mysql
+        image: gcr.io/example/example.mysql:0.0.1-SNAPSHOT
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: mysql
+          containerPort: 3306
+        volumeMounts:
+        - name: example.mysql-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: example.mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: example.mysql-volume-claim
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30

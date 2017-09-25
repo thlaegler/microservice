@@ -7,7 +7,6 @@ import com.laegler.microservice.adapter.model.Project
 import com.laegler.microservice.model.Architecture
 import com.laegler.microservice.model.Artifact
 import com.laegler.microservice.model.ModelRoot
-import com.laegler.microservice.model2code.generator.BaseProjectGenerator
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -19,6 +18,8 @@ import org.apache.commons.io.filefilter.WildcardFileFilter
 import org.apache.maven.project.MavenProject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import com.laegler.microservice.model2code.template.BaseProjectGenerator
+import java.util.Arrays
 
 @Named
 class Model2CodeTransformator extends AbstractTransformator {
@@ -29,43 +30,35 @@ class Model2CodeTransformator extends AbstractTransformator {
 
 	@Inject BaseProjectGenerator baseProject
 
+	public def void generate(File basedir) {
+		generate(basedir, 'random', 'org.example')
+	}
+
 	public def void generate(MavenProject mavenProject, String name, String basePackage) {
+		generate(mavenProject?.basedir, name, basePackage)
+	}
+
+	public def void generate(File basedir, String name, String basePackage) {
 		log.debug('------------')
 		log.debug(' Model2Code ')
 		log.debug('------------')
-		log.debug('Generating {}', basePackage + '.' + name, mavenProject.toString)
+		log.debug('Generating {}', basePackage + '.' + name, basedir.toString)
 		log.debug('')
 
-		if (mavenProject === null) {
-			throw new GeneratorException('Maven model is null.')
+		if (basedir === null) {
+			throw new GeneratorException('Maven base directory is not set.')
 		}
 
 		world.name = name
 		world.basePackage = basePackage
-		world.mavenProject = mavenProject
-		world.rootFolder = mavenProject?.basedir
-		
+//		world.mavenProject = mavenProject
+//		world.rootFolder = mavenProject?.basedir
 		// TODO: get values from maven properties
 		world.author = 'johnDoe'
 		world.vendor = 'myCompanyName'
 		world.vendorPrefix = 'it'
 
-		log.debug('Searching for architecture.yml file ...')
-		val File architectureFile = FileUtils.listFiles(mavenProject.basedir,
-			new WildcardFileFilter("*rchitecture.yml"), new WildcardFileFilter("*")).head
-
-		log.debug('Found architecture.yml file: {}', architectureFile.absolutePath)
-		Files.lines(Paths.get(architectureFile.absolutePath)).collect(Collectors.toList).forEach [ line |
-			log.debug(line);
-		]
-
-		log.debug('Parsing architecture.yml file ...')
-		val ModelRoot modelRoot = yamlAdapter.toModel(fileHelper.asString(architectureFile))
-
-		log.debug('Parsed architecture model: {}.{}', modelRoot.architecture.basePackage, modelRoot.architecture.name)
-		modelRoot.architecture.artifacts.forEach [
-			log.debug('  artifact: {}', it.name)
-		]
+		val ModelRoot modelRoot = parseMicroserviceArchitecture(basedir);
 
 		log.debug('Trying to generate model to code ...')
 		generate(modelRoot.architecture)
@@ -98,6 +91,30 @@ class Model2CodeTransformator extends AbstractTransformator {
 
 		log.debug('Write templates to file ...')
 		world.rootProject.writeProject
+	}
+
+	def ModelRoot parseMicroserviceArchitecture(File basedir) {
+		log.debug('Searching for architecture.yaml files in dir {}', basedir.toString)
+		val candidateFiles = FileUtils.listFiles(basedir, new WildcardFileFilter("*rchitecture.y*l"),
+			new WildcardFileFilter("*"))
+
+		log.debug('Found following candidate files: {}', candidateFiles.toString)
+
+		val File architectureFile = candidateFiles.head
+
+		log.debug('Found architecture.yaml file: {}', architectureFile.absolutePath)
+		Files.lines(Paths.get(architectureFile.absolutePath)).collect(Collectors.toList).forEach [ line |
+			log.debug(line);
+		]
+
+		log.debug('Parsing architecture.yaml file ...')
+		val ModelRoot modelRoot = yamlAdapter.toModel(fileHelper.asString(architectureFile))
+
+		log.debug('Parsed architecture model: {}.{}', modelRoot.architecture.basePackage, modelRoot.architecture.name)
+		modelRoot.architecture.artifacts.forEach [
+			log.debug('  artifact: {}', it.name)
+		]
+		modelRoot
 	}
 
 	def void writeProject(Project p) {

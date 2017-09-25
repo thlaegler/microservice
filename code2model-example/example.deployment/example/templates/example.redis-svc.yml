@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: example.redis
+  namespace: example-network
+  labels:
+    app: example.redis
+    provider: john.doe
+    group: org.example
+    project: example
+    version: 0.0.1-SNAPSHOT
+spec:
+  selector:
+    app: example.redis
+  ports:
+  - name: api
+    port: 6379

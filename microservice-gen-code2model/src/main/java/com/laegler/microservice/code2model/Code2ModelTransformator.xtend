@@ -38,8 +38,8 @@ class Code2ModelTransformator extends AbstractTransformator {
 		world => [ w |
 			w.name = name
 			w.basePackage = basePackage
-			w.mavenProject = mavenProject
-			w.rootFolder = mavenProject?.basedir
+//			w.mavenProject = mavenProject
+//			w.rootFolder = mavenProject?.basedir
 
 			// TODO: get values from maven properties
 			w.author = 'johnDoe'
