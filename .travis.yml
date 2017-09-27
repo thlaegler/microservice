@@ -8,7 +8,7 @@ before_install:
 - chmod +x mvnw
 install:
 - ./mvnw install -f code2model-example/example.parents/pom.xml
-- ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -q -B -V
+- ./mvnw install -DskipTests -DskipDocker -Dmaven.javadoc.skip=true -q -B -V
 #script:
 #- ./mvnw test cobertura:cobertura -q
 after_success:
