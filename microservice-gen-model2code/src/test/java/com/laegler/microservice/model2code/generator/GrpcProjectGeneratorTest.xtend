@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory
 import static org.mockito.ArgumentMatchers.*
 import static org.mockito.Mockito.*
 
-@RunWith(MockitoJUnitRunner.Silent)
+//@RunWith(MockitoJUnitRunner.Silent)
 class GrpcProjectGeneratorTest {
 
 	protected static Logger log = LoggerFactory.getLogger(GrpcProjectGeneratorTest)
@@ -41,7 +41,7 @@ class GrpcProjectGeneratorTest {
 	@Mock FileUtil fileHelperMock
 	@Mock DefaultNamingStrategy namingStrategyMock
 
-//	@Before
+	@Before
 	def void setup() {
 		MockitoAnnotations.initMocks(unitUnderTest);
 		templateBuilder = Template.builder
@@ -74,7 +74,7 @@ class GrpcProjectGeneratorTest {
 		doReturn('product-grpc').when(namingStrategyMock).getProjectName('product', 'grpc')
 	}
 
-//	@Test
+	@Test
 	@Ignore
 	def void test_generate() {
 		val projects = unitUnderTest.generate(architecture)
