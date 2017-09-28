@@ -27,7 +27,7 @@ import static org.mockito.Mockito.*
 import com.laegler.microservice.adapter.util.DefaultNamingStrategy
 import org.junit.Ignore
 
-@RunWith(MockitoJUnitRunner.Silent)
+//@RunWith(MockitoJUnitRunner.Silent)
 class GrpcProjectGeneratorTest {
 
 	protected static Logger log = LoggerFactory.getLogger(GrpcProjectGeneratorTest)
@@ -77,7 +77,7 @@ class GrpcProjectGeneratorTest {
 		doReturn('product-grpc').when(namingStrategyMock).getProjectName('product', 'grpc')
 	}
 
-//	@Test
+	@Test
 	@Ignore
 	def void test_generate() {
 		val projects = unitUnderTest.generate(architecture)
