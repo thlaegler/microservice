@@ -3,5 +3,5 @@ spring:
     name: ${project.artifactId}
   cloud:
     config:
-      uri: ${SPRING_CLOUD_CONFIG_URI}
+      uri: ${SPRING_CLOUD_CONFIG_URI:http://example.config:8888}
       label: ${SPRING_CLOUD_CONFIG_LABEL}

@@ -1,5 +1,17 @@
 org:
   example:
+    mysql:
+      host: example.mysql
+      port: 3306
+    redis:
+      host: example.redis
+      port: 6379
+    elasticsearch:
+      host: example.elasticsearch
+      port: 9300
+      product:
+        indexName: usersindex
+        indexType: User
     config:
       host: example.config
       port: 8888
@@ -11,22 +23,10 @@ org:
       port: 8081
     users:
       host: example.users
-      port: 8091
-      soapPort: 8091
-      grcpPort: 7071
-    mysql:
-      host: example.mysql
-      port: 3306
-    redis:
-      host: example.redis
-      port: 6379
-    elasticsearch:
-      host: example.elasticsearch
-      port: 9200
-      transportPort: 9300
-      product:
-        indexName: usersindex
-        indexType: User
+      port:
+        grcp: 7071
+        rest: 8091
+        soap: 9091
 security:
   sessions: if-required
   oauth2:
@@ -48,6 +48,47 @@ security:
 logging:
   level:
     org.example: TRACE
-    org.springframework: DEBUG
-    org.hibernate: DEBUG
+    org.springframework: WARN
+    org.hibernate: WARN
     io.grpc: WARN
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://${org.example.mysql.host}:${org.example.mysql.port}/example?zeroDateTimeBehavior=convertToNull&autoreconnect=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=false
+    username: test
+    password: test
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        show_sql: true
+        format_sql: true
+      javax:
+        persistence:
+          schema-generation:
+            create-source: metadata
+            drop-source: metadata
+            scripts:
+              action: drop-and-create
+              create-target: src/main/resources/create-schema.sql
+              drop-target: src/main/resources/drop-schema.sql
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch-cluster
+      cluster-nodes: ${org.example.elasticsearch.host}:${org.example.elasticsearch.port}
+      properties:
+        host: ${org.example.elasticsearch.host}
+        port: ${org.example.elasticsearch.port}
+        http:
+          enabled: true
+        path:
+          data: target/es/data
+          logs: target/es/logs
+  redis:
+    host: ${org.example.redis.host}
+    port: ${org.example.redis.port}

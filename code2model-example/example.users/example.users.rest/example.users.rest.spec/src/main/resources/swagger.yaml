@@ -91,7 +91,7 @@ paths:
       - "User REST Service"
       summary: "Update an existing new user"
       description: ""
-      operationId: "addUserPUT"
+      operationId: "updateUserPUT"
       consumes:
       - "application/json"
       produces:

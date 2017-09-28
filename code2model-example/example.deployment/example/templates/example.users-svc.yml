@@ -13,7 +13,9 @@ spec:
   selector:
     app: example.users
   ports:
-  - name: http
-    port: 8091
   - name: grpc
     port: 7091
+  - name: rest
+    port: 8091
+  - name: soap
+    port: 9091

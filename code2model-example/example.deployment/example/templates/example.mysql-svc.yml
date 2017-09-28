@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: example.mysql
+  namespace: code2model-001
+  labels:
+    app: example.mysql
+    provider: john.doe
+    group: org.example
+    project: example
+    version: 0.0.1-SNAPSHOT
+spec:
+  selector:
+    app: example.mysql
+  ports:
+  - name: mysql
+    port: 3306

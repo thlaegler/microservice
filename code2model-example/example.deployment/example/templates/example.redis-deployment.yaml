@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: example.redis
+  namespace: example-network
+  labels:
+    app: example.redis
+    provider: john.doe
+    group: org.example
+    project: example
+    version: 0.0.1-SNAPSHOT
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: example.redis
+        image: gcr.io/example/example.redis:0.0.1-SNAPSHOT
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: api
+          containerPort: 6379
+        volumeMounts:
+        - name: redis-persistent-storage
+          mountPath: /data
+      volumes:
+      - name: redis-persistent-storage
+        persistentVolumeClaim:
+          claimName: redis-volume-claim
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30

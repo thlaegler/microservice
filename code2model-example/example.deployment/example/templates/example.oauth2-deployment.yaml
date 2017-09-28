@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: example.oauth2
+  namespace: example-network
+  labels:
+    project: example
+    app: example.oauth2
+    group: org.example
+    version: 0.0.1-SNAPSHOT
+    provider: john.doe
+spec:
+  template:
+    spec:
+      containers:
+      - name: example.oauth2
+        image: gcr.io/example/example.oauth2:0.0.1-SNAPSHOT
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: SPRING_CLOUD_CONFIG_URI
+          value: http://example.config:8888
+        - name: SPRING_CLOUD_CONFIG_LABEL
+          value: master
+        - name: SPRING_PROFILES_ACTIVE
+          value: local
+        - name: ORG_EXAMPLE_OAUTH2_PORT
+          value: 8081
+        ports:
+        - name: rest
+          containerPort: 8081
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30

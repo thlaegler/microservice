@@ -10,8 +10,12 @@ services:
     ports:
     - 8091:8091
     environment:
-    - ORG_EXAMPLE_CONFIG_ENDPOINT="http://example.config:8888"
-    - ORG_EXAMPLE_CONFIG_GIT_BRANCH="master"
+    - SPRING_CLOUD_CONFIG_URI="http://example.config:8888"
+    - SPRING_CLOUD_CONFIG_LABEL="master"
+    - SPRING_PROFILES_ACTIVE="local"
+    - ORG_EXAMPLE_USERS_PORT_GRPC="7091"
+    - ORG_EXAMPLE_USERS_PORT_REST="8091"
+    - ORG_EXAMPLE_USERS_PORT_SOAP="9091"
     links:
     - example.config
     - example.mysql
@@ -26,8 +30,10 @@ services:
     ports:
     - 8080:8080
     environment:
-    - ORG_EXAMPLE_CONFIG_ENDPOINT="http://example.config:8888"
-    - ORG_EXAMPLE_CONFIG_GIT_BRANCH="master"
+    - SPRING_CLOUD_CONFIG_URI="http://example.config:8888"
+    - SPRING_CLOUD_CONFIG_LABEL="master"
+    - SPRING_PROFILES_ACTIVE="local"
+    - ORG_EXAMPLE_GATEWAY_PORT="8080"
     links:
     - example.config
     networks:
@@ -39,9 +45,10 @@ services:
     ports:
     - 8081:8081
     environment:
-    - ORG_EXAMPLE_CONFIG_ENDPOINT="http://example.config:8888"
-    - ORG_EXAMPLE_CONFIG_GIT_BRANCH="master"
-    - ORG_EXAMPLE_USERS_ENDPOINT="http://example.users:8091"
+    - SPRING_CLOUD_CONFIG_URI="http://example.config:8888"
+    - SPRING_CLOUD_CONFIG_LABEL="master"
+    - SPRING_PROFILES_ACTIVE="local"
+    - ORG_EXAMPLE_OAUTH2_PORT="8081"
     links:
     - example.config
     networks:
@@ -53,9 +60,10 @@ services:
     ports:
     - 8888:8888
     environment:
-    - ORG_EXAMPLE_CONFIG_GIT_URI="https://tlaegler@bitbucket.org/tlaegler/microservice-config.git"
-    - ORG_EXAMPLE_CONFIG_GIT_USERNAME="test"
-    - ORG_EXAMPLE_CONFIG_GIT_PASSWORD="test"
+    - SPRING_CLOUD_CONFIG_SERVER_GIT_URI="https://tlaegler@bitbucket.org/tlaegler/microservice-config.git"
+    - SPRING_CLOUD_CONFIG_SERVER_GIT_USERNAME="test"
+    - SPRING_CLOUD_CONFIG_SERVER_GIT_PASSWORD="test"
+    - ORG_EXAMPLE_CONFIG_PORT="8888"
     networks:
     - example-network
   example.mysql:

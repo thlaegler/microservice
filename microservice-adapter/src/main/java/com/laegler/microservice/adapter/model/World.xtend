@@ -18,8 +18,8 @@ class World {
 	String vendorPrefix
 
 	Architecture architecture
-	File rootFolder
-	MavenProject mavenProject
+//	File rootFolder
+//	MavenProject mavenProject
 
 	Project rootProject
 

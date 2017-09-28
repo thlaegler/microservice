@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: example.config
+  namespace: example-network
+  labels:
+    project: example
+    app: example.config
+    group: org.example
+    version: 0.0.1-SNAPSHOT
+    provider: john.doe
+spec:
+  selector:
+    app: example.config
+  ports:
+  - name: rest
+    port: 8888
