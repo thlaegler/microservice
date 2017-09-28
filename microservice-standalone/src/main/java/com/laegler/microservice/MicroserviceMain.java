@@ -8,9 +8,12 @@ import com.google.inject.Injector;
 
 public class MicroserviceMain {
 
+	public static final CdiContext INSTANCE = new CdiContext();
+
 	public static void main(String[] args) throws URISyntaxException {
 		Injector injector = Guice.createInjector(new StandaloneModule());
 
+		// MicroserviceLauncher launcher = INSTANCE.getBean(MicroserviceLauncher.class);
 		MicroserviceLauncher launcher = injector.getInstance(MicroserviceLauncher.class);
 
 		File basedir = null;

@@ -2,6 +2,7 @@ package com.laegler.microservice.adapter.util
 
 import javax.inject.Named
 import com.laegler.microservice.adapter.model.Project
+import com.laegler.microservice.model.Entity
 
 @Named
 interface NamingStrategy {
@@ -63,5 +64,13 @@ interface NamingStrategy {
 	def String getPath(Project project, String subDir, boolean isResource, boolean isGenerated)
 
 	def String getPath(Project project, String subDir, boolean isResource, boolean isGenerated, boolean isTest)
-
+	
+	def String getCamelUp(String name)
+	
+	def String getCamelLow(String name)
+	
+	def String getCamelUp(String name, boolean isPlural)
+	
+	def String getCamelLow(String name, boolean isPlural)
+	
 }

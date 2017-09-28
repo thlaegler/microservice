@@ -18,11 +18,14 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.ArrayList
 import com.laegler.microservice.model.Artifact
+import com.laegler.microservice.adapter.util.NamingStrategy
 
 @Named
 class MicroserviceProjectGenerator extends Generator {
 
 	protected static Logger LOG = LoggerFactory.getLogger(MicroserviceProjectGenerator)
+
+	@Inject private extension NamingStrategy _name
 
 	@Inject ModelProjectGenerator modelProject
 	@Inject BusinessProjectGenerator businessProject
@@ -46,9 +49,11 @@ class MicroserviceProjectGenerator extends Generator {
 
 	protected def Project generateBaseProject(Architecture a, Artifact art) {
 		Project::builder //
-		.name(namingStrategy.getProjectName(a.name, art.name)) //
+//		.name(namingStrategy.getProjectName(a.name, art.name)) //
+		.name(a.name.getProjectName('model')) //
 		.basePackage(a.basePackage) //
-		.directory(namingStrategy.getProjectPath(a.name, art.name)) //
+//		.directory(namingStrategy.getProjectPath(a.name, art.name)) //
+		.directory(a.name.getProjectPath('model')) //
 		.microserviceModel(a) //
 		.build => [ p |
 			p.subProjects => [

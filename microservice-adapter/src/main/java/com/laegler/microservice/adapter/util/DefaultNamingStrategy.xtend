@@ -201,4 +201,34 @@ class DefaultNamingStrategy implements NamingStrategy {
 //		getAbsoluteGeneratedSourcePath(p.name) + getRelativeBasePackagePath(p.name)
 	}
 
+	override getCamelUp(String name) {
+		getCamelUp(name, false)
+	}
+
+	override getCamelLow(String name) {
+		getCamelLow(name, false)
+	}
+	
+	override getCamelUp(String name, boolean isPlural) {
+		if (isPlural) {
+			return name.toFirstUpper.plural
+		}
+		return name.toFirstUpper.replaceAll(' ', '')
+	}
+
+	override getCamelLow(String name, boolean isPlural) {
+		if (isPlural) {
+			return name.toFirstLower.plural
+		}
+		return name.toFirstLower.replaceAll(' ', '')
+	}
+
+	private def String getPlural(String name) {
+		var String pluralName = name
+		if (name.endsWith('y')) {
+			pluralName = pluralName.substring(0, pluralName.length - 2) + 'ie'
+		}
+		return pluralName + 's'
+	}
+
 }

@@ -106,6 +106,9 @@ class Model2CodeTransformator extends AbstractTransformator {
 			architectureFile = candidateFiles.head
 		}
 
+		if(architectureFile === null) {
+			throw new RuntimeException('No microservice architecture description file found')
+		}
 		LOG.debug('Found architecture.yaml file: {}', architectureFile.absolutePath)
 		Files.lines(Paths.get(architectureFile.absolutePath)).collect(Collectors.toList).forEach [ line |
 			LOG.debug(line);

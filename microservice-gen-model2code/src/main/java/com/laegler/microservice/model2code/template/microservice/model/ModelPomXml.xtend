@@ -1,22 +1,21 @@
 package com.laegler.microservice.model2code.template.microservice.model
 
-import com.laegler.microservice.adapter.model.FileType
 import com.laegler.microservice.adapter.model.PomXml
 import com.laegler.microservice.adapter.model.Project
 import com.laegler.microservice.adapter.model.Template
 import java.io.StringWriter
+import java.util.Properties
 import javax.inject.Inject
 import javax.inject.Named
-import org.apache.maven.model.Extension
 import org.apache.maven.model.Build
 import org.apache.maven.model.Dependency
 import org.apache.maven.model.Model
+import org.apache.maven.model.Plugin
+import org.apache.maven.model.PluginExecution
 import org.apache.maven.model.io.xpp3.MavenXpp3Writer
+import org.codehaus.plexus.util.xml.Xpp3Dom
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.apache.maven.model.Plugin
-import java.util.HashMap
-import org.codehaus.plexus.util.xml.Xpp3Dom
 
 @Named
 class ModelPomXml extends PomXml {
@@ -28,12 +27,15 @@ class ModelPomXml extends PomXml {
 	public def Template getTemplate(Project p) {
 		LOG.debug('  Generate template {}/model/pom.yml', p.name)
 
-		Template::builder //
+		templateBuilder //
 		.project(p) //
-		.fileName('pom') //
-		.fileType(FileType.XML) //
-		.content(p.content).build
+		.relativPath('/') //
+		.documentation(docu).content(p.content).build
 	}
+
+	private def String getDocu() '''
+		Persistence Model Module
+	'''
 
 	private def String getContent(Project p) {
 		val contentWriter = new StringWriter
@@ -46,60 +48,106 @@ class ModelPomXml extends PomXml {
 			groupId = p.basePackage
 			artifactId = p.name
 			version = p.version
+			name = p.name
+			description = docu
+			properties = new Properties => [
+				setProperty('spring.version', '4.3.8.RELEASE')
+				setProperty('spring.boot.version', '1.5.6.RELEASE')
+				setProperty('spring.data.version', '2.2.6.RELEASE')
+				setProperty('springfox.version', '2.6.0')
+				setProperty('hibernate.version', '5.2.10.Final')
+				setProperty('hikari.version', '2.6.2')
+				setProperty('mysql.version', '5.1.42')
+				setProperty('couchbase.client.version', '2.2.6')
+				setProperty('slf4j.version', '1.7.25')
+				setProperty('lombok.version', '1.16.16')
+			]
 			dependencies = #[
 				new Dependency => [
-					groupId = 'io.grpc'
-					artifactId = 'grpc-all'
-					version = '1.4.0'
+					groupId = 'org.springframework.boot'
+					artifactId = 'spring-boot-starter-web'
+					version = '${spring.boot.version}'
+				],
+				new Dependency => [
+					groupId = 'org.springframework.boot'
+					artifactId = 'spring-boot-starter-data-jpa'
+					version = '${spring.boot.version}'
+				],
+				new Dependency => [
+					groupId = 'org.springframework.boot'
+					artifactId = 'spring-boot-starter-data-elasticsearch'
+					version = '${spring.boot.version}'
+				],
+				new Dependency => [
+					groupId = 'org.springframework.boot'
+					artifactId = 'spring-boot-starter-data-redis'
+					version = '${spring.boot.version}'
+				],
+				new Dependency => [
+					groupId = 'org.springframework.boot'
+					artifactId = 'spring-boot-starter-data-couchbase'
+					version = '${spring.boot.version}'
+				],
+				new Dependency => [
+					groupId = 'com.couchbase.client'
+					artifactId = 'couchbase-spring-cache'
+					version = '${couchbase.client.version}'
+				],
+				new Dependency => [
+					groupId = 'mysql'
+					artifactId = 'mysql-connector-java'
+					version = '${mysql.version}'
+					scope = 'runtime'
+				],
+				new Dependency => [
+					groupId = 'io.springfox'
+					artifactId = 'springfox-swagger2'
+					version = '${springfox.version}'
 				],
 				new Dependency => [
 					groupId = 'org.slf4j'
 					artifactId = 'slf4j-api'
-					version = '1.7.25'
+					version = '${slf4j.version}'
+				],
+				new Dependency => [
+					groupId = 'org.projectlombok'
+					artifactId = 'lombok'
+					version = '${lombok.version}'
+					optional = true
 				]
 			]
-			build= new Build => [
+			build = new Build => [
 				finalName = "${project.artifactId}"
-				extensions = #[
-					new Extension => [
-						groupId = 'kr.motd.maven'
-						artifactId = 'os-maven-plugin'
-						version = '${os-maven-plugin.version}'
-					]
-				]
 				plugins = #[
-                    new Plugin => [
+					new Plugin => [
 						groupId = 'org.apache.maven.plugins'
 						artifactId = 'maven-clean-plugin'
 						version = '3.0.0'
 						configuration = new Xpp3Dom('filesets') => [
 							addChild(new Xpp3Dom('fileset') => [
-								setAttribute('directory', '${grpc.dir.generated}')
+								addChild(new Xpp3Dom('directory') => [
+									value = '${project.basedir}/src/gen/java/'
+								])
 							])
 						]
 					],
 					new Plugin => [
-						groupId = 'org.xolstice.maven.plugins'
-						artifactId = 'protobuf-maven-plugin'
-						version = '${os-maven-plugin.version}'
-//					 <version>${protobuf-maven-plugin.version}</version>
-//                    <configuration>
-//                        <outputDirectory>${grpc.dir.generated}</outputDirectory>
-//                        <clearOutputDirectory>false</clearOutputDirectory>
-//                        <protocArtifact>com.google.protobuf:protoc:${google-protobuf.version}:exe:${os.detected.classifier}</protocArtifact>
-//                        <pluginId>grpc-java</pluginId>
-//                        <pluginArtifact>io.grpc:protoc-gen-grpc-java:${grpc.version}:exe:${os.detected.classifier}
-//                        </pluginArtifact>
-//                    </configuration>
-//                    <executions>
-//                        <execution>
-//                            <goals>
-//                                <goal>compile</goal>
-//                                <goal>compile-custom</goal>
-//                            </goals>
-//                        </execution>
-//                    </executions>
-                    ]
+						groupId = 'org.codehaus.mojo'
+						artifactId = 'build-helper-maven-plugin'
+						version = '3.0.0'
+						executions = #[
+							new PluginExecution => [
+								configuration = new Xpp3Dom('sources') => [
+									addChild(new Xpp3Dom('source') => [
+										value = '${project.basedir}/src/gen/java/'
+									])
+								]
+								phase = 'generate-sources'
+								id = 'add-generated-sources'
+								goals = #['add-source']
+							]
+						]
+					]
 				]
 			]
 		]

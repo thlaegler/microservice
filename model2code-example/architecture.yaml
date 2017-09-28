@@ -21,10 +21,10 @@ architecture:
     user: test
     password: test
   artifacts:
-  - name: user
+  - name: users
     type: service
-    springConfig: users/application.yaml
-    feature: users/users.feature
+    springConfig: spec/users/application.yaml
+    feature: spec/users/users.feature
     data:
     - MYSQL
     - MONGODB
@@ -33,46 +33,46 @@ architecture:
     entities:
     - name: User
       fields:
-        id: long
-        groups: List<Group>
-        name: String
-        email: email
-        password: password
+        Long: id
+        List<Group>: groups
+        String: name
+        Email: email
+        Password: password
     - name: Group
       fields:
-        id: long
-        name: String
+        Long: id
+        String: name
     - name: Role
       fields:
-        id: long
-        name: String
+        Long: id
+        String: name
     exposes:
     - type: SOAP
       name: UsersSoap
       port: 6081
-      specification: users/users.wsdl
+      specification: spec/users/users.wsdl
       isDraft: true
     - type: GRPC
       name: UsersGrpc
       port: 7071
-      specification: users/users.proto
+      specification: spec/users/users.proto
     - type: REST
       name: UsersRest
       port: 8081
-      specification: users/users-api.yaml
+      specification: spec/users/users-api.yaml
   - name: products
     type: service
-    springConfig: products/application.yaml
-    feature: products/products.feature
+    springConfig: spec/products/application.yaml
+    feature: spec/products/products.feature
     exposes:
     - type: GRPC
       name: ProductsGrpc
       port: 7072
-      specification: products/products.proto
+      specification: spec/products/products.proto
     - type: REST
       name: ProductsRest
       port: 8082
-      specification: products/products-api.yaml
+      specification: spec/products/products-api.yaml
     consumes:
     - type: GRPC
       endpoint: null

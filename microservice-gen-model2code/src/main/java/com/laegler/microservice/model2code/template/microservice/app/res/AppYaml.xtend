@@ -27,7 +27,7 @@ class AppYaml {
 		.fileName('application') //
 		.fileType(FileType.YAML) //
 		.relativPath(namingStrategy.resPath) //
-		.documentation('AppYaml') //
+		.documentation('Spring Application Yaml') //
 		.skipStamping(true) //
 		.content('''
 			«world.vendorPrefix»:

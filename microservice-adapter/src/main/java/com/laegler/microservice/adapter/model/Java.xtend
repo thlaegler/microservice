@@ -15,7 +15,7 @@ abstract class Java {
 	protected static final Logger LOG = LoggerFactory.getLogger(Java)
 
 	@Inject protected World world
-	@Inject protected NamingStrategy namingStrategy
+	@Inject private NamingStrategy _name
 
 	public def Template.Builder getTemplateBuilder() {
 		return Template::builder //
@@ -28,6 +28,8 @@ abstract class Java {
 	 * Template part for type-specific javadoc.
 	 */
 	protected def String getJavaDocType(Project project) '''
+		import org.slf4j.Logger;
+		import org.slf4j.LoggerFactory;
 		import javax.annotation.Generated;
 		import com.google.gson.annotations.Until;
 		import com.google.gson.annotations.Since;
@@ -40,8 +42,8 @@ abstract class Java {
 		 * @version «project.version»
 		 * @generated «currentDate»
 		 */
-		//@Since(«project.version»)
-		@Until(0.0)
+		@Since(0.1)
+		//@Until(0.0)
 		@Generated(value = '«»')
 	'''
 

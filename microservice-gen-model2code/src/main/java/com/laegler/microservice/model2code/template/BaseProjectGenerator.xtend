@@ -15,6 +15,8 @@ import javax.inject.Named
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import com.laegler.microservice.adapter.model.template.DotGraph
+import com.laegler.microservice.model2code.template.env.EnvProjectGenerator
+import org.slf4j.LoggerFactory
 
 @Named
 class BaseProjectGenerator extends Generator {
@@ -24,6 +26,7 @@ class BaseProjectGenerator extends Generator {
 //	@Inject CloudConfigProjectGenerator configProject
 	@Inject GatewayProjectGenerator gatewayProject
 	@Inject OAuth2ProjectGenerator oauth2Project
+	@Inject EnvProjectGenerator envProject
 	@Inject MicroserviceProjectGenerator microserviceProject
 
 	@Inject RootPomXml rootPomXml
@@ -49,8 +52,7 @@ class BaseProjectGenerator extends Generator {
 		.build => [ p |
 			p.subProjects => [
 				addAll(microserviceProject.generate(a))
-				addAll(gatewayProject.generate(a))
-				addAll(oauth2Project.generate(a))
+				addAll(envProject.generate(a))
 //				addAll(configProject.generate(a))
 			]
 			p.templates => [
