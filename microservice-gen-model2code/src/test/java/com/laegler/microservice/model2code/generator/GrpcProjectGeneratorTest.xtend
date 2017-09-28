@@ -21,6 +21,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.junit.Test
+import org.junit.Before
 
 import static org.mockito.ArgumentMatchers.*
 import static org.mockito.Mockito.*
