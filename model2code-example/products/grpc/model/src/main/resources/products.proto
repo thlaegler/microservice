@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package org.example.microservice.products.grpc;
+
+option java_multiple_files = true;
+option java_outer_classname = ProductsGrpcProtoService;
+

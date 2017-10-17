@@ -20,8 +20,8 @@
 		<module>model2code-example</module>
 		<!-- <module>code2model-example</module> -->
 		
-		<!-- <module>microservice-editor-back</module>
-		<module>microservice-editor-front</module> -->
+		<module>microservice-editor-back</module>
+		<module>microservice-editor-front</module>
 	</modules>
 
 	<dependencies>

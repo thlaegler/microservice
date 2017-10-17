@@ -1,6 +1,5 @@
 package com.laegler.microservice.model2code.template.microservice.model.src
 
-import com.laegler.microservice.adapter.model.FileType
 import com.laegler.microservice.adapter.model.Java
 import com.laegler.microservice.adapter.model.Project
 import com.laegler.microservice.adapter.model.Template
@@ -12,32 +11,34 @@ import javax.inject.Inject
 import javax.inject.Named
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import com.laegler.microservice.adapter.util.JavaUtil
 
 @Named
 class EntityJava extends Java {
 
-	protected static final Logger log = LoggerFactory.getLogger(EntityJava)
+	private static final Logger log = LoggerFactory.getLogger(EntityJava)
 
-	@Inject protected extension NamingStrategy _name
+	@Inject private extension NamingStrategy _name
+	@Inject private extension JavaUtil _java
 
 	Entity e
 
-	public def Template getTemplate(Project project, Entity e) {
-		val path = project.srcPathWithPackage + '/entity'
+	public def Template getTemplate(Project p, Entity e) {
+		val path = p.srcPathWithPackage + '/entity'
 		log.debug('  Generate template {}/{}.java', path, e.name)
 
 		this.e = e
 
 		templateBuilder //
-		.project(project) //
+		.project(p) //
 		.fileName(e.name.camelUp) //
 		.relativPath(path) //
 		.documentation('Java Entity of ' + e.name.camelUp) //
 		.skipStamping(true) //
 		.content('''
-			package «project.basePackage».entity;
+			package «p.basePackage».entity;
 			
-			import «project.basePackage».*;
+			import «p.basePackage».*;
 			import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 			import io.swagger.annotations.ApiModel;
 			import io.swagger.annotations.ApiModelProperty;
@@ -61,7 +62,7 @@ class EntityJava extends Java {
 			import javax.persistence.GenerationType;
 			import javax.persistence.Id;
 			import javax.persistence.Table;
-			«project.javaDocType»
+			«p.javaDocType»
 			@ApiModel
 			@JsonIgnoreProperties(ignoreUnknown = true)
 			@Data
@@ -86,7 +87,7 @@ class EntityJava extends Java {
 					/**
 					 * «field.value»
 					 */
-					@Since(«world.getOption('version')»)
+					@Since(«p.version»)
 					@Until(0.0)
 					@ApiModelProperty(example = "1234")
 					@JsonProperty('«field.value.toFirstLower»')

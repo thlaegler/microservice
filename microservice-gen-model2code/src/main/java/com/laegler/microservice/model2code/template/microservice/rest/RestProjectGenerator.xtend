@@ -10,13 +10,24 @@ import com.laegler.microservice.adapter.model.Template
 import com.laegler.microservice.adapter.generator.Generator
 import com.laegler.microservice.adapter.model.Project
 import com.laegler.microservice.adapter.model.FileType
+<<<<<<< Upstream, based on master
 import java.util.Arrays
+=======
+import com.laegler.microservice.adapter.util.NamingStrategy
+import javax.inject.Inject
+>>>>>>> 63a4349 Cleaned Web Editor
 
 class RestProjectGenerator extends Generator {
 
 	protected static Logger LOG = LoggerFactory.getLogger(RestProjectGenerator)
 
+<<<<<<< Upstream, based on master
 	def List<Project> generate(Architecture a, Artifact art) {
+=======
+	@Inject protected extension NamingStrategy _name
+
+	override List<Project> generate(Architecture a) {
+>>>>>>> 63a4349 Cleaned Web Editor
 		LOG.debug('Generating REST project(s) for {}', a.name)
 
 		Arrays.asList(a.generateRestProject(art))
@@ -26,9 +37,17 @@ class RestProjectGenerator extends Generator {
 		LOG.debug('Generating REST project(s) for {}', a.name)
 
 		Project::builder //
+<<<<<<< Upstream, based on master
 		.name(namingStrategy.getProjectName(a.name, art.name, 'rest')) //
+=======
+		.name(a.name.getProjectName('rest')) //
+>>>>>>> 63a4349 Cleaned Web Editor
 		.basePackage(world.basePackage) //
+<<<<<<< Upstream, based on master
 		.directory(namingStrategy.getProjectPath(a.name, art.name, 'rest')) //
+=======
+		.directory(a.name.getProjectPath('rest')) //
+>>>>>>> 63a4349 Cleaned Web Editor
 		.build => [ p |
 			p.subProjects.addAll(
 				a.generateRestParentProject(art),
@@ -48,9 +67,17 @@ class RestProjectGenerator extends Generator {
 		LOG.debug('Generating REST parent project for {}', a.name)
 
 		Project::builder //
+<<<<<<< Upstream, based on master
 		.name(namingStrategy.getProjectName(a.name, art.name, 'rest', 'parent')) //
+=======
+		.name(a.name.getProjectName('rest', 'parent')) //
+>>>>>>> 63a4349 Cleaned Web Editor
 		.basePackage(world.basePackage) //
+<<<<<<< Upstream, based on master
 		.directory(namingStrategy.getProjectPath(a.name, art.name, 'rest', 'parent')) //
+=======
+		.directory(a.name.getProjectPath('rest', 'parent')) //
+>>>>>>> 63a4349 Cleaned Web Editor
 		.build => [p|
 //			p.templates.addAll(
 //				p.generateRestDefaultServerJava(a),
@@ -63,9 +90,17 @@ class RestProjectGenerator extends Generator {
 		LOG.debug('Generating REST server project for {}', a.name)
 
 		Project::builder //
+<<<<<<< Upstream, based on master
 		.name(namingStrategy.getProjectName(a.name, art.name, 'rest', 'server')) //
+=======
+		.name(a.name.getProjectName('rest', 'server')) //
+>>>>>>> 63a4349 Cleaned Web Editor
 		.basePackage(world.basePackage) //
+<<<<<<< Upstream, based on master
 		.directory(namingStrategy.getProjectPath(a.name, art.name, 'rest', 'server')) //
+=======
+		.directory(a.name.getProjectPath('rest', 'server')) //
+>>>>>>> 63a4349 Cleaned Web Editor
 		.build => [ p |
 			p.templates.addAll(
 				p.generateRestDefaultServerJava(art),
@@ -78,9 +113,17 @@ class RestProjectGenerator extends Generator {
 		LOG.debug('Generating REST client project for {}', a.name)
 
 		Project::builder //
+<<<<<<< Upstream, based on master
 		.name(namingStrategy.getProjectName(a.name, art.name, 'rest', 'client')) //
+=======
+		.name(a.name.getProjectName('rest', 'client')) //
+>>>>>>> 63a4349 Cleaned Web Editor
 		.basePackage(world.basePackage) //
+<<<<<<< Upstream, based on master
 		.directory(namingStrategy.getProjectPath(a.name, art.name, 'rest', 'client')) //
+=======
+		.directory(a.name.getProjectPath('rest', 'client')) //
+>>>>>>> 63a4349 Cleaned Web Editor
 		.build => [ p |
 			p.templates.addAll(
 				p.generateRestClientJava(art),
@@ -93,9 +136,17 @@ class RestProjectGenerator extends Generator {
 		LOG.debug('Generating REST model project for {}', a.name)
 
 		Project::builder //
+<<<<<<< Upstream, based on master
 		.name(namingStrategy.getProjectName(a.name, art.name, 'rest', 'model')) //
+=======
+		.name(a.name.getProjectName('rest', 'model')) //
+>>>>>>> 63a4349 Cleaned Web Editor
 		.basePackage(world.basePackage) //
+<<<<<<< Upstream, based on master
 		.directory(namingStrategy.getProjectPath(a.name, art.name, 'rest', 'model')) //
+=======
+		.directory(a.name.getProjectPath('rest', 'model')) //
+>>>>>>> 63a4349 Cleaned Web Editor
 		.build => [ p |
 			p.templates.addAll(
 				p.generateRestDtoXtend(art)
@@ -121,16 +172,27 @@ class RestProjectGenerator extends Generator {
 		null
 	}
 
-	protected def Template generateRestClientJava(Project p, Artifact s) {
+	protected def Template generateRestClientJava(Project p, Artifact a) {
 		LOG.debug('Creating file: REST client Java')
 
 		Template::builder //
-		.fileName(s.name + 'RestClient') //
+		.fileName(a.name.camelUp + 'RestClient') //
 		.fileType(FileType.XTEND) //
-		.relativPath(namingStrategy.getSrcPathWithPackage(p)) //
+		.relativPath(p.srcPathWithPackage) //
 		.content('''
-			This is the template of RestClient.java
-		''').build
+			package «p.basePackage»;
+						
+			import org.slf4j.Logger;
+			import org.slf4j.LoggerFactory;
+			
+			@RestController
+			public class «a.name.camelUp»RestClient {
+			
+				private static final Logger LOG = LoggerFactory.getLogger(«a.name.camelUp»RestClient.class);
+			
+			}
+		''')
+		.build
 	}
 
 	protected def Template generateRestDefaultClientJava(Project p, Artifact s) {

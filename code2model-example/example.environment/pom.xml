@@ -11,6 +11,7 @@
 
 	<modules>
 		<module>example.base</module>
+		<module>example.sonarqube</module>
 		<module>example.mysql</module>
 		<module>example.couchbase</module>
 		<module>example.redis</module>

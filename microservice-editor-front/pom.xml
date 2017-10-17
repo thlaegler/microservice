@@ -5,10 +5,10 @@
 
 	<groupId>com.laegler.microservice</groupId>
 	<artifactId>microservice-editor-front</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>microservice-editor-front</name>
+	<name>Microservice Web Editor Front-end</name>
 	<description>Microservice Web Editor Front-end</description>
 
 	<parent>
@@ -60,6 +60,19 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<includes>
+						<include>**/*Test.java</include>
+					</includes>
+					<skipTests>true</skipTests>
+					<testFailureIgnore>true</testFailureIgnore>
+					<reuseForks>false</reuseForks>
+					<forkCount>1</forkCount>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

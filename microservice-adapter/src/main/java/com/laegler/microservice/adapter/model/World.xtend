@@ -24,7 +24,7 @@ class World {
 	Project rootProject
 
 	public def String getOption(String key) {
-		architecture?.options?.get(key)
+		architecture?.options?.get(key) as String
 	}
 
 }

@@ -5,6 +5,31 @@ architecture:
   basePackage: org.example.microservice
   options:
     projectStructure: DEEP
+    multiTenancy: true
+    multiLanguage: true
+  security:
+    roles:
+    - guest: null
+    - user: p4ssw0rd
+    - admin: admin
+    oauth2:
+      grantTypes:
+      - resourceOwnerPasswordCredentials
+      - clientCredentials  
+      - implicit
+    clients:
+    - name: example-tenant
+      secret: test
+    - name: another-tenant
+      secret: test
+  test:
+    behavior:
+      personas:
+      - admin: Adam Admin
+      - user: Connie Customer
+      - user: Rudi Rich
+      - user: Yonas Young
+      - guest: Georg Guest
   build:
     unitTest: true
     integrationTest: true
@@ -23,8 +48,8 @@ architecture:
   artifacts:
   - name: users
     type: service
-    springConfig: spec/users/application.yaml
-    feature: spec/users/users.feature
+    springConfig: _spec/users/application.yaml
+    feature: _spec/users/users.feature
     data:
     - MYSQL
     - MONGODB
@@ -50,29 +75,29 @@ architecture:
     - type: SOAP
       name: UsersSoap
       port: 6081
-      specification: spec/users/users.wsdl
+      specification: _spec/users/users.wsdl
       isDraft: true
     - type: GRPC
       name: UsersGrpc
       port: 7071
-      specification: spec/users/users.proto
+      specification: _spec/users/users.proto
     - type: REST
       name: UsersRest
       port: 8081
-      specification: spec/users/users-api.yaml
+      specification: _spec/users/users-api.yaml
   - name: products
     type: service
-    springConfig: spec/products/application.yaml
-    feature: spec/products/products.feature
+    springConfig: _spec/products/application.yaml
+    feature: _spec/products/products.feature
     exposes:
     - type: GRPC
       name: ProductsGrpc
       port: 7072
-      specification: spec/products/products.proto
+      specification: _spec/products/products.proto
     - type: REST
       name: ProductsRest
       port: 8082
-      specification: spec/products/products-api.yaml
+      specification: _spec/products/products-api.yaml
     consumes:
     - type: GRPC
       endpoint: null

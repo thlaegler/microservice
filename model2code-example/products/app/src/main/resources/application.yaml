@@ -1,0 +1,7 @@
+it:
+  version: @project.version@
+  description: @project.description@
+  java:
+    version: @java.version@
+server:
+  port: ${it.products.app.rest.port}

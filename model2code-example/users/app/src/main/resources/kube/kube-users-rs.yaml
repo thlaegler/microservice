@@ -1,0 +1,52 @@
+// Generated with Stubbr
+// 
+// {{{Version: }}}
+// {{{Date: 17.10.2017 - 20:56:35:08}}}
+---
+apiVersion: extensions/v1beta1
+kind: ReplicaSet
+metadata:
+  name: users
+  namespace: model2code-example
+  labels:
+    name: model2code-example
+    app: model2code-example
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: model2code-example
+      app: model2code-example
+  template:
+    metadata:
+      labels:
+        name: model2code-example
+        app: model2code-example
+    spec:
+      containers:
+      - name: echoheaders
+        image: gcr.io/google_containers/echoserver:1.4
+        ports:
+        - containerPort: 9090
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 9090
+          periodSeconds: 1
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 10
+      - name: users
+        image: users:
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: api
+          containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 3
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30

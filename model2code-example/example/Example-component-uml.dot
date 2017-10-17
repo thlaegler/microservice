@@ -1,0 +1,64 @@
+Generated with Stubbr
+{{{Version: }}}
+{{{Date: 17.10.2017 - 20:56:35:294}}}
+@startuml
+skinparam componentStyle uml2
+
+skinparam
+
+interface  {
+	backgroundColor RosyBrown
+	borderColor orange
+}
+
+sprite $dependency [16x16/16] {
+	FFFFFFFFFFFFFFFF
+	FFFFFFFFFFFFFFFF
+	FFFFFFFFFFFFFFFF
+	FFFFFFFFFFFFFFFF
+	FFFFFFFFFF0FFFFF
+	FFFFFFFFFF00FFFF
+	FF00000000000FFF
+	FF000000000000FF
+	FF00000000000FFF
+	FFFFFFFFFF00FFFF
+	FFFFFFFFFF0FFFFF
+	FFFFFFFFFFFFFFFF
+	FFFFFFFFFFFFFFFF
+	FFFFFFFFFFFFFFFF
+	FFFFFFFFFFFFFFFF
+	FFFFFFFFFFFFFFFF
+}
+ 
+node "service: users" {
+	component "users" as users
+	interface "UsersSoap 6081" as UsersSoap #Lightgrey
+	[] -[#Lightgrey]-> () UsersSoap : exposes
+	interface "UsersGrpc 7071" as UsersGrpc #Red
+	[] -[#Red]-> () UsersGrpc : exposes
+	interface "UsersRest 8081" as UsersRest #Red
+	[] -[#Red]-> () UsersRest : exposes
+	interface "UsersSoap 6081" as UsersSoap #Lightgrey
+	[users] -[#Lightgrey]-> () UsersSoap : exposes
+	interface "UsersGrpc 7071" as UsersGrpc #Blue
+	[users] -[#Blue]-> () UsersGrpc : exposes
+	interface "UsersRest 8081" as UsersRest #Blue
+	[users] -[#Blue]-> () UsersRest : exposes
+}
+ 
+ 
+node "service: products" {
+	component "products" as products
+	interface "ProductsGrpc 7072" as ProductsGrpc #Red
+	[] -[#Red]-> () ProductsGrpc : exposes
+	interface "ProductsRest 8082" as ProductsRest #Red
+	[] -[#Red]-> () ProductsRest : exposes
+	interface "ProductsGrpc 7072" as ProductsGrpc #Blue
+	[products] -[#Blue]-> () ProductsGrpc : exposes
+	interface "ProductsRest 8082" as ProductsRest #Blue
+	[products] -[#Blue]-> () ProductsRest : exposes
+}
+ 
+[products] -[#Blue]-> ()  : consumes
+ 
+@enduml

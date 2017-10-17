@@ -2,14 +2,13 @@ package com.laegler.microservice.model2code.template.microservice.app
 
 import com.laegler.microservice.adapter.generator.Generator
 import com.laegler.microservice.adapter.lib.cucumber.GherkinAdapter
+import com.laegler.microservice.adapter.model.FileType
 import com.laegler.microservice.adapter.model.Project
+import com.laegler.microservice.adapter.model.Template
 import com.laegler.microservice.model.Architecture
 import com.laegler.microservice.model.Artifact
-import com.laegler.microservice.model2code.template.microservice.app.AppPomXml
 import com.laegler.microservice.model2code.template.microservice.app.res.AppYaml
 import com.laegler.microservice.model2code.template.microservice.app.res.BootstrapYaml
-import com.laegler.microservice.model2code.template.microservice.app.src.AppConfigXtend
-import com.laegler.microservice.model2code.template.microservice.app.src.AppXtend
 import com.laegler.microservice.model2code.template.microservice.app.test.CucumberFeature
 import com.laegler.microservice.model2code.template.microservice.app.test.DefaultCucumberFeatureStepsXtend
 import java.util.ArrayList
@@ -21,6 +20,8 @@ import org.slf4j.LoggerFactory
 import com.laegler.microservice.adapter.model.FileType
 import com.laegler.microservice.adapter.model.Template
 import java.util.Arrays
+import com.laegler.microservice.model2code.template.microservice.app.src.AppJava
+import com.laegler.microservice.model2code.template.microservice.app.src.AppConfigJava
 
 @Named
 class AppProjectGenerator extends Generator {
@@ -32,8 +33,8 @@ class AppProjectGenerator extends Generator {
 	@Inject AppPomXml appPomXml
 
 	// Sources
-	@Inject AppXtend appXtend
-	@Inject AppConfigXtend appConfigXtend
+	@Inject AppJava appJava
+	@Inject AppConfigJava appConfigJava
 
 	// Resources
 	@Inject AppYaml appYaml
@@ -60,8 +61,8 @@ class AppProjectGenerator extends Generator {
 		.build => [ p |
 			p.templates => [
 				add(appPomXml.getTemplate(p))
-				add(appXtend.getTemplate(p))
-				add(appConfigXtend.getTemplate(p))
+				add(appJava.getTemplate(p,a))
+				add(appConfigJava.getTemplate(p))
 				add(appYaml.getTemplate(p))
 				add(bootstrapYaml.getTemplate(p))
 				add(p.generateKubeNamespaceYaml(art))

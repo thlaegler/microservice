@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: model2code-example
+  labels:
+    name: model2code-example
+    provider: myCompanyName
+    group: org.example.microservice
+    version: 
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: oauth2
+  namespace: platform
+  labels:
+    app: oauth2
+    provider: myCompanyName
+    group: org.example.microservice
+    project: oauth2
+    version: 
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: oauth2
+    spec:
+      containers:
+      - name: oauth2
+        image: gcr.io/model2code-example-123456/oauth2:
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: grpc
+          containerPort: 7070
+        - name: rest
+          containerPort: 8080
+        - name: soap
+          containerPort: 6060
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30

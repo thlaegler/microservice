@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: model2code-example
+  labels:
+    name: model2code-example
+    provider: myCompanyName
+    group: org.example.microservice
+    version: 
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: gateway
+  namespace: platform
+  labels:
+    app: gateway
+    provider: myCompanyName
+    group: org.example.microservice
+    project: gateway
+    version: 
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      containers:
+      - name: gateway
+        image: gcr.io/model2code-example-123456/gateway:
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: grpc
+          containerPort: 7070
+        - name: rest
+          containerPort: 8080
+        - name: soap
+          containerPort: 6060
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30

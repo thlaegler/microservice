@@ -35,7 +35,7 @@ class Template {
 	val String content
 
 	public def String getFullPathWithName() {
-		if (fileType.extension == FileType.UNDEFINED) {
+		if (fileType === null || fileType === FileType.UNDEFINED || fileType.extension === null || fileType.extension === '') {
 			return '''«relativPath»/«fileName»'''
 		} else {
 			return '''«relativPath»/«fileName».«fileType.extension»'''
@@ -75,7 +75,7 @@ class Template {
 	}
 
 	public def String getStamp() {
-		if (skipStamping == false) {
+		if (skipStamping == false && fileType != null) {
 			if (fileType.lineComment !== null) {
 				return '''
 					«fileType.lineComment»Generated with Stubbr

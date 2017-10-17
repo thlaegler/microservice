@@ -21,10 +21,12 @@ class Architecture {
 	String author
 	String dirStrategy
 
-	Map<String, String> options = new HashMap
-	Map<String, String> build = new HashMap
-	Map<String, String> deployment = new HashMap
-	Map<String, String> atlassian = new HashMap
+	Map<String, Object> security = new HashMap
+	Map<String, Object> test = new HashMap
+	Map<String, Object> options = new HashMap
+	Map<String, Object> build = new HashMap
+	Map<String, Object> deployment = new HashMap
+	Map<String, Object> atlassian = new HashMap
 	
 	List<Artifact> artifacts = new ArrayList
 

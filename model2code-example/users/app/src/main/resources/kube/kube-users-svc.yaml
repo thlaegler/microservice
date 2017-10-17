@@ -1,0 +1,21 @@
+// Generated with Stubbr
+// 
+// {{{Version: }}}
+// {{{Date: 17.10.2017 - 20:56:35:10}}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: users
+  namespace: model2code-example
+  labels:
+  	name: model2code-example
+  	app: model2code-example
+spec:
+  selector:
+    name: model2code-example
+    app: model2code-example
+  type: NodePort
+  ports:
+  - name: api
+    port: 8080

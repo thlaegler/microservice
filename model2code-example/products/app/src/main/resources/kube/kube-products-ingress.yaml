@@ -1,0 +1,17 @@
+// Generated with Stubbr
+// 
+// {{{Version: }}}
+// {{{Date: 17.10.2017 - 20:56:35:54}}}
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: products
+  namespace: model2code-example
+  labels:
+    name: model2code-example
+    app: model2code-example
+spec:
+  backend:
+    serviceName: products
+    servicePort: 8080

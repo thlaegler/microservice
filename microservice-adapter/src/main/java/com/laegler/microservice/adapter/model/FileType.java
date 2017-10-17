@@ -2,7 +2,8 @@ package com.laegler.microservice.adapter.model;
 
 public enum FileType {
 
-	UNDEFINED("", "// ", "/* ", " */"), //
+	UNDEFINED("", "// ", null, null), //
+	DOCKERFILE("", "# ", null, null), //
 	XML("xml", null, "<!--", "-->"), //
 	JAVA("java", "// ", "/* ", " */"), //
 	XTEND("xtend", "// ", "/* ", " */"), //
@@ -11,6 +12,7 @@ public enum FileType {
 	XHTML("xhtml", null, "<!--", "-->"), //
 	HTML("html", null, "<!--", "-->"), //
 	MD("md", null, "<!---", "-->"), //
+	SH("sh", "", null, null), //
 	FEATURE("feature", "# ", null, null), //
 	TEXTILE("textile", null, "<!--", "-->"), //
 	ECLIPSE_PROJECT("project", null, "<!--", "-->"), //

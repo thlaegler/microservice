@@ -1,0 +1,74 @@
+// Generated with Stubbr
+// 
+// {{{Version: }}}
+// {{{Date: 17.10.2017 - 20:56:35:291}}}
+version: '3'
+services:
+  users:
+    image: users:
+    container_name: users
+    hostname: users
+    command: java -Dspring.active.profiles=test -Dit.test.host=http://users:8080 -jar app.jar
+    ports:
+    - 8080:8080
+    - 7070:7070
+    environment:
+    - TEST_HOST="http://users:8080"
+    links:
+    - model2code-example-mysql
+    - model2code-example-redis
+    - model2code-example-elasticsearch
+    networks:
+    - model2code-example
+  products:
+    image: products:
+    container_name: products
+    hostname: products
+    command: java -Dspring.active.profiles=test -Dit.test.host=http://products:8080 -jar app.jar
+    ports:
+    - 8080:8080
+    - 7070:7070
+    environment:
+    - TEST_HOST="http://products:8080"
+    links:
+    - model2code-example-mysql
+    - model2code-example-redis
+    - model2code-example-elasticsearch
+    networks:
+    - model2code-example
+  mysql:
+    image: model2code-example-mysql:
+    container_name: model2code-example-mysql
+    hostname: model2code-example-mysql
+    ports:
+    - 3306:3306
+    networks:
+    -  model2code-example
+  redis:
+    image: model2code-example-redis:
+    container_name: model2code-example-redis
+    hostname: model2code-example-redis
+    ports:
+    - 6379:6379
+    networks:
+    -  model2code-example
+  elasticsearch:
+    image: model2code-example-elasticsearch:0.0.1-SNAPSHOT
+    container_name: model2code-example-elasticsearch
+    hostname: model2code-example-elasticsearch
+    ports:
+    - 9200:9200
+    - 9300:9300
+    environment:
+    - cluster.name=model2code-example-cluster
+    - bootstrap.memory_lock=true
+    - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    volumes:
+    - esdata:/usr/share/elasticsearch/data
+    networks:
+    -  model2code-example
+volumes:
+  esdata:
+    driver: local
+networks:
+  microservice: null

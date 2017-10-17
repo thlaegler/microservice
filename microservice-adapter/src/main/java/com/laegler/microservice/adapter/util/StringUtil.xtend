@@ -3,6 +3,9 @@ package com.laegler.microservice.adapter.util
 import com.google.common.base.CaseFormat
 import java.io.File
 import javax.inject.Singleton
+import java.text.DateFormat
+import java.util.GregorianCalendar
+import java.text.SimpleDateFormat
 
 @Singleton
 class StringUtil {
@@ -59,4 +62,9 @@ class StringUtil {
 
 	public def String filePath(File path, String filename) '''«path»«File.separator»«filename»'''
 
+	public def String getCurrentDate() {
+		val DateFormat sdf = new SimpleDateFormat('dd.MM.yyyy - HH:mm:ss:SS')
+		val GregorianCalendar calendar = new GregorianCalendar
+		sdf.format(calendar.time)
+	}
 }

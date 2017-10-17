@@ -9,13 +9,15 @@ import javax.inject.Inject
 import javax.inject.Named
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import com.laegler.microservice.adapter.util.JavaUtil
 
 @Named
 class RedisRepoJava extends Java {
 
 	protected static final Logger log = LoggerFactory.getLogger(RedisRepoJava)
 
-	@Inject protected extension NamingStrategy _name
+	@Inject private extension NamingStrategy _name
+	@Inject private extension JavaUtil _java
 
 	Entity e
 

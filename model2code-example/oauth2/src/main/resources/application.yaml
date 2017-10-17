@@ -1,0 +1,7 @@
+it:
+  version: @project.version@
+  description: @project.description@
+  java:
+    version: @java.version@
+server:
+  port: ${it.oauth2.rest.port}

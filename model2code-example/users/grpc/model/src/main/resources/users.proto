@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package org.example.microservice.users.grpc;
+
+option java_multiple_files = true;
+option java_outer_classname = UsersGrpcProtoService;
+
+service UserGrpcService {
+	rpc GetAllUserss (GetAllUsersRequest) returns (GetAllUsersResponse) {
+	}
+}
+
+message GetAllUsersRequest {
+	int64 id = 1;
+}
+
+message GetAllUsersResponse {
+	repeated User users = 1;
+}
+
+message User {
+id long = 1;
+2
+groups list<group> = 2;
+3
+name string = 3;
+4
+email email = 4;
+5
+password password = 5;
+6
+}
+service GroupGrpcService {
+	rpc GetAllUserss (GetAllGroupsRequest) returns (GetAllGroupsResponse) {
+	}
+}
+
+message GetAllGroupsRequest {
+	int64 id = 1;
+}
+
+message GetAllGroupsResponse {
+	repeated Group groups = 1;
+}
+
+message Group {
+id long = 1;
+2
+name string = 2;
+3
+}
+service RoleGrpcService {
+	rpc GetAllUserss (GetAllRolesRequest) returns (GetAllRolesResponse) {
+	}
+}
+
+message GetAllRolesRequest {
+	int64 id = 1;
+}
+
+message GetAllRolesResponse {
+	repeated Role roles = 1;
+}
+
+message Role {
+id long = 1;
+2
+name string = 2;
+3
+}

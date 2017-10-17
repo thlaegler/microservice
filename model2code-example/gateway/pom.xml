@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <groupId>org.example.microservice</groupId>
+  <artifactId>gateway</artifactId>
+  <name>model2code-example gateway</name>
+  <modules>
+    <module>gatewaymodel</module>
+    <module>gatewaybusiness</module>
+    <module>gatewaysoap</module>
+    <module>gatewayrest</module>
+    <module>gatewaygrpc</module>
+    <module>gatewayapp</module>
+  </modules>
+</project>
