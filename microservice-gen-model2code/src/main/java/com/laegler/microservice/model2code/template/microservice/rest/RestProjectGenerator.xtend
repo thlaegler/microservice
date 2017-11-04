@@ -10,34 +10,31 @@ import com.laegler.microservice.adapter.model.Template
 import com.laegler.microservice.adapter.generator.Generator
 import com.laegler.microservice.adapter.model.Project
 import com.laegler.microservice.adapter.model.FileType
+import java.util.Arrays
 
 class RestProjectGenerator extends Generator {
 
 	protected static Logger LOG = LoggerFactory.getLogger(RestProjectGenerator)
 
-	override List<Project> generate(Architecture a) {
+	def List<Project> generate(Architecture a, Artifact art) {
 		LOG.debug('Generating REST project(s) for {}', a.name)
 
-		val List<Project> projects = new ArrayList
-		a.artifacts?.filter(Artifact).forEach [ art |
-			projects.add(art.generateRestProject)
-		]
-		projects
+		Arrays.asList(a.generateRestProject(art))
 	}
 
-	protected def Project generateRestProject(Artifact a) {
+	protected def Project generateRestProject(Architecture a, Artifact art) {
 		LOG.debug('Generating REST project(s) for {}', a.name)
 
 		Project::builder //
-		.name(namingStrategy.getProjectName(a.name, 'rest')) //
+		.name(namingStrategy.getProjectName(a.name, art.name, 'rest')) //
 		.basePackage(world.basePackage) //
-		.directory(namingStrategy.getProjectPath(a.name, 'rest')) //
+		.directory(namingStrategy.getProjectPath(a.name, art.name, 'rest')) //
 		.build => [ p |
 			p.subProjects.addAll(
-				a.generateRestParentProject,
-				a.generateRestModelProject,
-				a.generateRestServerProject,
-				a.generateRestClientProject
+				a.generateRestParentProject(art),
+				a.generateRestModelProject(art),
+				a.generateRestServerProject(art),
+				a.generateRestClientProject(art)
 			)
 //			p.templates?.addAll(
 //				generateGrpcDefaultServerJava(p, a),
@@ -47,13 +44,13 @@ class RestProjectGenerator extends Generator {
 		]
 	}
 
-	protected def Project generateRestParentProject(Artifact a) {
+	protected def Project generateRestParentProject(Architecture a, Artifact art) {
 		LOG.debug('Generating REST parent project for {}', a.name)
 
 		Project::builder //
-		.name(namingStrategy.getProjectName(a.name, 'rest', 'parent')) //
+		.name(namingStrategy.getProjectName(a.name, art.name, 'rest', 'parent')) //
 		.basePackage(world.basePackage) //
-		.directory(namingStrategy.getProjectPath(a.name, 'rest', 'parent')) //
+		.directory(namingStrategy.getProjectPath(a.name, art.name, 'rest', 'parent')) //
 		.build => [p|
 //			p.templates.addAll(
 //				p.generateRestDefaultServerJava(a),
@@ -62,46 +59,46 @@ class RestProjectGenerator extends Generator {
 		]
 	}
 
-	protected def Project generateRestServerProject(Artifact a) {
+	protected def Project generateRestServerProject(Architecture a, Artifact art) {
 		LOG.debug('Generating REST server project for {}', a.name)
 
 		Project::builder //
-		.name(namingStrategy.getProjectName(a.name, 'rest', 'server')) //
+		.name(namingStrategy.getProjectName(a.name, art.name, 'rest', 'server')) //
 		.basePackage(world.basePackage) //
-		.directory(namingStrategy.getProjectPath(a.name, 'rest', 'server')) //
+		.directory(namingStrategy.getProjectPath(a.name, art.name, 'rest', 'server')) //
 		.build => [ p |
 			p.templates.addAll(
-				p.generateRestDefaultServerJava(a),
-				p.generateRestServerJava(a)
+				p.generateRestDefaultServerJava(art),
+				p.generateRestServerJava(art)
 			)
 		]
 	}
 
-	protected def Project generateRestClientProject(Artifact a) {
+	protected def Project generateRestClientProject(Architecture a, Artifact art) {
 		LOG.debug('Generating REST client project for {}', a.name)
 
 		Project::builder //
-		.name(namingStrategy.getProjectName(a.name, 'rest', 'client')) //
+		.name(namingStrategy.getProjectName(a.name, art.name, 'rest', 'client')) //
 		.basePackage(world.basePackage) //
-		.directory(namingStrategy.getProjectPath(a.name, 'rest', 'client')) //
+		.directory(namingStrategy.getProjectPath(a.name, art.name, 'rest', 'client')) //
 		.build => [ p |
 			p.templates.addAll(
-				p.generateRestClientJava(a),
-				p.generateRestDefaultClientJava(a)
+				p.generateRestClientJava(art),
+				p.generateRestDefaultClientJava(art)
 			)
 		]
 	}
 
-	protected def Project generateRestModelProject(Artifact a) {
+	protected def Project generateRestModelProject(Architecture a, Artifact art) {
 		LOG.debug('Generating REST model project for {}', a.name)
 
 		Project::builder //
-		.name(namingStrategy.getProjectName(a.name, 'rest', 'model')) //
+		.name(namingStrategy.getProjectName(a.name, art.name, 'rest', 'model')) //
 		.basePackage(world.basePackage) //
-		.directory(namingStrategy.getProjectPath(a.name, 'rest', 'model')) //
+		.directory(namingStrategy.getProjectPath(a.name, art.name, 'rest', 'model')) //
 		.build => [ p |
 			p.templates.addAll(
-				p.generateRestDtoXtend(a)
+				p.generateRestDtoXtend(art)
 			)
 		]
 	}

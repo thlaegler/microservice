@@ -14,13 +14,13 @@ import org.slf4j.Logger
 @Named
 class Dockerfile {
 	
-	static final Logger log = LoggerFactory.getLogger(Dockerfile)
+	static final Logger LOG = LoggerFactory.getLogger(Dockerfile)
 
 	@Inject World world
 	@Inject NamingStrategy namingStrategy
 
 	public def Template getTemplate(Project p) {
-		log.debug('  Generating template: {}/Dockerfile', '/')
+		LOG.debug('  Generating template: {}/Dockerfile', '/')
 		
 		Template::builder //
 		.project(p) //

@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory
 @Named
 class GatewayKubernetesDeploymentYaml {
 
-	protected static final Logger log = LoggerFactory.getLogger(GatewayKubernetesDeploymentYaml)
+	protected static final Logger LOG = LoggerFactory.getLogger(GatewayKubernetesDeploymentYaml)
 
 	@Inject protected World world
 	
@@ -22,7 +22,7 @@ class GatewayKubernetesDeploymentYaml {
 
 	public def Template getTemplate(Project p) {
 		val fileName = p.name + '-kube-deployment'
-		log.debug('  Generating template: {}/{}.yml', fileName, namingStrategy.resPath)
+		LOG.debug('  Generating template: {}/{}.yml', fileName, namingStrategy.resPath)
 		
 		Template::builder //
 		.project(p) //

@@ -16,11 +16,13 @@ import javax.inject.Inject
 import javax.inject.Named
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.util.ArrayList
+import com.laegler.microservice.model.Artifact
 
 @Named
 class MicroserviceProjectGenerator extends Generator {
 
-	protected static Logger log = LoggerFactory.getLogger(MicroserviceProjectGenerator)
+	protected static Logger LOG = LoggerFactory.getLogger(MicroserviceProjectGenerator)
 
 	@Inject ModelProjectGenerator modelProject
 	@Inject BusinessProjectGenerator businessProject
@@ -32,30 +34,31 @@ class MicroserviceProjectGenerator extends Generator {
 
 	@Inject AggregatorPomXml aggregatorPomXml
 
-	override List<Project> generate(Architecture a) {
-		log.debug('Generating Base project for architecture {}', a.name)
+	def List<Project> generate(Architecture a) {
+		LOG.debug('Generating Base project for architecture {}', a.name)
 
-		Arrays.asList(
-			a.generateBaseProject
-		)
+		val List<Project> projects = new ArrayList
+		a.artifacts?.filter(Artifact).forEach [ art |
+			projects.add(a.generateBaseProject(art))
+		]
+		projects
 	}
 
-	protected def Project generateBaseProject(Architecture a) {
+	protected def Project generateBaseProject(Architecture a, Artifact art) {
 		Project::builder //
-		.name(namingStrategy.getProjectName(a.name)) //
+		.name(namingStrategy.getProjectName(a.name, art.name)) //
 		.basePackage(a.basePackage) //
-		.directory(namingStrategy.getProjectPath(a.name)) //
-//		.directory('example') //
+		.directory(namingStrategy.getProjectPath(a.name, art.name)) //
 		.microserviceModel(a) //
 		.build => [ p |
 			p.subProjects => [
-				addAll(modelProject.generate(a))
-				addAll(businessProject.generate(a))
-				addAll(soapProject.generate(a))
-				addAll(restProject.generate(a))
-				addAll(grpcProject.generate(a))
-				addAll(websocketProject.generate(a))
-				addAll(appProject.generate(a))
+				addAll(modelProject.generate(a, art))
+				addAll(businessProject.generate(a, art))
+				addAll(soapProject.generate(a, art))
+				addAll(restProject.generate(a, art))
+				addAll(grpcProject.generate(a, art))
+				addAll(websocketProject.generate(a, art))
+				addAll(appProject.generate(a, art))
 			]
 			p.templates => [
 				add(aggregatorPomXml.getTemplate(p))

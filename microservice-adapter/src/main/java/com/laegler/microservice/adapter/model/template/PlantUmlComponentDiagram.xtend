@@ -19,7 +19,7 @@ import com.laegler.microservice.model.EndpointType
 @Named
 class PlantUmlComponentDiagram {
 
-	static final Logger LOG = LoggerFactory.getLogger(PlantUmlComponentDiagram)
+	private static final Logger LOG = LoggerFactory.getLogger(PlantUmlComponentDiagram)
 
 	@Inject World world
 	@Inject NamingStrategy namingStrategy
@@ -32,7 +32,8 @@ class PlantUmlComponentDiagram {
 		Template::builder //
 		.project(p) //
 		.fileName(p.name + '-component-uml') //
-		.fileType(FileType.DOT) //
+		.fileType(FileType.PLANT_UML) //
+		.skipStamping(true)
 		.content(content).build
 	}
 

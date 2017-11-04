@@ -45,7 +45,7 @@ class DefaultCucumberFeatureStepsXtend extends Xtend {
 			«p.javaDocType»
 			class «feature.name?.toLowerCase?.replaceAll(' ', '')?.toFirstUpper + 'StepDefinitions'» {
 			
-				@Inject Logger log
+				@Inject Logger LOG
 			
 				«FOR ScenarioDefinition scenario : feature?.children»
 	«««				«FOR GivenStep given : scenario?.givenSteps»

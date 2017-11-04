@@ -11,10 +11,10 @@ import com.laegler.microservice.adapter.model.FileType
 @Named
 class SoapPomXml extends PomXml {
 
-	protected static final Logger log = LoggerFactory.getLogger(SoapPomXml)
+	protected static final Logger LOG = LoggerFactory.getLogger(SoapPomXml)
 
 	public def Template getTemplate(Project p) {
-		log.debug('  Generate template {}/soap/pom.yml', p.name)
+		LOG.debug('  Generate template {}/soap/pom.yml', p.name)
 
 		templateBuilder //
 		.project(p) //

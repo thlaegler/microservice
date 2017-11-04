@@ -11,11 +11,11 @@ import org.slf4j.LoggerFactory
 @Named
 class GatewayAppConfigXtend extends Xtend {
 
-	protected static final Logger log = LoggerFactory.getLogger(GatewayAppConfigXtend)
+	protected static final Logger LOG = LoggerFactory.getLogger(GatewayAppConfigXtend)
 
 	public def Template getTemplate(Project p) {
 		val path = namingStrategy.getSrcPathWithPackage(p)
-		log.debug('  Generating template: {}/ApplicationConfig.xtend', path)
+		LOG.debug('  Generating template: {}/ApplicationConfig.xtend', path)
 
 		Template::builder //
 		.project(p) //
@@ -34,7 +34,7 @@ class GatewayAppConfigXtend extends Xtend {
 			@Configuration
 			class ApplicationConfig {
 			
-				@Inject	Logger log
+				@Inject	Logger LOG
 			
 			}
 		''') //

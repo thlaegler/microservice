@@ -10,14 +10,12 @@ import com.laegler.microservice.adapter.util.NamingStrategy
 abstract class PomXml {
 
 	protected static final Logger LOG = LoggerFactory.getLogger(PomXml)
-	protected Template.Builder templateBuilder
 
 	@Inject protected World world
 	@Inject protected NamingStrategy namingStrategy
 
-	@PostConstruct
-	public def void prepareTemplateBuilder() {
-		templateBuilder = Template::builder //
+	protected def Template.Builder getTemplateBuilder() {
+		return Template::builder //
 		.fileName('pom') //
 		.fileType(FileType.XML) //
 		.header('''

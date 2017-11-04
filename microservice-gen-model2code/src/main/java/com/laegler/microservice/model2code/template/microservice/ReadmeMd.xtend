@@ -10,12 +10,12 @@ import javax.inject.Inject
 
 class ReadmeMd {
 
-	private static final Logger log = LoggerFactory.getLogger(ReadmeMd)
+	private static final Logger LOG = LoggerFactory.getLogger(ReadmeMd)
 
 	@Inject protected NamingStrategy namingStrategy
 
 	public def Template getTemplate(Project p) {
-		log.debug('  Generating template: {}/README.MD', '/')
+		LOG.debug('  Generating template: {}/README.MD', '/')
 
 		Template::builder //
 		.project(p) //

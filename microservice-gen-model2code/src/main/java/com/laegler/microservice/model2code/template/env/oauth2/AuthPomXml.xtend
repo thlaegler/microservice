@@ -15,12 +15,12 @@ import javax.inject.Inject
 @Named
 class AuthPomXml extends PomXml {
 
-	protected static final Logger log = LoggerFactory.getLogger(AuthPomXml)
+	protected static final Logger LOG = LoggerFactory.getLogger(AuthPomXml)
 
 	@Inject MavenXpp3Writer mavenWriter
 	
 	public def Template getTemplate(Project p) {
-		log.debug('  Generating template pom.xml')
+		LOG.debug('  Generating template pom.xml')
 
 		val contentWriter = new StringWriter
 		mavenWriter.write(contentWriter, getModel(p))

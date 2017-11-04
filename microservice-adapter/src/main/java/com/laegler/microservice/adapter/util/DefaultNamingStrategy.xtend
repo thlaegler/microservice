@@ -4,12 +4,14 @@ import com.laegler.microservice.adapter.model.Project
 import java.util.ArrayList
 import java.util.List
 import java.util.regex.Pattern
-import javax.inject.Inject
+import javax.enterprise.inject.Default
 import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
+@Default
 class DefaultNamingStrategy implements NamingStrategy {
 
-	@Inject Logger log
+	private static final Logger LOG = LoggerFactory.getLogger(DefaultNamingStrategy)
 
 	public static final String DIR = '/'
 	public static final String PRJ = '.'
@@ -19,62 +21,61 @@ class DefaultNamingStrategy implements NamingStrategy {
 
 	override getSrcPathWithPackage(Project p) {
 		val path = srcPath + DIR + getPackagePath(p)
-		log.trace('getSrcPathWithPackage({}) returns: {}', p, path)
+		LOG.trace('getSrcPathWithPackage({}) returns: {}', p, path)
 		path
 	}
 
 	override getSrcGenPathWithPackage(Project p) {
 		val path = srcGenPath + DIR + getPackagePath(p)
-		log.trace('getSrcGenPathWithPackage({}) returns: {}', p, path)
+		LOG.trace('getSrcGenPathWithPackage({}) returns: {}', p, path)
 		path
 	}
 
 	override getSrcPath() {
 		val path = 'src' + DIR + 'main' + DIR + 'java'
-		log.trace('getSrcPath() returns: {}', path)
+		LOG.trace('getSrcPath() returns: {}', path)
 		path
 	}
 
 	override getSrcGenPath() {
 		val path = 'src' + DIR + 'main' + DIR + 'gen'
-		log.trace('getSrcGenPath() returns: {}', path)
+		LOG.trace('getSrcGenPath() returns: {}', path)
 		path
 	}
 
 	override getSrcTestPath() {
 		val path = 'src' + DIR + 'test' + DIR + 'java'
-		log.trace('getSrcTestPath() returns: {}', path)
+		LOG.trace('getSrcTestPath() returns: {}', path)
 		path
 	}
 
 	override getResPath() {
 		val path = 'src' + DIR + 'main' + DIR + 'resources'
-		log.trace('getResPath() returns: {}', path)
+		LOG.trace('getResPath() returns: {}', path)
 		path
 	}
 
 	override getResTestPath() {
 		val path = 'src' + DIR + 'test' + DIR + 'resources'
-		log.trace('getResTestPath() returns: {}', path)
+		LOG.trace('getResTestPath() returns: {}', path)
 		path
 	}
 
 	override getPackagePath(Project p) {
 		var path = p.basePackage?.split(Pattern.quote(PKG))?.join(DIR).toLowerCase
 		path = path + DIR + getProjectPath(p.name)
-		log.trace('getPackagePath({}) returns: {}', p, path)
+		LOG.trace('getPackagePath({}) returns: {}', p, path)
 		path
 	}
 
 	override getProjectName(String... parts) {
 		val path = parts.join(PRJ)
-		log.trace('getProjectName({}) returns: {}', parts, path)
+		LOG.trace('getProjectName({}) returns: {}', parts, path)
 		path
 	}
 
 	override getProjectPath(String name) {
 //		val seperator = Arrays.asList(DIR, PRJ, PKG, DSH, USC)
-
 		val List<String> parts = new ArrayList
 		name //
 		.split(Pattern.quote(DIR)).forEach [
@@ -89,73 +90,73 @@ class DefaultNamingStrategy implements NamingStrategy {
 			]
 		]
 		val path = parts.join(DIR).toLowerCase
-		log.trace('getProjectPath({}) returns: {}', name, path)
+		LOG.trace('getProjectPath({}) returns: {}', name, path)
 		path
 	}
 
 	override getProjectPath(String... parts) {
 		val path = parts.join(DIR).toLowerCase
-		log.trace('getProjectPath({}) returns: {}', parts, path)
+		LOG.trace('getProjectPath({}) returns: {}', parts, path)
 		path
 	}
 
 	override getAbsoluteSourcePath(String name) {
 		val path = name.projectPath + relativeSourcePath
-		log.trace('getAbsoluteSourcePath({}) returns: {}', name, path)
+		LOG.trace('getAbsoluteSourcePath({}) returns: {}', name, path)
 		path
 	}
 
 	override getAbsoluteGeneratedSourcePath(String name) {
 		val path = name.projectPath + relativeGeneratedSourcePath
-		log.trace('getAbsoluteGeneratedSourcePath({}) returns: {}', name, path)
+		LOG.trace('getAbsoluteGeneratedSourcePath({}) returns: {}', name, path)
 		path
 	}
 
 	override getAbsoluteTestSourcePath(String name) {
 		val path = name.projectPath + relativeGeneratedTestSourcePath
-		log.trace('getAbsoluteTestSourcePath({}) returns: {}', name, path)
+		LOG.trace('getAbsoluteTestSourcePath({}) returns: {}', name, path)
 		path
 	}
 
 	override getAbsoluteGeneratedTestSourcePath(String name) {
 		val path = name.projectPath + relativeGeneratedTestSourcePath
-		log.trace('getAbsoluteGeneratedTestSourcePath({}) returns: {}', name, path)
+		LOG.trace('getAbsoluteGeneratedTestSourcePath({}) returns: {}', name, path)
 		path
 	}
 
 	override getAbsoluteBasePackagePath(String name) {
 		val path = name.projectPath + name.relativeBasePackagePath
-		log.trace('getAbsoluteBasePackagePath({}) returns: {}', name, path)
+		LOG.trace('getAbsoluteBasePackagePath({}) returns: {}', name, path)
 		path
 	}
 
-@Deprecated
+	@Deprecated
 	override getAbsoluteBasePackagePath(Project p) {
 		val path = getProjectPath(p.name) + getRelativeBasePackagePath(p.basePackage)
-		log.trace('getAbsoluteBasePackagePath({}) returns: {}', p, path)
+		LOG.trace('getAbsoluteBasePackagePath({}) returns: {}', p, path)
 		path
 	}
 
-@Deprecated
+	@Deprecated
 	override getRelativeSourcePath() '''«DIR»src«DIR»main«DIR»java'''
 
-@Deprecated
+	@Deprecated
 	override getRelativeGeneratedSourcePath() '''«DIR»src«DIR»main«DIR»gen'''
 
-@Deprecated
+	@Deprecated
 	override getRelativeTestSourcePath() '''«DIR»src«DIR»test«DIR»java'''
 
-@Deprecated
+	@Deprecated
 	override getRelativeGeneratedTestSourcePath() {
 		val path = DIR + 'src' + DIR + 'test' + DIR + 'gen'
-		log.trace('getRelativeGeneratedTestSourcePath() returns: {}', path)
+		LOG.trace('getRelativeGeneratedTestSourcePath() returns: {}', path)
 		path
 	}
 
 	@Deprecated
 	override getRelativeBasePackagePath(String basePackage) {
 		val path = DIR + basePackage?.split(Pattern.quote(PKG))?.join(DIR).toLowerCase
-		log.trace('getRelativeBasePackagePath({}) returns: {}', basePackage, path)
+		LOG.trace('getRelativeBasePackagePath({}) returns: {}', basePackage, path)
 		path
 	}
 
@@ -164,11 +165,11 @@ class DefaultNamingStrategy implements NamingStrategy {
 	override getPath() {
 		getPath(null, '')
 	}
-	
+
 	override getPath(Project p) {
 		getPath(p, '')
 	}
-	
+
 	override getPath(Project p, String subDir) {
 		getPath(p, subDir, false)
 	}
@@ -184,15 +185,17 @@ class DefaultNamingStrategy implements NamingStrategy {
 	override getPath(Project p, String subDir, boolean isResource, boolean isGenerated, boolean isTest) {
 		var StringBuilder path = new StringBuilder
 //		path.append(p.name.projectPath)
-		if(isResource) {
+		if (isResource) {
 			path.append('src/main/resources')
 		} else {
 			path.append(srcPath)
 		}
-		if(isGenerated) {path.append('src/main/resources')}
-			path.append(srcGenPath)
-		if(isTest) (
-			path.append(srcTestPath)
+		if (isGenerated) {
+			path.append('src/main/resources')
+		}
+		path.append(srcGenPath)
+		if (isTest)
+			(path.append(srcTestPath)
 		)
 		path.toString
 //		getAbsoluteGeneratedSourcePath(p.name) + getRelativeBasePackagePath(p.name)

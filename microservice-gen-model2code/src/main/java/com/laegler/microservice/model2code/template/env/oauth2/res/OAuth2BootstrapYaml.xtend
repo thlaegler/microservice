@@ -14,14 +14,14 @@ import org.slf4j.Logger
 @Named
 class OAuth2BootstrapYaml {
 
-	static final Logger log = LoggerFactory.getLogger(OAuth2BootstrapYaml)
+	static final Logger LOG = LoggerFactory.getLogger(OAuth2BootstrapYaml)
 
 	@Inject World world
 	@Inject NamingStrategy namingStrategy
 
 	public def Template getTemplate(Project p) {
 		val relativPath = namingStrategy.resPath
-		log.debug('  Generating template: {}/bootstrap.yml', relativPath)
+		LOG.debug('  Generating template: {}/bootstrap.yml', relativPath)
 
 		Template::builder //
 		.project(p) //

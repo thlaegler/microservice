@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory
 @Named
 class OAuth2K8sYaml {
 
-	protected static final Logger log = LoggerFactory.getLogger(OAuth2K8sYaml)
+	protected static final Logger LOG = LoggerFactory.getLogger(OAuth2K8sYaml)
 
 	@Inject protected World world
 	
@@ -23,7 +23,7 @@ class OAuth2K8sYaml {
 	public def Template getTemplate(Project p) {
 		val fileName = p.name + '-kube-deployment'
 		val relativPath = namingStrategy.resPath
-		log.debug('  Generating template: {}/{}.yml', fileName, relativPath)
+		LOG.debug('  Generating template: {}/{}.yml', fileName, relativPath)
 		
 		Template::builder //
 		.project(p) //

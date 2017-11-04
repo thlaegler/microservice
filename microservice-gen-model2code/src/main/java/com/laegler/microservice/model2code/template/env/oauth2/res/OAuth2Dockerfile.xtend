@@ -12,12 +12,12 @@ import org.slf4j.LoggerFactory
 @Named
 class OAuth2Dockerfile {
 	
-	static final Logger log = LoggerFactory.getLogger(OAuth2Dockerfile)
+	static final Logger LOG = LoggerFactory.getLogger(OAuth2Dockerfile)
 
 	@Inject World world
 
 	public def Template getTemplate(Project p) {
-		log.debug('  Generating template: {}/Dockerfile', '/')
+		LOG.debug('  Generating template: {}/Dockerfile', '/')
 		
 		Template::builder //
 		.project(p) //

@@ -13,37 +13,34 @@ import javax.inject.Inject
 import javax.inject.Named
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.util.Arrays
 
 @Named
 class ModelProjectGenerator extends Generator {
 
-	protected static final Logger log = LoggerFactory.getLogger(ModelProjectGenerator)
+	protected static final Logger LOG = LoggerFactory.getLogger(ModelProjectGenerator)
 
 	@Inject ModelPomXml modelPomXml
 	@Inject EntityXtend entityXtend
 	@Inject JpaRepoXtend jpaRepoXtend
 
-	override List<Project> generate(Architecture a) {
-		log.debug('Generating Model project(s) for architecture {}', a.name)
+	def List<Project> generate(Architecture a, Artifact art) {
+		LOG.debug('Generating Model project(s) for architecture {}', a.name)
 
-		val List<Project> projects = new ArrayList
-		a.artifacts?.filter(Artifact).forEach [ art |
-			projects.add(art.generateModelProject)
-		]
-		projects
+		Arrays.asList(a.generateModelProject(art))
 	}
 
-	protected def Project generateModelProject(Artifact a) {
-		log.debug('Generating Model project for artifact {}', a.name)
+	protected def Project generateModelProject(Architecture a, Artifact art) {
+		LOG.debug('Generating Model project for artifact {}', a.name)
 
 		Project::builder //
-		.name(namingStrategy.getProjectName(a.name, 'model')) //
+		.name(namingStrategy.getProjectName(a.name, art.name, 'model')) //
 		.basePackage(world.architecture?.basePackage) //
-		.directory(namingStrategy.getProjectPath(a.name, 'model')) //
-		.microserviceModel(a) //
+		.directory(namingStrategy.getProjectPath(a.name, art.name, 'model')) //
+		.microserviceModel(art) //
 		.build => [ p |
 			p.templates.add(modelPomXml.getTemplate(p))
-			a.entities?.forEach [ e |
+			art.entities?.forEach [ e |
 				p.templates.add(entityXtend.getTemplate(p, e))
 				p.templates.add(jpaRepoXtend.getTemplate(p, e))
 			]

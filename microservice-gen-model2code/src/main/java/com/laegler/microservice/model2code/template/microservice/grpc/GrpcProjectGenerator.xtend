@@ -12,7 +12,7 @@ import com.laegler.microservice.model.Expose
 import com.laegler.microservice.model2code.template.microservice.grpc.client.gen.DefaultGrpcClientXtend
 import com.laegler.microservice.model2code.template.microservice.grpc.model.res.GrpcProto
 import com.squareup.protoparser.ProtoFile
-import java.util.ArrayList
+import java.util.Arrays
 import java.util.List
 import javax.inject.Inject
 import javax.inject.Named
@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory
 @Named
 class GrpcProjectGenerator extends Generator {
 
-	protected static Logger log = LoggerFactory.getLogger(GrpcProjectGenerator)
+	protected static Logger LOG = LoggerFactory.getLogger(GrpcProjectGenerator)
 
 	@Inject ProtobufAdapter protobufAdapter
 
@@ -30,37 +30,33 @@ class GrpcProjectGenerator extends Generator {
 	@Inject GrpcProto grpcProto
 	@Inject DefaultGrpcClientXtend defaultGrpcClientXtend
 
-	override List<Project> generate(Architecture a) {
-		log.debug('Generating gRPC project(s) for {}', a.name)
+	def List<Project> generate(Architecture a, Artifact art) {
+		LOG.debug('Generating gRPC project(s) for {}', a.name)
 
-		val List<Project> projects = new ArrayList
-		a.artifacts?.filter(Artifact).forEach [ art |
-			projects.add(art.generateGrpcProject)
-		]
-		projects
+		Arrays.asList(a.generateGrpcProject(art))
 	}
 
-	protected def Project generateGrpcProject(Artifact a) {
-		log.debug('Generating gRPC project for artifact {}', a.name)
+	protected def Project generateGrpcProject(Architecture a, Artifact art) {
+		LOG.debug('Generating gRPC project for artifact {}', a.name)
 
 		Project::builder //
-		.name(namingStrategy.getProjectName(a.name, 'grpc')) //
+		.name(namingStrategy.getProjectName(a.name, art.name, 'grpc')) //
 		.basePackage(world.architecture?.basePackage) //
-		.directory(namingStrategy.getProjectPath(a.name + '/grpc')) //
+		.directory(namingStrategy.getProjectPath(a.name, art.name, 'grpc')) //
 		.microserviceModel(a) //
 		.build => [ p |
 			p.subProjects?.addAll(
-				generateGrpcParentProject(p, a),
-				generateGrpcModelProject(p, a),
-				generateGrpcServerProject(p, a),
-				generateGrpcClientProject(p, a)
+				generateGrpcParentProject(p, art),
+				generateGrpcModelProject(p, art),
+				generateGrpcServerProject(p, art),
+				generateGrpcClientProject(p, art)
 			)
 			p.templates?.add(grpcPomXml.getTemplate(p))
 		]
 	}
 
 	protected def Project generateGrpcParentProject(Project parent, Artifact a) {
-		log.debug('Generating gRPC parent project for artifact {}', a.name)
+		LOG.debug('Generating gRPC parent project for artifact {}', a.name)
 
 		Project::builder //
 		.name(namingStrategy.getProjectName(parent.name, 'parent')) //
@@ -75,7 +71,7 @@ class GrpcProjectGenerator extends Generator {
 	}
 
 	protected def Project generateGrpcModelProject(Project parent, Artifact a) {
-		log.debug('Generating gRPC model project for artifact {}', a.name)
+		LOG.debug('Generating gRPC model project for artifact {}', a.name)
 
 		Project::builder //
 		.name(namingStrategy.getProjectName(parent.name, 'model')) //
@@ -91,7 +87,7 @@ class GrpcProjectGenerator extends Generator {
 	}
 
 	protected def Project generateGrpcServerProject(Project parent, Artifact a) {
-		log.debug('Generating gRPC server project for artifact {}', a.name)
+		LOG.debug('Generating gRPC server project for artifact {}', a.name)
 
 		Project::builder //
 		.name(namingStrategy.getProjectName(parent.name, 'server')) //
@@ -107,7 +103,7 @@ class GrpcProjectGenerator extends Generator {
 	}
 
 	protected def Project generateGrpcClientProject(Project parent, Artifact a) {
-		log.debug('Generating gRPC client project for artifact {}', a.name)
+		LOG.debug('Generating gRPC client project for artifact {}', a.name)
 
 		Project::builder //
 		.name(namingStrategy.getProjectName(parent.name, 'client')) //
@@ -123,7 +119,7 @@ class GrpcProjectGenerator extends Generator {
 	}
 
 	protected def Template generateGrpcModelXtend(Project p, Artifact a) {
-		log.debug('  Generating template: gRPC model xtend')
+		LOG.debug('  Generating template: gRPC model xtend')
 
 		Template::builder //
 		.project(p) //
@@ -137,7 +133,7 @@ class GrpcProjectGenerator extends Generator {
 	}
 
 	protected def Template generateGrpcDefaultServerXtend(Project p, Artifact a) {
-		log.debug('  Generating template: gRPC default server xtend')
+		LOG.debug('  Generating template: gRPC default server xtend')
 
 		Template::builder //
 		.project(p) //
@@ -151,7 +147,7 @@ class GrpcProjectGenerator extends Generator {
 	}
 
 	protected def Template generateGrpcServerXtend(Project p, Artifact a) {
-		log.debug('  Generating template: gRPC server xtend')
+		LOG.debug('  Generating template: gRPC server xtend')
 
 		Template::builder //
 		.project(p) //
@@ -165,7 +161,7 @@ class GrpcProjectGenerator extends Generator {
 	}
 
 	protected def Template generateGrpcClientXtend(Project p, Artifact a) {
-		log.debug('  Generating template: gRPC client xtend')
+		LOG.debug('  Generating template: gRPC client xtend')
 
 		Template::builder //
 		.project(p) //

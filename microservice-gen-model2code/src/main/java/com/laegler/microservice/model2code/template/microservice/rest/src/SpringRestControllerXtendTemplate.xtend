@@ -77,7 +77,7 @@
 //		public class «fileName» {
 //		
 //			@Inject
-//			Logger log
+//			Logger LOG
 //				
 //			@Inject
 //			«entity?.name?.toFirstUpper»Repository «entity?.name?.toFirstLower»Repository
@@ -103,7 +103,7 @@
 //				@Produces(MediaType.APPLICATION_JSON)
 //			«ENDIF»
 //			public def ResponseEntity<«entity?.name?.toFirstUpper»DTO> create«entity?.name?.toFirstUpper»(@RequestBody «entity?.name?.toFirstUpper»DTO «entity?.name?.toFirstLower»DTO) throws URISyntaxException {
-//				log.debug('REST request to save «entity?.name?.toFirstUpper» : {}', «entity?.name?.toFirstLower»DTO)
+//				LOG.debug('REST request to save «entity?.name?.toFirstUpper» : {}', «entity?.name?.toFirstLower»DTO)
 //				if («entity?.name?.toFirstLower»DTO.id != null) {
 //					return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert('«entity?.name?.toFirstLower»', 'idexists', 'A new «entity?.name?.toFirstLower» cannot already have an ID')).body(null)
 //				}
@@ -135,7 +135,7 @@
 //				@Produces(MediaType.APPLICATION_JSON)
 //			«ENDIF»
 //			public def ResponseEntity<«entity?.name?.toFirstUpper»DTO> update«entity?.name?.toFirstUpper»(@RequestBody «entity?.name?.toFirstUpper»DTO «entity?.name?.toFirstLower»DTO) throws URISyntaxException {
-//				log.debug('REST request to update «entity?.name?.toFirstUpper» : {}', «entity?.name?.toFirstLower»DTO)
+//				LOG.debug('REST request to update «entity?.name?.toFirstUpper» : {}', «entity?.name?.toFirstLower»DTO)
 //				if («entity?.name?.toFirstLower»DTO.getId() == null) {
 //					return create«entity?.name?.toFirstUpper»(«entity?.name?.toFirstLower»DTO);
 //				}
@@ -165,7 +165,7 @@
 //				@Produces(MediaType.APPLICATION_JSON)
 //			«ENDIF»
 //			public def ResponseEntity<List<«entity?.name?.toFirstUpper»DTO>> getAll«entity?.name?.toFirstUpper»s(Pageable pageable) throws URISyntaxException {
-//				log.debug('REST request to get a page of «entity?.name?.toFirstUpper»s')
+//				LOG.debug('REST request to get a page of «entity?.name?.toFirstUpper»s')
 //				
 //				val Page<«entity?.name?.toFirstUpper»> page = «entity?.name?.toFirstLower»Repository.findAll(pageable)
 //				val HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, '/api/«entity?.name?.toFirstLower»s')
@@ -190,7 +190,7 @@
 //				@Produces(MediaType.APPLICATION_JSON)
 //			«ENDIF»
 //			public def ResponseEntity<«entity?.name?.toFirstUpper»DTO> get«entity?.name?.toFirstUpper»(@PathVariable Long id) {
-//				log.debug('REST request to get «entity?.name?.toFirstUpper» : {}', id);
+//				LOG.debug('REST request to get «entity?.name?.toFirstUpper» : {}', id);
 //				
 //				val «entity?.name?.toFirstUpper» «entity?.name?.toFirstLower» = «entity?.name?.toFirstLower»Repository.findOne(id);
 //				val «entity?.name?.toFirstUpper»DTO «entity?.name?.toFirstLower»DTO = «entity?.name?.toFirstLower»Mapper.«entity?.name?.toFirstLower»To«entity?.name?.toFirstUpper»DTO(«entity?.name?.toFirstLower»)
@@ -219,7 +219,7 @@
 //				@Produces(MediaType.APPLICATION_JSON)
 //			«ENDIF»
 //			public def ResponseEntity<Void> delete«entity?.name?.toFirstUpper»(@PathVariable Long id) {
-//				log.debug('REST request to delete «entity?.name?.toFirstUpper» : {}', id)
+//				LOG.debug('REST request to delete «entity?.name?.toFirstUpper» : {}', id)
 //				«entity?.name?.toFirstLower»Repository.delete(id)
 //				return ResponseEntity.ok.headers(HeaderUtil.createEntityDeletionAlert('«entity?.name?.toFirstLower»', id.toString)).build
 //			}

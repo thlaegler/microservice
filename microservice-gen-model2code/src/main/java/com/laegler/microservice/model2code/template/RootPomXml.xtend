@@ -15,16 +15,16 @@ import org.slf4j.LoggerFactory
 @Named
 class RootPomXml extends PomXml {
 
-	protected static final Logger log = LoggerFactory.getLogger(RootPomXml)
+	protected static final Logger LOG = LoggerFactory.getLogger(RootPomXml)
 
 	@Inject MavenXpp3Writer mavenWriter
 
 	public def Template getTemplate(Project p) {
-		log.debug('  Generating template pom.xml')
+		LOG.debug('  Generating template pom.xml')
 
 		templateBuilder //
 		.project(p) //
-		.fileName('pom_gen') //
+		.fileName('pom') //
 		.fileType(FileType.XML) //
 		.content(p.content) //
 		.build //

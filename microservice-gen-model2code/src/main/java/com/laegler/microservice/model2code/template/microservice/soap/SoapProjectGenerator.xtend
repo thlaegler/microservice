@@ -1,14 +1,14 @@
 package com.laegler.microservice.model2code.template.microservice.soap
 
-import java.util.ArrayList
-import java.util.List
+import com.laegler.microservice.adapter.generator.Generator
+import com.laegler.microservice.adapter.model.FileType
+import com.laegler.microservice.adapter.model.Project
+import com.laegler.microservice.adapter.model.Template
 import com.laegler.microservice.model.Architecture
 import com.laegler.microservice.model.Artifact
+import java.util.Arrays
+import java.util.List
 import javax.inject.Named
-import com.laegler.microservice.adapter.model.Template
-import com.laegler.microservice.adapter.generator.Generator
-import com.laegler.microservice.adapter.model.Project
-import com.laegler.microservice.adapter.model.FileType
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -41,31 +41,26 @@ class SoapProjectGenerator extends Generator {
 //		</execution>
 //	</executions>
 //</plugin>
-
 	protected static Logger LOG = LoggerFactory.getLogger(SoapProjectGenerator)
 
-	override List<Project> generate(Architecture a) {
+	def List<Project> generate(Architecture a, Artifact art) {
 		LOG.debug('Generating SOAP project(s) for {}', a.name)
 
-		val List<Project> projects = new ArrayList
-		a.artifacts?.filter(Artifact).forEach [ art |
-			projects.add(art.generateSoapProject)
-		]
-		projects
+		Arrays.asList(a.generateSoapProject(art))
 	}
 
-	protected def Project generateSoapProject(Artifact a) {
+	protected def Project generateSoapProject(Architecture a, Artifact art) {
 		LOG.debug('Generating gRPC project')
 
 		Project::builder //
-		.name(namingStrategy.getProjectName(a.name, 'soap')) //
+		.name(namingStrategy.getProjectName(a.name, art.name, 'soap')) //
 		.basePackage(world.basePackage) //
-		.directory(namingStrategy.getProjectPath(a.name, 'soap')) //
+		.directory(namingStrategy.getProjectPath(a.name, art.name, 'soap')) //
 		.build => [ p |
 			p.subProjects.addAll(
-				a.generateSoapModelProject,
-				a.generateSoapServerProject,
-				a.generateSoapClientProject
+				a.generateSoapModelProject(art),
+				a.generateSoapServerProject(art),
+				a.generateSoapClientProject(art)
 			)
 //			p.templates?.addAll(
 //				generateGrpcDefaultServerJava(p, a),
@@ -75,42 +70,42 @@ class SoapProjectGenerator extends Generator {
 		]
 	}
 
-	protected def Project generateSoapServerProject(Artifact a) {
+	protected def Project generateSoapServerProject(Architecture a, Artifact art) {
 		Project::builder //
-		.name(namingStrategy.getProjectName(a.name, 'soap', 'server')) //
+		.name(namingStrategy.getProjectName(a.name, art.name, 'soap', 'server')) //
 		.basePackage(world.basePackage) //
-		.directory(namingStrategy.getProjectPath(a.name, 'soap', 'server')) //
+		.directory(namingStrategy.getProjectPath(a.name, art.name, 'soap', 'server')) //
 		.build => [ p |
 			p.templates.addAll(
-				p.generateSoapDefaultServerJava(a),
-				p.generateSoapServerJava(a)
+				p.generateSoapDefaultServerJava(art),
+				p.generateSoapServerJava(art)
 			)
 		]
 	}
 
-	protected def Project generateSoapClientProject(Artifact a) {
+	protected def Project generateSoapClientProject(Architecture a, Artifact art) {
 		Project::builder //
-		.name(namingStrategy.getProjectName(a.name, 'soap', 'client')) //
+		.name(namingStrategy.getProjectName(a.name, art.name, 'soap', 'client')) //
 		.basePackage(world.basePackage) //
-		.directory(namingStrategy.getProjectPath(a.name, 'soap', 'client')) //
+		.directory(namingStrategy.getProjectPath(a.name, art.name, 'soap', 'client')) //
 		.build => [ p |
 			p.templates.addAll(
-				p.generateSoapClientJava(a),
-				p.generateSoapDefaultClientJava(a)
+				p.generateSoapClientJava(art),
+				p.generateSoapDefaultClientJava(art)
 			)
 		]
 	}
 
-	protected def Project generateSoapModelProject(Artifact a) {
+	protected def Project generateSoapModelProject(Architecture a, Artifact art) {
 		Project::builder //
-		.name(namingStrategy.getProjectName(a.name, 'soap', 'model')) //
+		.name(namingStrategy.getProjectName(a.name, art.name, 'soap', 'model')) //
 		.basePackage(world.basePackage) //
-		.directory(namingStrategy.getProjectPath(a.name, 'soap', 'model')) //
+		.directory(namingStrategy.getProjectPath(a.name, art.name, 'soap', 'model')) //
 		.build => [ p |
 			p.templates.addAll(
-				p.generateSoapModelPomXml(a),
-				p.generateSoapClientJava(a),
-				p.generateSoapDefaultClientJava(a)
+				p.generateSoapModelPomXml(art),
+				p.generateSoapClientJava(art),
+				p.generateSoapDefaultClientJava(art)
 			)
 		]
 	}

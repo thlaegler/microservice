@@ -12,37 +12,34 @@ import javax.inject.Inject
 import javax.inject.Named
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.util.Arrays
 
 @Named
 class BusinessProjectGenerator extends Generator {
 
-	protected static final Logger log = LoggerFactory.getLogger(BusinessProjectGenerator)
+	protected static final Logger LOG = LoggerFactory.getLogger(BusinessProjectGenerator)
 
 	@Inject BusinessPomXml businessPom
 	@Inject ServiceXtend serviceXtend
 
-	override List<Project> generate(Architecture a) {
-		log.debug('Generating Business project(s) for architecture {}', a.name)
+	def List<Project> generate(Architecture a, Artifact art) {
+		LOG.debug('Generating Business project(s) for architecture {}', a.name)
 
-		val List<Project> projects = new ArrayList
-		a.artifacts?.filter(Artifact).forEach [ art |
-			projects.add(art.generateBusinessProject)
-		]
-		projects
+		Arrays.asList(a.generateBusinessProject(art))
 	}
 
-	protected def Project generateBusinessProject(Artifact a) {
-		log.debug('Generating Business project for artifact {}', a.name)
+	protected def Project generateBusinessProject(Architecture a, Artifact art) {
+		LOG.debug('Generating Business project for artifact {}', a.name)
 
 		Project::builder //
-		.name(namingStrategy.getProjectName(a.name, 'business')) //
+		.name(namingStrategy.getProjectName(a.name, art.name, 'business')) //
 		.basePackage(world.architecture?.basePackage) //
-		.directory(namingStrategy.getProjectPath(a.name, 'business')) //
-		.microserviceModel(a) //
+		.directory(namingStrategy.getProjectPath(a.name, art.name, 'business')) //
+		.microserviceModel(art) //
 		.build => [ p |
 			p.templates => [
 				add(businessPom.getTemplate(p))
-				a.entities?.forEach [ e |
+				art.entities?.forEach [ e |
 					add(serviceXtend.getTemplate(p, e))
 				]
 			]

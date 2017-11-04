@@ -24,7 +24,7 @@ import java.util.Arrays
 @Named
 class Model2CodeTransformator extends AbstractTransformator {
 
-	private static final Logger log = LoggerFactory.getLogger(Model2CodeTransformator)
+	private static final Logger LOG = LoggerFactory.getLogger(Model2CodeTransformator)
 
 	@Inject YamlAdapter yamlAdapter
 
@@ -39,11 +39,11 @@ class Model2CodeTransformator extends AbstractTransformator {
 	}
 
 	public def void generate(File basedir, String name, String basePackage) {
-		log.debug('------------')
-		log.debug(' Model2Code ')
-		log.debug('------------')
-		log.debug('Generating {}', basePackage + '.' + name, basedir.toString)
-		log.debug('')
+		LOG.debug('------------')
+		LOG.debug(' Model2Code ')
+		LOG.debug('------------')
+		LOG.debug('Generating {}', basePackage + '.' + name, basedir.toString)
+		LOG.debug('')
 
 		if (basedir === null) {
 			throw new GeneratorException('Maven base directory is not set.')
@@ -60,70 +60,74 @@ class Model2CodeTransformator extends AbstractTransformator {
 
 		val ModelRoot modelRoot = parseMicroserviceArchitecture(basedir);
 
-		log.debug('Trying to generate model to code ...')
+		LOG.debug('Trying to generate model to code ...')
 		generate(modelRoot.architecture)
 
-		log.debug('Successfully finished model to code')
-		log.debug('')
+		LOG.debug('Successfully finished model to code')
+		LOG.debug('')
 	}
 
 	public def void generate(Architecture a) {
-		log.debug('Generating model to code ...')
+		LOG.debug('Generating model to code ...')
 
 		world.architecture = a
 
-		log.debug('  World: {}', world)
-		log.debug('  World.architecture: {}', world.architecture)
-		log.debug('  World.architecture.artifacts: {}', world.architecture.artifacts)
-		log.debug('  World.architecture?.artifacts?.filter(Artifact): {}',
+		LOG.debug('  World: {}', world)
+		LOG.debug('  World.architecture: {}', world.architecture)
+		LOG.debug('  World.architecture.artifacts: {}', world.architecture.artifacts)
+		LOG.debug('  World.architecture?.artifacts?.filter(Artifact): {}',
 			world.architecture?.artifacts?.filter(Artifact))
 
-		log.debug('Generating base projects ...')
+		LOG.debug('Generating base projects ...')
 		world.rootProject = baseProject.generate(a).head
-		log.debug('Generated {} projects', world.rootProject.subProjects.size)
+		LOG.debug('Generated {} projects', world.rootProject.subProjects.size)
 
 		world.rootProject.subProjects.forEach [ p |
-			log.debug('  project: {} in dir: {}', p.basePackage + '.' + p.name, p.directory)
+			LOG.debug('  project: {} in dir: {}', p.basePackage + '.' + p.name, p.directory)
 			p.templates?.filter[t|t !== null].forEach [ t |
-				log.debug('    template: {}', t?.fullPathWithName)
+				LOG.debug('    template: {}', t?.fullPathWithName)
 			]
 		]
 
-		log.debug('Write templates to file ...')
+		LOG.debug('Write templates to file ...')
 		world.rootProject.writeProject
 	}
 
 	def ModelRoot parseMicroserviceArchitecture(File basedir) {
-		log.debug('Searching for architecture.yaml files in dir {}', basedir.toString)
-		val candidateFiles = FileUtils.listFiles(basedir, new WildcardFileFilter("*rchitecture.y*l"),
-			new WildcardFileFilter("*"))
+		LOG.debug('Searching for architecture.yaml files in dir {}', basedir.toString)
 
-		log.debug('Found following candidate files: {}', candidateFiles.toString)
+		var File architectureFile = basedir
+		if (basedir.isDirectory) {
+			val candidateFiles = FileUtils.listFiles(basedir, new WildcardFileFilter("*rchitecture.y*l"),
+				new WildcardFileFilter("*"))
 
-		val File architectureFile = candidateFiles.head
+			LOG.debug('Found following candidate files: {}', candidateFiles.toString)
 
-		log.debug('Found architecture.yaml file: {}', architectureFile.absolutePath)
+			architectureFile = candidateFiles.head
+		}
+
+		LOG.debug('Found architecture.yaml file: {}', architectureFile.absolutePath)
 		Files.lines(Paths.get(architectureFile.absolutePath)).collect(Collectors.toList).forEach [ line |
-			log.debug(line);
+			LOG.debug(line);
 		]
 
-		log.debug('Parsing architecture.yaml file ...')
+		LOG.debug('Parsing architecture.yaml file ...')
 		val ModelRoot modelRoot = yamlAdapter.toModel(fileHelper.asString(architectureFile))
 
-		log.debug('Parsed architecture model: {}.{}', modelRoot.architecture.basePackage, modelRoot.architecture.name)
+		LOG.debug('Parsed architecture model: {}.{}', modelRoot.architecture.basePackage, modelRoot.architecture.name)
 		modelRoot.architecture.artifacts.forEach [
-			log.debug('  artifact: {}', it.name)
+			LOG.debug('  artifact: {}', it.name)
 		]
 		modelRoot
 	}
 
 	def void writeProject(Project p) {
-		log.debug('  project: {} in dir: {}', p.basePackage + '.' + p.name, p.directory)
+		LOG.debug('  project: {} in dir: {}', p.basePackage + '.' + p.name, p.directory)
 		p.subProjects?.forEach [ sp |
 			sp.writeProject
 		]
 		p.templates?.filter[t|t !== null].forEach [ t |
-			log.debug('    template: {}', p.directory + '/' + t?.fullPathWithName)
+			LOG.debug('    template: {}', p.directory + '/' + t?.fullPathWithName)
 			fileHelper.toFile(t, p)
 		]
 	}

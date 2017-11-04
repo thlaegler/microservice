@@ -10,12 +10,12 @@ import javax.inject.Inject
 
 class GatewayReadmeMd {
 
-	private static final Logger log = LoggerFactory.getLogger(GatewayReadmeMd)
+	private static final Logger LOG = LoggerFactory.getLogger(GatewayReadmeMd)
 
 	@Inject protected NamingStrategy namingStrategy
 
 	public def Template getTemplate(Project p) {
-		log.debug('  Generating template: {}/README.MD', '/')
+		LOG.debug('  Generating template: {}/README.MD', '/')
 
 		Template::builder //
 		.project(p) //

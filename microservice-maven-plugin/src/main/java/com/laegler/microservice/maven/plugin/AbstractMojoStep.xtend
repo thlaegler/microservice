@@ -9,12 +9,12 @@ import org.apache.maven.plugin.logging.SystemStreamLog
 import org.apache.maven.project.MavenProject
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 @Accessors
 abstract class AbstractMojoStep {
 
-	@Inject
-	protected Logger LOG
+	private static final Logger LOG = LoggerFactory.getLogger(AbstractMojoStep)
 
 	@Inject
 	@Named('project')
@@ -36,7 +36,6 @@ abstract class AbstractMojoStep {
 	@Named('activateCode2Model')
 	protected boolean activateCode2Model
 
-//	@PostConstruct
 	public def init() {
 		LOG.debug('Configuring slf4j Logger bridge ...')
 		val Log mavenLogger = new MavenLogWrapper(new SystemStreamLog());

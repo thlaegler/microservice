@@ -11,11 +11,11 @@ import org.slf4j.LoggerFactory
 @Named
 class AppXtend extends Xtend {
 
-	protected static final Logger log = LoggerFactory.getLogger(AppXtend)
+	protected static final Logger LOG = LoggerFactory.getLogger(AppXtend)
 
 	public def Template getTemplate(Project p) {
 		val relativPath = namingStrategy.getSrcPathWithPackage(p)
-		log.debug('  Generating template: {}/Application.xtend', relativPath)
+		LOG.debug('  Generating template: {}/Application.xtend', relativPath)
 
 		Template::builder //
 		.project(p) //

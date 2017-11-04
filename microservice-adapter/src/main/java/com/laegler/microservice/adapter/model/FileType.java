@@ -22,6 +22,7 @@ public enum FileType {
 	YAML("yaml", "// ", null, null), //
 	JSON("json", "// ", null, null), //
 	DOT("dot", "", null, null), //
+	PLANT_UML("plantuml", "", null, null), //
 	ARCHITECTURE("architecture", "// ", "/* ", " */");
 
 	private String extension;

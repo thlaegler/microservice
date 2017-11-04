@@ -21,12 +21,12 @@ import org.codehaus.plexus.util.xml.Xpp3Dom
 @Named
 class ModelPomXml extends PomXml {
 
-	protected static final Logger log = LoggerFactory.getLogger(ModelPomXml)
+	protected static final Logger LOG = LoggerFactory.getLogger(ModelPomXml)
 
 	@Inject MavenXpp3Writer mavenWriter
 
 	public def Template getTemplate(Project p) {
-		log.debug('  Generate template {}/model/pom.yml', p.name)
+		LOG.debug('  Generate template {}/model/pom.yml', p.name)
 
 		Template::builder //
 		.project(p) //

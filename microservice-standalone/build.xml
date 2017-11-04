@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project microservice-standalone with Jar-in-Jar Loader">
+    <!--this file was created by Eclipse Runnable JAR file Export Wizard-->
+    <!--ANT 1.7 is required-->
+    <!--define folder properties-->
+    <property name="dir.buildfile" value="."/>
+    <property name="dir.workspace" value="/home/thomas/workspace/oxygen"/>
+    <property name="dir.jarfile" value="${dir.buildfile}/target"/>
+    <target name="create_run_jar">
+        <jar destfile="${dir.jarfile}/microservice-standalone-from-eclipse-1.0.0-SNAPSHOT.jar">
+            <manifest>
+                <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
+                <attribute name="Rsrc-Main-Class" value="com.laegler.microservice.MicroserviceMain"/>
+                <attribute name="Class-Path" value="."/>
+                <attribute name="Rsrc-Class-Path" value="./ xtend-contrib-1.1.0.jar jaxb-api-2.2.12.jar gson-2.8.1.jar snakeyaml-1.18.jar protoparser-4.0.3.jar graphviz-java-0.2.1.jar batik-rasterizer-1.9.jar batik-svgrasterizer-1.9.jar batik-parser-1.9.jar batik-codec-1.9.jar batik-awt-util-1.9.jar batik-bridge-1.9.jar batik-anim-1.9.jar batik-css-1.9.jar batik-dom-1.9.jar batik-ext-1.9.jar batik-gvt-1.9.jar batik-script-1.9.jar batik-svg-dom-1.9.jar batik-xml-1.9.jar xalan-2.7.2.jar serializer-2.7.2.jar xml-apis-ext-1.3.04.jar batik-transcoder-1.9.jar batik-svggen-1.9.jar batik-util-1.9.jar batik-constants-1.9.jar batik-i18n-1.9.jar xml-apis-1.3.04.jar xmlgraphics-commons-2.2.jar j2v8_macosx_x86_64-4.6.0.jar j2v8_linux_x86_64-4.6.0.jar j2v8_win32_x86_64-4.6.0.jar j2v8_win32_x86-4.6.0.jar commons-exec-1.3.jar jcl-over-slf4j-1.7.25.jar jul-to-slf4j-1.7.25.jar swagger-parser-1.0.23.jar slf4j-ext-1.6.3.jar cal10n-api-0.7.4.jar swagger-codegen-2.2.1.jar swagger-compat-spec-parser-1.0.22.jar json-schema-validator-2.2.3.jar joda-time-2.3.jar json-schema-core-1.2.1.jar uri-template-0.9.jar rhino-1.7R4.jar libphonenumber-6.0.jar mailapi-1.4.3.jar activation-1.1.jar jsr305-2.0.1.jar jopt-simple-4.6.jar json-patch-1.6.jar jackson-coreutils-1.6.jar msg-simple-1.1.jar btf-1.2.jar httpclient-4.3.3.jar httpcore-4.3.2.jar commons-logging-1.1.3.jar commons-codec-1.6.jar jmustache-1.12.jar maven-plugin-tools-api-2.0.jar maven-project-2.0.jar maven-profile-2.0.jar maven-plugin-descriptor-2.0.jar maven-bundle-plugin-2.3.4.jar bndlib-1.15.0.jar kxml2-2.2.2.jar xmlpull-1.1.3.1.jar org.apache.felix.bundlerepository-1.6.2.jar org.osgi.core-4.1.0.jar easymock-2.4.jar org.osgi.core-1.0.0.jar org.osgi.service.obr-1.0.1.jar maven-archiver-2.2.jar maven-artifact-manager-2.0.7.jar maven-dependency-tree-1.2.jar wagon-provider-api-1.0-beta-2.jar plexus-container-default-1.0-alpha-9-stable-1.jar classworlds-1.1-alpha-2.jar plexus-archiver-1.0-alpha-7.jar slf4j-simple-1.7.12.jar commons-lang3-3.4.jar commons-cli-1.2.jar swagger-core-1.5.16.jar jackson-annotations-2.8.9.jar jackson-databind-2.8.9.jar jackson-core-2.8.9.jar jackson-dataformat-yaml-2.8.9.jar validation-api-1.1.0.Final.jar swagger-models-1.5.16.jar swagger-annotations-1.5.16.jar gherkin-4.0.0.jar gherkin-jvm-deps-1.0.4.jar maven-model-3.5.0.jar plexus-utils-3.0.24.jar maven-core-3.5.0.jar maven-settings-3.5.0.jar maven-settings-builder-3.5.0.jar maven-builder-support-3.5.0.jar maven-repository-metadata-3.5.0.jar maven-artifact-3.5.0.jar maven-plugin-api-3.5.0.jar maven-model-builder-3.5.0.jar maven-resolver-provider-3.5.0.jar maven-resolver-impl-1.0.3.jar maven-resolver-api-1.0.3.jar maven-resolver-spi-1.0.3.jar maven-resolver-util-1.0.3.jar maven-shared-utils-3.1.0.jar org.eclipse.sisu.plexus-0.3.3.jar cdi-api-1.0.jar jsr250-api-1.0.jar org.eclipse.sisu.inject-0.3.3.jar guice-4.0-no_aop.jar plexus-interpolation-1.24.jar plexus-classworlds-2.5.2.jar plexus-component-annotations-1.7.1.jar plexus-sec-dispatcher-1.4.jar plexus-cipher-1.4.jar org.eclipse.xtend.lib-2.12.0.jar org.eclipse.xtext.xbase.lib-2.12.0.jar guava-19.0-rc3.jar org.eclipse.xtend.lib.macro-2.12.0.jar guice-4.1.0.jar aopalliance-1.0.jar javax.inject-1.jar commons-io-2.5.jar slf4j-api-1.7.25.jar"/>
+            </manifest>
+            <zipfileset src="jar-in-jar-loader.zip"/>
+            <fileset dir="${dir.jarfile}/classes"/>
+            <fileset dir="/home/thomas/git/microservice/microservice-gen-code2model/target/classes"/>
+            <fileset dir="/home/thomas/git/microservice/microservice-adapter/target/classes"/>
+            <fileset dir="/home/thomas/git/microservice/microservice-model/target/classes"/>
+            <zipfileset dir="/home/thomas/.m2/repository/com/github/oehme/xtend/xtend-contrib/1.1.0" includes="xtend-contrib-1.1.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/javax/xml/bind/jaxb-api/2.2.12" includes="jaxb-api-2.2.12.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/com/google/code/gson/gson/2.8.1" includes="gson-2.8.1.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/yaml/snakeyaml/1.18" includes="snakeyaml-1.18.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/com/squareup/protoparser/4.0.3" includes="protoparser-4.0.3.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/guru/nidi/graphviz-java/0.2.1" includes="graphviz-java-0.2.1.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/xmlgraphics/batik-rasterizer/1.9" includes="batik-rasterizer-1.9.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/xmlgraphics/batik-svgrasterizer/1.9" includes="batik-svgrasterizer-1.9.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/xmlgraphics/batik-parser/1.9" includes="batik-parser-1.9.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/xmlgraphics/batik-codec/1.9" includes="batik-codec-1.9.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/xmlgraphics/batik-awt-util/1.9" includes="batik-awt-util-1.9.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/xmlgraphics/batik-bridge/1.9" includes="batik-bridge-1.9.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/xmlgraphics/batik-anim/1.9" includes="batik-anim-1.9.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/xmlgraphics/batik-css/1.9" includes="batik-css-1.9.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/xmlgraphics/batik-dom/1.9" includes="batik-dom-1.9.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/xmlgraphics/batik-ext/1.9" includes="batik-ext-1.9.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/xmlgraphics/batik-gvt/1.9" includes="batik-gvt-1.9.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/xmlgraphics/batik-script/1.9" includes="batik-script-1.9.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/xmlgraphics/batik-svg-dom/1.9" includes="batik-svg-dom-1.9.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/xmlgraphics/batik-xml/1.9" includes="batik-xml-1.9.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/xalan/xalan/2.7.2" includes="xalan-2.7.2.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/xalan/serializer/2.7.2" includes="serializer-2.7.2.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/xml-apis/xml-apis-ext/1.3.04" includes="xml-apis-ext-1.3.04.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/xmlgraphics/batik-transcoder/1.9" includes="batik-transcoder-1.9.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/xmlgraphics/batik-svggen/1.9" includes="batik-svggen-1.9.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/xmlgraphics/batik-util/1.9" includes="batik-util-1.9.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/xmlgraphics/batik-constants/1.9" includes="batik-constants-1.9.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/xmlgraphics/batik-i18n/1.9" includes="batik-i18n-1.9.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/xml-apis/xml-apis/1.3.04" includes="xml-apis-1.3.04.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/xmlgraphics/xmlgraphics-commons/2.2" includes="xmlgraphics-commons-2.2.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/com/eclipsesource/j2v8/j2v8_macosx_x86_64/4.6.0" includes="j2v8_macosx_x86_64-4.6.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/com/eclipsesource/j2v8/j2v8_linux_x86_64/4.6.0" includes="j2v8_linux_x86_64-4.6.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/com/eclipsesource/j2v8/j2v8_win32_x86_64/4.6.0" includes="j2v8_win32_x86_64-4.6.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/com/eclipsesource/j2v8/j2v8_win32_x86/4.6.0" includes="j2v8_win32_x86-4.6.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/commons/commons-exec/1.3" includes="commons-exec-1.3.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/slf4j/jcl-over-slf4j/1.7.25" includes="jcl-over-slf4j-1.7.25.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/slf4j/jul-to-slf4j/1.7.25" includes="jul-to-slf4j-1.7.25.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/io/swagger/swagger-parser/1.0.23" includes="swagger-parser-1.0.23.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/slf4j/slf4j-ext/1.6.3" includes="slf4j-ext-1.6.3.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/ch/qos/cal10n/cal10n-api/0.7.4" includes="cal10n-api-0.7.4.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/io/swagger/swagger-codegen/2.2.1" includes="swagger-codegen-2.2.1.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/io/swagger/swagger-compat-spec-parser/1.0.22" includes="swagger-compat-spec-parser-1.0.22.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/com/github/fge/json-schema-validator/2.2.3" includes="json-schema-validator-2.2.3.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/joda-time/joda-time/2.3" includes="joda-time-2.3.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/com/github/fge/json-schema-core/1.2.1" includes="json-schema-core-1.2.1.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/com/github/fge/uri-template/0.9" includes="uri-template-0.9.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/mozilla/rhino/1.7R4" includes="rhino-1.7R4.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/com/googlecode/libphonenumber/libphonenumber/6.0" includes="libphonenumber-6.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/javax/mail/mailapi/1.4.3" includes="mailapi-1.4.3.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/javax/activation/activation/1.1" includes="activation-1.1.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/com/google/code/findbugs/jsr305/2.0.1" includes="jsr305-2.0.1.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/net/sf/jopt-simple/jopt-simple/4.6" includes="jopt-simple-4.6.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/com/github/fge/json-patch/1.6" includes="json-patch-1.6.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/com/github/fge/jackson-coreutils/1.6" includes="jackson-coreutils-1.6.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/com/github/fge/msg-simple/1.1" includes="msg-simple-1.1.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/com/github/fge/btf/1.2" includes="btf-1.2.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/httpcomponents/httpclient/4.3.3" includes="httpclient-4.3.3.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/httpcomponents/httpcore/4.3.2" includes="httpcore-4.3.2.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/commons-logging/commons-logging/1.1.3" includes="commons-logging-1.1.3.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/commons-codec/commons-codec/1.6" includes="commons-codec-1.6.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/com/samskivert/jmustache/1.12" includes="jmustache-1.12.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/maven/maven-plugin-tools-api/2.0" includes="maven-plugin-tools-api-2.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/maven/maven-project/2.0" includes="maven-project-2.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/maven/maven-profile/2.0" includes="maven-profile-2.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/maven/maven-plugin-descriptor/2.0" includes="maven-plugin-descriptor-2.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/felix/maven-bundle-plugin/2.3.4" includes="maven-bundle-plugin-2.3.4.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/biz/aQute/bndlib/1.15.0" includes="bndlib-1.15.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/net/sf/kxml/kxml2/2.2.2" includes="kxml2-2.2.2.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/xmlpull/xmlpull/1.1.3.1" includes="xmlpull-1.1.3.1.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/felix/org.apache.felix.bundlerepository/1.6.2" includes="org.apache.felix.bundlerepository-1.6.2.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/osgi/org.osgi.core/4.1.0" includes="org.osgi.core-4.1.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/easymock/easymock/2.4" includes="easymock-2.4.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/felix/org.osgi.core/1.0.0" includes="org.osgi.core-1.0.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/felix/org.osgi.service.obr/1.0.1" includes="org.osgi.service.obr-1.0.1.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/maven/maven-archiver/2.2" includes="maven-archiver-2.2.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/maven/maven-artifact-manager/2.0.7" includes="maven-artifact-manager-2.0.7.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/maven/shared/maven-dependency-tree/1.2" includes="maven-dependency-tree-1.2.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/maven/wagon/wagon-provider-api/1.0-beta-2" includes="wagon-provider-api-1.0-beta-2.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/codehaus/plexus/plexus-container-default/1.0-alpha-9-stable-1" includes="plexus-container-default-1.0-alpha-9-stable-1.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/classworlds/classworlds/1.1-alpha-2" includes="classworlds-1.1-alpha-2.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/codehaus/plexus/plexus-archiver/1.0-alpha-7" includes="plexus-archiver-1.0-alpha-7.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/slf4j/slf4j-simple/1.7.12" includes="slf4j-simple-1.7.12.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/commons/commons-lang3/3.4" includes="commons-lang3-3.4.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/commons-cli/commons-cli/1.2" includes="commons-cli-1.2.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/io/swagger/swagger-core/1.5.16" includes="swagger-core-1.5.16.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.8.9" includes="jackson-annotations-2.8.9.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.8.9" includes="jackson-databind-2.8.9.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.8.9" includes="jackson-core-2.8.9.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.8.9" includes="jackson-dataformat-yaml-2.8.9.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/javax/validation/validation-api/1.1.0.Final" includes="validation-api-1.1.0.Final.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/io/swagger/swagger-models/1.5.16" includes="swagger-models-1.5.16.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/io/swagger/swagger-annotations/1.5.16" includes="swagger-annotations-1.5.16.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/io/cucumber/gherkin/4.0.0" includes="gherkin-4.0.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/io/cucumber/gherkin-jvm-deps/1.0.4" includes="gherkin-jvm-deps-1.0.4.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/maven/maven-model/3.5.0" includes="maven-model-3.5.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/codehaus/plexus/plexus-utils/3.0.24" includes="plexus-utils-3.0.24.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/maven/maven-core/3.5.0" includes="maven-core-3.5.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/maven/maven-settings/3.5.0" includes="maven-settings-3.5.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/maven/maven-settings-builder/3.5.0" includes="maven-settings-builder-3.5.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/maven/maven-builder-support/3.5.0" includes="maven-builder-support-3.5.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/maven/maven-repository-metadata/3.5.0" includes="maven-repository-metadata-3.5.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/maven/maven-artifact/3.5.0" includes="maven-artifact-3.5.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/maven/maven-plugin-api/3.5.0" includes="maven-plugin-api-3.5.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/maven/maven-model-builder/3.5.0" includes="maven-model-builder-3.5.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/maven/maven-resolver-provider/3.5.0" includes="maven-resolver-provider-3.5.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/maven/resolver/maven-resolver-impl/1.0.3" includes="maven-resolver-impl-1.0.3.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/maven/resolver/maven-resolver-api/1.0.3" includes="maven-resolver-api-1.0.3.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/maven/resolver/maven-resolver-spi/1.0.3" includes="maven-resolver-spi-1.0.3.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/maven/resolver/maven-resolver-util/1.0.3" includes="maven-resolver-util-1.0.3.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/apache/maven/shared/maven-shared-utils/3.1.0" includes="maven-shared-utils-3.1.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/eclipse/sisu/org.eclipse.sisu.plexus/0.3.3" includes="org.eclipse.sisu.plexus-0.3.3.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/javax/enterprise/cdi-api/1.0" includes="cdi-api-1.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/javax/annotation/jsr250-api/1.0" includes="jsr250-api-1.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/eclipse/sisu/org.eclipse.sisu.inject/0.3.3" includes="org.eclipse.sisu.inject-0.3.3.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/com/google/inject/guice/4.0" includes="guice-4.0-no_aop.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/codehaus/plexus/plexus-interpolation/1.24" includes="plexus-interpolation-1.24.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/codehaus/plexus/plexus-classworlds/2.5.2" includes="plexus-classworlds-2.5.2.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/codehaus/plexus/plexus-component-annotations/1.7.1" includes="plexus-component-annotations-1.7.1.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/sonatype/plexus/plexus-sec-dispatcher/1.4" includes="plexus-sec-dispatcher-1.4.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/sonatype/plexus/plexus-cipher/1.4" includes="plexus-cipher-1.4.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/eclipse/xtend/org.eclipse.xtend.lib/2.12.0" includes="org.eclipse.xtend.lib-2.12.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/eclipse/xtext/org.eclipse.xtext.xbase.lib/2.12.0" includes="org.eclipse.xtext.xbase.lib-2.12.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/com/google/guava/guava/19.0-rc3" includes="guava-19.0-rc3.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/eclipse/xtend/org.eclipse.xtend.lib.macro/2.12.0" includes="org.eclipse.xtend.lib.macro-2.12.0.jar"/>
+            <fileset dir="/home/thomas/git/microservice/microservice-gen-model2code/target/classes"/>
+            <zipfileset dir="/home/thomas/.m2/repository/com/google/inject/guice/4.1.0" includes="guice-4.1.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/aopalliance/aopalliance/1.0" includes="aopalliance-1.0.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/javax/inject/javax.inject/1" includes="javax.inject-1.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/commons-io/commons-io/2.5" includes="commons-io-2.5.jar"/>
+            <zipfileset dir="/home/thomas/.m2/repository/org/slf4j/slf4j-api/1.7.25" includes="slf4j-api-1.7.25.jar"/>
+        </jar>
+    </target>
+</project>

@@ -14,10 +14,10 @@ class GrpcClientXtend extends Xtend {
 
 	Entity entity
 
-	public def Template getTemplate(Project p) {
+	public def Template getTemplate(Project p, Entity e) {
 		LOG.debug('Generate template GrpcClientXtend')
 
-		this.entity = entity
+		this.entity = e
 
 		Template::builder //
 		.project(p) //

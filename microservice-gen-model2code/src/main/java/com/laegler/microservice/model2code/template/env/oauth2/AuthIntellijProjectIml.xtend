@@ -10,13 +10,13 @@ import javax.inject.Inject
 
 class AuthIntellijProjectIml {
 
-	private static final Logger log = LoggerFactory.getLogger(AuthIntellijProjectIml)
+	private static final Logger LOG = LoggerFactory.getLogger(AuthIntellijProjectIml)
 
 	@Inject protected NamingStrategy namingStrategy
 
 	public def Template getTemplate(Project p) {
 		val relativPath = namingStrategy.getSrcPathWithPackage(p)
-		log.debug('  Generating template: {}/README.MD', relativPath)
+		LOG.debug('  Generating template: {}/README.MD', relativPath)
 
 		Template::builder //
 		.project(p) //

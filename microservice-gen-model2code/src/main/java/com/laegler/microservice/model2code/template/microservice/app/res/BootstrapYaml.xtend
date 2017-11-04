@@ -14,13 +14,13 @@ import org.slf4j.Logger
 @Named
 class BootstrapYaml {
 
-	static final Logger log = LoggerFactory.getLogger(BootstrapYaml)
+	static final Logger LOG = LoggerFactory.getLogger(BootstrapYaml)
 
 	@Inject World world
 	@Inject NamingStrategy namingStrategy
 
 	public def Template getTemplate(Project p) {
-		log.debug('  Generating template: {}/bootstrap.yml', namingStrategy.resPath)
+		LOG.debug('  Generating template: {}/bootstrap.yml', namingStrategy.resPath)
 
 		Template::builder //
 		.project(p) //

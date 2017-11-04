@@ -25,8 +25,6 @@ abstract class Generator {
 	@Inject protected FileUtil fileHelper
 	@Inject protected NamingStrategy namingStrategy
 
-	abstract public def List<Project> generate(Architecture a)
-
 	protected def getParentDir() '''../'''
 
 	/**

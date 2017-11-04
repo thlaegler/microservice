@@ -36,9 +36,9 @@ class Template {
 
 	public def String getFullPathWithName() {
 		if (fileType.extension == FileType.UNDEFINED) {
-			return relativPath + fileName
+			return relativPath + '/' + fileName
 		} else {
-			return '''«relativPath»«fileName».«fileType.extension»'''
+			return '''«relativPath»/«fileName».«fileType.extension»'''
 		}
 	}
 

@@ -8,12 +8,12 @@ import javax.inject.Inject
 import org.apache.maven.plugin.MojoExecutionException
 import org.apache.maven.plugin.MojoFailureException
 import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 @ProcessingStep(id='code2model', description='Generate model from code.', requiresOnline=false)
 class Code2ModelMojoStep extends AbstractMojoStep implements CDIMojoProcessingStep {
 
-	@Inject
-	Logger LOG
+	private static final Logger LOG = LoggerFactory.getLogger(Code2ModelMojoStep)
 
 	@Inject
 	Code2ModelTransformator transformator

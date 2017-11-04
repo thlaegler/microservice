@@ -16,11 +16,12 @@ import javax.inject.Inject
 import javax.inject.Named
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.util.Arrays
 
 @Named
 class OAuth2ProjectGenerator extends Generator {
 
-	protected static Logger log = LoggerFactory.getLogger(OAuth2ProjectGenerator)
+	protected static Logger LOG = LoggerFactory.getLogger(OAuth2ProjectGenerator)
 
 	@Inject AuthPomXml authPomXml
 	@Inject AuthEclipseDotProject eclipseDotProject
@@ -36,35 +37,31 @@ class OAuth2ProjectGenerator extends Generator {
 	@Inject OAuth2Dockerfile dockerfile
 	@Inject OAuth2K8sYaml kubernetesDeploymentYaml
 
-	override List<Project> generate(Architecture a) {
-		log.debug('Generating auth project(s) for {}', a.name)
+	def List<Project> generate(Architecture a) {
+		LOG.debug('Generating auth project(s) for {}', a.name)
 
-		val List<Project> projects = new ArrayList
-		a.artifacts?.filter(Artifact).forEach [ art |
-			projects.add(
-				Project::builder //
-				.name(namingStrategy.getProjectName('oauth2')) //
-				.basePackage(world.architecture?.basePackage) //
-//				.directory(namingStrategy.getProjectPath('oauth2')) //
-				.directory('oauth2') //
-				.build => [ p |
-					p.templates?.add(authPomXml.getTemplate(p))
-					p.templates?.add(eclipseDotProject.getTemplate(p))
-					p.templates?.add(eclipseDotClasspath.getTemplate(p))
-					p.templates?.add(intellijProjectIml.getTemplate(p))
-					p.templates?.add(readmeMd.getTemplate(p))
+		Arrays.asList(
+			Project::builder //
+			.name(namingStrategy.getProjectName(a.name, 'oauth2')) //
+			.basePackage(world.architecture?.basePackage) //
+			.directory(namingStrategy.getProjectPath(a.name, 'oauth2')) // //
+			.build => [ p |
+				p.templates?.add(authPomXml.getTemplate(p))
+				p.templates?.add(eclipseDotProject.getTemplate(p))
+				p.templates?.add(eclipseDotClasspath.getTemplate(p))
+				p.templates?.add(intellijProjectIml.getTemplate(p))
+				p.templates?.add(readmeMd.getTemplate(p))
 
-					p.templates?.add(appXtend.getTemplate(p))
-					p.templates?.add(appConfigXtend.getTemplate(p))
+				p.templates?.add(appXtend.getTemplate(p))
+				p.templates?.add(appConfigXtend.getTemplate(p))
 
-					p.templates?.add(appYaml.getTemplate(p))
-					p.templates?.add(bootstrapYaml.getTemplate(p))
-					p.templates?.add(dockerfile.getTemplate(p))
-					p.templates?.add(kubernetesDeploymentYaml.getTemplate(p))
-				]
-			)
-		]
-		projects
+				p.templates?.add(appYaml.getTemplate(p))
+				p.templates?.add(bootstrapYaml.getTemplate(p))
+				p.templates?.add(dockerfile.getTemplate(p))
+				p.templates?.add(kubernetesDeploymentYaml.getTemplate(p))
+			]
+		)
+
 	}
 
 }

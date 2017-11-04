@@ -29,7 +29,7 @@ import static org.mockito.Mockito.*
 //@RunWith(MockitoJUnitRunner.Silent)
 class GrpcProjectGeneratorTest {
 
-	protected static Logger log = LoggerFactory.getLogger(GrpcProjectGeneratorTest)
+	protected static Logger LOG = LoggerFactory.getLogger(GrpcProjectGeneratorTest)
 
 	@InjectMocks GrpcProjectGenerator unitUnderTest
 	Architecture architecture
@@ -79,7 +79,7 @@ class GrpcProjectGeneratorTest {
 	@Test
 	@Ignore
 	def void test_generate() {
-		val projects = unitUnderTest.generate(architecture)
+		val projects = unitUnderTest.generate(architecture, architecture.artifacts.head)
 
 //		assertNotNull(projects)
 //		assertEquals(1, projects.size)

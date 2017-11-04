@@ -12,13 +12,13 @@ import org.slf4j.LoggerFactory
 @Named
 class JpaRepoXtend extends Xtend {
 
-	protected static final Logger log = LoggerFactory.getLogger(JpaRepoXtend)
+	protected static final Logger LOG = LoggerFactory.getLogger(JpaRepoXtend)
 
 	Entity entity
 
 	public def Template getTemplate(Project project, Entity entity) {
 		val path = namingStrategy.getSrcPathWithPackage(project) + '/entity'
-		log.debug('  Generate template {}/{}.xtend',path, entity.name)
+		LOG.debug('  Generate template {}/{}.xtend',path, entity.name)
 
 		this.entity = entity
 

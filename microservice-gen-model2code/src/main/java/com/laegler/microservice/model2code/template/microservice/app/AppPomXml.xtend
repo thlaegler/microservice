@@ -15,12 +15,12 @@ import com.laegler.microservice.adapter.model.FileType
 @Named
 class AppPomXml extends PomXml {
 
-	protected static final Logger log = LoggerFactory.getLogger(AppPomXml)
+	protected static final Logger LOG = LoggerFactory.getLogger(AppPomXml)
 
 	@Inject MavenXpp3Writer mavenWriter
 
 	public def Template getTemplate(Project p) {
-		log.debug('  Generating template /app/pom.xml')
+		LOG.debug('  Generating template /app/pom.xml')
 
 		val contentWriter = new StringWriter
 		mavenWriter.write(contentWriter, getModel(p))

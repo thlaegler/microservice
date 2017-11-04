@@ -54,7 +54,7 @@ class GeneratorMojo extends AbstractCDIMojo {
 //	@MojoProduces
 //	def Logger getLogger() {
 //		StaticLoggerBinder.getSingleton().setMavenLog(this.log)
-//		this.log.debug('Init slf4j Logger')
+//		this.LOG.debug('Init slf4j Logger')
 //		val logger = LoggerFactory.getLogger('com.laegler.microservice')
 //		logger
 //	}

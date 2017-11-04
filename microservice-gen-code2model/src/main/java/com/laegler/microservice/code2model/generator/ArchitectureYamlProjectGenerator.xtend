@@ -22,7 +22,7 @@ class ArchitectureYamlProjectGenerator extends Generator {
 	@Inject YamlAdapter yamlAdapter
 	@Inject JsonAdapter jsonAdapter
 
-	override List<Project> generate(Architecture a) {
+	def List<Project> generate(Architecture a) {
 		LOG.debug('Generating YAML project(s) for {}', a.name)
 
 		val List<Project> projects = new ArrayList

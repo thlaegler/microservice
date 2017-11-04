@@ -14,15 +14,11 @@ abstract class Java {
 
 	protected static final Logger LOG = LoggerFactory.getLogger(Java)
 
-	protected Template.Builder templateBuilder
-
 	@Inject protected World world
-
 	@Inject protected NamingStrategy namingStrategy
 
-	@PostConstruct
-	public def void prepareTemplateBuilder() {
-		templateBuilder = Template::builder //
+	public def Template.Builder getTemplateBuilder() {
+		return Template::builder //
 		.fileType(FileType.JAVA) //
 		.documentation('Java file') //
 		.skipStamping(false) //

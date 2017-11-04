@@ -11,10 +11,10 @@ import com.laegler.microservice.adapter.model.FileType
 @Named
 class BusinessPomXml extends PomXml {
 
-	protected static final Logger log = LoggerFactory.getLogger(BusinessPomXml)
+	protected static final Logger LOG = LoggerFactory.getLogger(BusinessPomXml)
 
 	public def Template getTemplate(Project p) {
-		log.debug('  Generate template {}/model/pom.yml', p.name)
+		LOG.debug('  Generate template {}/model/pom.yml', p.name)
 
 		templateBuilder //
 		.project(p) //

@@ -14,12 +14,12 @@ import com.laegler.microservice.adapter.model.World
 @Named
 class DockerComposeYaml {
 
-	protected static final Logger log = LoggerFactory.getLogger(DockerComposeYaml)
+	protected static final Logger LOG = LoggerFactory.getLogger(DockerComposeYaml)
 
 	@Inject World world
 
 	public def Template getTemplate(Project p) {
-		log.debug('  Generating template pom.xml')
+		LOG.debug('  Generating template pom.xml')
 
 		Template::builder //
 		.project(p) //

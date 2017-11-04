@@ -11,11 +11,11 @@ import org.slf4j.LoggerFactory
 @Named
 class OAuth2AppConfigJava extends Java {
 
-	protected static final Logger log = LoggerFactory.getLogger(OAuth2AppConfigJava)
+	protected static final Logger LOG = LoggerFactory.getLogger(OAuth2AppConfigJava)
 
 	public def Template getTemplate(Project p) {
 		val path = namingStrategy.getSrcPathWithPackage(p)
-		log.debug('  Generating template: {}/ApplicationConfig.xtend', path)
+		LOG.debug('  Generating template: {}/ApplicationConfig.xtend', path)
 
 		Template::builder //
 		.project(p) //

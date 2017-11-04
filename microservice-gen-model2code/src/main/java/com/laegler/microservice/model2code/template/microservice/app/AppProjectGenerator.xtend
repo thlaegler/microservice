@@ -20,11 +20,12 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import com.laegler.microservice.adapter.model.FileType
 import com.laegler.microservice.adapter.model.Template
+import java.util.Arrays
 
 @Named
 class AppProjectGenerator extends Generator {
 
-	protected static final Logger log = LoggerFactory.getLogger(AppProjectGenerator)
+	protected static final Logger LOG = LoggerFactory.getLogger(AppProjectGenerator)
 
 	@Inject GherkinAdapter gherkinAdapter
 
@@ -42,24 +43,20 @@ class AppProjectGenerator extends Generator {
 	@Inject CucumberFeature featureFile
 	@Inject DefaultCucumberFeatureStepsXtend featureSteps
 
-	override List<Project> generate(Architecture a) {
-		log.debug('Generating Spring App project(s) for {}', a.name)
+	def List<Project> generate(Architecture a, Artifact art) {
+		LOG.debug('Generating Spring App project(s) for {}', a.name)
 
-		val List<Project> projects = new ArrayList
-		a.artifacts?.filter(Artifact).forEach [ art |
-			projects.add(art.generateAppProject)
-		]
-		projects
+		Arrays.asList(a.generateAppProject(art))
 	}
 
-	protected def Project generateAppProject(Artifact a) {
-		log.debug('Generating Spring App project for artifact {}', a.name)
+	protected def Project generateAppProject(Architecture a, Artifact art) {
+		LOG.debug('Generating Spring App project for artifact {}', a.name)
 
 		Project::builder //
-		.name(namingStrategy.getProjectName(a.name, 'app')) //
+		.name(namingStrategy.getProjectName(a.name, art.name, 'app')) //
 		.basePackage(world.architecture?.basePackage) //
-		.directory(namingStrategy.getProjectPath(a.name, 'app')) //
-		.microserviceModel(a) //
+		.directory(namingStrategy.getProjectPath(a.name, art.name, 'app')) //
+		.microserviceModel(art) //
 		.build => [ p |
 			p.templates => [
 				add(appPomXml.getTemplate(p))
@@ -67,18 +64,18 @@ class AppProjectGenerator extends Generator {
 				add(appConfigXtend.getTemplate(p))
 				add(appYaml.getTemplate(p))
 				add(bootstrapYaml.getTemplate(p))
-				add(p.generateKubeNamespaceYaml(a))
-				add(p.generateKubeReplicaSetYaml(a))
-				add(p.generateKubeServiceYaml(a))
-				add(p.generateKubeIngressYaml(a))
-				if (a.feature !== null) {
-					val providedFeatureFile = fileHelper.findFile(a.feature)
+				add(p.generateKubeNamespaceYaml(art))
+				add(p.generateKubeReplicaSetYaml(art))
+				add(p.generateKubeServiceYaml(art))
+				add(p.generateKubeIngressYaml(art))
+				if (art.feature !== null) {
+					val providedFeatureFile = fileHelper.findFile(art.feature)
 					if (providedFeatureFile !== null) {
 						val gherkin = gherkinAdapter.toModel(providedFeatureFile)
 						add(featureFile.getTemplate(p, gherkin))
 						add(featureSteps.getTemplate(p, gherkin))
 					}
-					
+
 //					add(featureFile.getTemplate(p))
 				}
 			]
